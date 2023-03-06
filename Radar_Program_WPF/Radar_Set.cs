@@ -43,7 +43,6 @@ namespace Radar_Program_WPF
         #endregion
         #region obj info
         public LinkedList<Msg_Format.Object_inf>[] Obj_inf = new LinkedList<Msg_Format.Object_inf>[100];
-        private bool[] exist = new bool[100];
         #endregion
         #region Clst info
         //public Msg_Format.Cluster_inf[,] Clst_inf = new Msg_Format.Cluster_inf[100, 100];
@@ -64,6 +63,9 @@ namespace Radar_Program_WPF
             Set_PCAN_HWType(t);
             Set_PCAN_Port(p);
             Set_PCAN_Interrupt(i);
+
+            for(int NODE = 0; NODE < 100; NODE++)
+                Obj_inf[NODE] = new LinkedList<Msg_Format.Object_inf>();
         }
         public bool Radar_Connect()
         {
@@ -183,7 +185,7 @@ namespace Radar_Program_WPF
         string insert_fix = "INSERT INTO test VALUES";
         public void Data_preprocess(TPCANMsg Msg, DateTime Timestamp)
         {
-            Msg_Format.Object_Extended oe = Msg_format.msg2ObjectExtended(Msg);
+           /* Msg_Format.Object_Extended oe = Msg_format.msg2ObjectExtended(Msg);
 
             //string insert_fix = "INSERT INTO " + table + " VALUES"; 여기에 넣으면 데이터가 들어올때마다 insert into가 실행 됨
             string insert_data = "('" + Timestamp.ToString("yyyy-MM-dd HH:mm:ss.fff") + "', " +
@@ -214,7 +216,7 @@ namespace Radar_Program_WPF
                 save_DB(insert_fix);
                 value_cnt = 0;
                 insert_fix = "INSERT INTO test VALUES";
-            }
+            }*/
         }
 
         public bool save_DB(string data)
@@ -306,15 +308,6 @@ namespace Radar_Program_WPF
         {
             if ((input >= 0) && (input <= 7))
                 Radar_ID = input;
-        }
-        public bool Get_exist_num(int index)
-        {
-            return exist[index];
-        }
-        public void Set_exist_num(int index, bool status)
-        {
-            if ((index >= 0) && (index < 100))
-                exist[index] = status;
         }
         #endregion
         #region DB
