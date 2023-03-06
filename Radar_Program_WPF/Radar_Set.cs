@@ -67,6 +67,10 @@ namespace Radar_Program_WPF
         }
         public bool Radar_Connect()
         {
+            //test
+            //test
+            //test
+            //test
             TPCANStatus stsResult;
             stsResult = PCANBasic.Initialize(
                 PcanHandle,
