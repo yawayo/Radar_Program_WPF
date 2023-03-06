@@ -77,8 +77,6 @@ namespace MsgFormat
             public bool Dangerous;
             public bool Read_C;
             public bool Read_D;
-            public bool Writed;
-            public bool Drawed;
         }
         #endregion
 

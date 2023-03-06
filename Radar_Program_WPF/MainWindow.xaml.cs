@@ -1,5 +1,5 @@
-﻿using MsgFormat;
-using Peak.Can.Basic;
+﻿using Peak.Can.Basic;
+using MsgFormat;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -11,7 +11,6 @@ using System.Windows.Controls;
 using MySql.Data.MySqlClient;
 using System.Diagnostics;
 using System.Windows.Shapes;
-
 
 namespace Radar_Program_WPF
 {
@@ -32,6 +31,10 @@ namespace Radar_Program_WPF
         private Point shift_pos;
         private double rect_size = 10;
         Setting setting_form;
+
+        private Msg_Format.Object_inf[] this_frame_data = new Msg_Format.Object_inf[100];
+        private bool[] exist = new bool[100];
+
 
         #region 창 크기에 따른 컨트롤 크기 조절
         double orginalWidth, originalHeight;
@@ -109,13 +112,9 @@ namespace Radar_Program_WPF
             main.Cursor = Cursors.Wait;
             Data_View_btn.Cursor = Cursors.Wait;
             if (!Text_status)
-            {
                 Text_on();
-            }
             else
-            {
                 Text_off();
-            }
             main.Cursor = Cursors.Arrow;
             Data_View_btn.Cursor = Cursors.Arrow;
         }
@@ -338,7 +337,7 @@ namespace Radar_Program_WPF
             if (Device_set.Radar_Connect())
             {
                 Device_set.Initialize_DB_Value(); //20230211
-                Device_set.DB_Connect(); //20230211
+                //Device_set.DB_Connect(); //20230211
 
                 Radar_status = true;
                 read_Thread_Func();
@@ -385,30 +384,22 @@ namespace Radar_Program_WPF
         {
             for (int i = 0; i < 100; i++)
             {
-                if (Device_set.Get_exist_num(i))
+                if (Device_set.Obj_inf[i].Count != 0)
                 {
-                    if (Device_set.Obj_inf[i].Last.Value.Drawed)
+                    Msg_Format.Object_inf last_data = Device_set.Obj_inf[i].Last.Value;
+
+                    double X = ((-1 * last_data.DistLat) * (Data_Draw.ActualWidth / max_lat)) + (Data_Draw.ActualWidth / 2);
+                    double Y = last_data.DistLong * (Data_Draw.ActualHeight / max_long);
+
+                    Rectangle rect = new Rectangle
                     {
-                        Msg_Format.Object_inf last_data = Device_set.Obj_inf[i].Last.Value;
-                        Device_set.Obj_inf[i].RemoveLast();
-                        
-                        double X = ((-1 * last_data.DistLat) * (Data_Draw.ActualWidth / max_lat)) + (Data_Draw.ActualWidth / 2);
-                        double Y = last_data.DistLong * (Data_Draw.ActualHeight / max_long);
-                        TimeSpan difTime = DateTime.Now - last_data.Timestamp;
-                        if ((difTime.Seconds > 0) || (difTime.Milliseconds > 300))
-                            last_data.Drawed = false;
-                        Device_set.Obj_inf[i].AddLast(last_data);
+                        Stroke = new SolidColorBrush(Color.FromRgb(244, 143, 61)),
+                        StrokeThickness = rect_size
+                    };
 
-                        Rectangle rect = new Rectangle
-                        {
-                            Stroke = new SolidColorBrush(Color.FromRgb(244, 143, 61)),
-                            StrokeThickness = rect_size
-                        };
-
-                        Canvas.SetLeft(rect, X);
-                        Canvas.SetTop(rect, Y);
-                        this.Data_Draw.Children.Add(rect);
-                    }
+                    Canvas.SetLeft(rect, X);
+                    Canvas.SetTop(rect, Y);
+                    this.Data_Draw.Children.Add(rect);
                 }
             }
         }
@@ -501,44 +492,41 @@ namespace Radar_Program_WPF
         #region 60A
         private void Process_Obj_Status(TPCANMsg Msg, DateTime Timestamp)
         {
+            if (first_A)
+            {
+                if (Text_status)
+                    update_Textbox_msg();
+
+                Device_set.Data_preprocess(Msg, Timestamp);
+                save_this_frame_obj_data();
+            }
+
             Msg_Format.Object_Status os = Device_set.Msg_format.msg2ObjectStatus(Msg);
             first_A = true;
         }
-        #endregion
+        #endregion   
         #region 60B
         private void Process_Obj_General(TPCANMsg Msg, DateTime Timestamp)
         {
             if (first_A)
             {
                 Msg_Format.Object_General og = Device_set.Msg_format.msg2ObjectGeneral(Msg);
-                Msg_Format.Object_inf now_data = new Msg_Format.Object_inf();
 
-                now_data.ID = og.ID;
-                now_data.DistLong = og.DistLong;
-                now_data.DistLat = og.DistLat;
-                now_data.VrelLong = og.VrelLong;
-                now_data.VrelLat = og.VrelLat;
-                now_data.DynProp = og.DynProp;
-                now_data.RCS = og.RCS;
-                now_data.Distance = Math.Sqrt((now_data.DistLat * now_data.DistLat) + (now_data.DistLong * now_data.DistLong));
-                now_data.Speed = 3.6 * Math.Sqrt((now_data.VrelLat * now_data.VrelLat) + (now_data.VrelLong * now_data.VrelLong));
-                now_data.Timestamp = Timestamp;
-                now_data.Drawed = true;
-                now_data.Writed = true;
+                if ((og.ID >= 0) && (og.ID < 100))
+                {
+                    exist[og.ID] = true;
 
-                if (!Device_set.Get_exist_num(now_data.ID))
-                {
-                    Device_set.Obj_inf[now_data.ID] = new LinkedList<Msg_Format.Object_inf>();
-                    Device_set.Obj_inf[now_data.ID].AddLast(now_data);
-                    Device_set.Set_exist_num(now_data.ID, true);
-                }
-                else
-                {
-                    Device_set.Obj_inf[now_data.ID].AddLast(now_data);
-                }
-                if (Device_set.Obj_inf[now_data.ID].Count >= 100)
-                {
-                    Device_set.Obj_inf[now_data.ID].RemoveFirst();
+                    this_frame_data[og.ID].Timestamp = Timestamp;
+
+                    this_frame_data[og.ID].ID = og.ID;
+                    this_frame_data[og.ID].DistLong = og.DistLong;
+                    this_frame_data[og.ID].DistLat = og.DistLat;
+                    this_frame_data[og.ID].VrelLong = og.VrelLong;
+                    this_frame_data[og.ID].VrelLat = og.VrelLat;
+                    this_frame_data[og.ID].DynProp = og.DynProp;
+                    this_frame_data[og.ID].RCS = og.RCS;
+                    this_frame_data[og.ID].Distance = Math.Sqrt((this_frame_data[og.ID].DistLat * this_frame_data[og.ID].DistLat) + (this_frame_data[og.ID].DistLong * this_frame_data[og.ID].DistLong));
+                    this_frame_data[og.ID].Speed = 3.6 * Math.Sqrt((this_frame_data[og.ID].VrelLat * this_frame_data[og.ID].VrelLat) + (this_frame_data[og.ID].VrelLong * this_frame_data[og.ID].VrelLong));
                 }
             }
         }
@@ -549,22 +537,23 @@ namespace Radar_Program_WPF
             if (first_A)
             {
                 Msg_Format.Object_Quality oq = Device_set.Msg_format.msg2ObjectQuality(Msg);
-                Msg_Format.Object_inf now_data = Device_set.Obj_inf[oq.ID].Last.Value;
-                Device_set.Obj_inf[oq.ID].RemoveLast();
 
-                // Quality
-                now_data.DistLat_rms = oq.DistLat_rms;
-                now_data.DistLong_rms = oq.DistLong_rms;
-                now_data.VrelLat_rms = oq.VrelLat_rms;
-                now_data.VrelLong_rms = oq.VrelLong_rms;
-                now_data.ArelLat_rms = oq.ArelLat_rms;
-                now_data.ArelLong_rms = oq.ArelLong_rms;
-                now_data.Orientation_rms = oq.Orientation_rms;
-                now_data.MirrorProb = oq.MirrorProb;
-                now_data.MeasState = oq.MeasState;
-                now_data.ProbOfExist = oq.ProbOfExist;
-
-                Device_set.Obj_inf[oq.ID].AddLast(now_data);
+                if ((oq.ID >= 0) && (oq.ID < 100))
+                {
+                    if (exist[oq.ID])
+                    {
+                        this_frame_data[oq.ID].DistLat_rms = oq.DistLat_rms;
+                        this_frame_data[oq.ID].DistLong_rms = oq.DistLong_rms;
+                        this_frame_data[oq.ID].VrelLat_rms = oq.VrelLat_rms;
+                        this_frame_data[oq.ID].VrelLong_rms = oq.VrelLong_rms;
+                        this_frame_data[oq.ID].ArelLat_rms = oq.ArelLat_rms;
+                        this_frame_data[oq.ID].ArelLong_rms = oq.ArelLong_rms;
+                        this_frame_data[oq.ID].Orientation_rms = oq.Orientation_rms;
+                        this_frame_data[oq.ID].MirrorProb = oq.MirrorProb;
+                        this_frame_data[oq.ID].MeasState = oq.MeasState;
+                        this_frame_data[oq.ID].ProbOfExist = oq.ProbOfExist;
+                    }
+                }
             }
         }
         #endregion
@@ -574,21 +563,18 @@ namespace Radar_Program_WPF
             if (first_A)
             {
                 Msg_Format.Object_Extended oe = Device_set.Msg_format.msg2ObjectExtended(Msg);
-                Msg_Format.Object_inf now_data = Device_set.Obj_inf[oe.ID].Last.Value;
-                Device_set.Obj_inf[oe.ID].RemoveLast();
 
-                now_data.ArelLat = oe.ArelLat;
-                now_data.ArelLong = oe.ArelLong;
-                now_data.Class = oe.Class;
-                now_data.OrientationAngle = oe.OrientationAngle;
-                now_data.Length = oe.Length;
-                now_data.Width = oe.Width;
-
-                Device_set.Obj_inf[oe.ID].AddLast(now_data);
-                Device_set.Data_preprocess(Msg, Timestamp);
-                if (Text_status)
+                if ((oe.ID >= 0) && (oe.ID < 100))
                 {
-                    update_Textbox_msg(Msg, Timestamp);
+                    if (exist[oe.ID])
+                    {
+                        this_frame_data[oe.ID].ArelLat = oe.ArelLat;
+                        this_frame_data[oe.ID].ArelLong = oe.ArelLong;
+                        this_frame_data[oe.ID].Class = oe.Class;
+                        this_frame_data[oe.ID].OrientationAngle = oe.OrientationAngle;
+                        this_frame_data[oe.ID].Length = oe.Length;
+                        this_frame_data[oe.ID].Width = oe.Width;
+                    }
                 }
             }
         }
@@ -608,14 +594,51 @@ namespace Radar_Program_WPF
         }
         #endregion
 
-        #region update textbox
-        public void update_Textbox_msg(TPCANMsg Msg, DateTime Timestamp)
+        #region save obj info
+        public void Clear_thisframe_data()
         {
-            Msg_Format.Object_Extended oe = Device_set.Msg_format.msg2ObjectExtended(Msg);
+            for (int i = 0; i < 100; i++)
+                this_frame_data[i] = default(Msg_Format.Object_inf);
+            System.Array.Clear(exist, 0, sizeof(bool) * 100);
+        }
+        private void save_this_frame_obj_data()
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                if (exist[i])
+                {
+                    Device_set.Obj_inf[i].AddLast(this_frame_data[i]);
+                    if (Device_set.Obj_inf[i].Count >= 100)
+                        Device_set.Obj_inf[i].RemoveFirst();
+                }
+                else
+                {
+                    if (Device_set.Obj_inf[i].Count != 0)
+                    {
+                        Msg_Format.Object_inf last_data = Device_set.Obj_inf[i].Last.Value;
+                        TimeSpan difTime = DateTime.Now - last_data.Timestamp;
+                        if ((difTime.Seconds > 0) || (difTime.Milliseconds > 300))
+                            Device_set.Obj_inf[i].Clear();
+                    }
+                }
+            }
+            Clear_thisframe_data();
+        }
+        #endregion
 
-            string str = "Object ID: " + Device_set.Obj_inf[oe.ID].First.Value.ID +
-                         "  Speed: " + Device_set.Obj_inf[oe.ID].First.Value.Speed.ToString("F2") +
-                         "  Distance: " + Device_set.Obj_inf[oe.ID].First.Value.Distance.ToString("F2");
+        #region update textbox
+        public void update_Textbox_msg()
+        {
+            string str = "";
+            for (int i = 0; i < 100; i++)
+            {
+                if (exist[i])
+                {
+                    str += "Object ID: " + this_frame_data[i].ID +
+                            "  Speed: " + this_frame_data[i].Speed.ToString("F2") +
+                            "  Distance: " + this_frame_data[i].Distance.ToString("F2") + "\n";
+                }
+            }
             Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
             {
                 TextBox_data.Text = str;
@@ -627,9 +650,9 @@ namespace Radar_Program_WPF
         private void Text_on()
         {
             Text_status = true;
-            check_201 = false; check_204 = false; check_700 = false;
+            /*check_201 = false; check_204 = false; check_700 = false;
             check_600 = false; check_701 = false; check_702 = false;
-            check_60A = false; check_60B = false; check_60C = false; check_60D = false; check_60E = false;
+            check_60A = false; check_60B = false; check_60C = false; check_60D = false; check_60E = false;*/
             TextBox_data.Text = "";
         }
         private void Text_off()
