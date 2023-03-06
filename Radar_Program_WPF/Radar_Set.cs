@@ -23,9 +23,6 @@ namespace Radar_Program_WPF
     {
         #region member
         #region radar
-        //test
-        //test
-        //test
         private TPCANHandle PcanHandle;
         private TPCANBaudrate Baudrate;
         private TPCANType HwType;
@@ -33,6 +30,8 @@ namespace Radar_Program_WPF
         private ushort Interrupt;
         private int Radar_ID;
         public Msg_Format Msg_format = new Msg_Format();
+        //0306 
+        //test
         #endregion
         #region DB
         private string DB_Server;
