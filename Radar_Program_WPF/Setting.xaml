@@ -20,10 +20,10 @@
         <Button x:Name="Filter_Write_btn" Content="Button" HorizontalAlignment="Left" Height="45" Margin="667,885,0,0" VerticalAlignment="Top" Width="110" Click="Filter_Write_btn_Click"/>
 
         <CheckBox x:Name="MaxDistance_Valid_ckb" Content="Max Distance(0~2046)" Checked="MaxDistance_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,160,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
-        <TextBox x:Name="MaxDistance_input" HorizontalAlignment="Left" Height="22" Margin="250,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="90"/>
+        <TextBox x:Name="MaxDistance_input" HorizontalAlignment="Left" Height="22" Margin="284,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="90"/>
 
         <CheckBox x:Name="SensorID_ckb" Content="SensorID" Checked="SensorID_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,220,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
-        <ComboBox x:Name="SensorID_input" HorizontalAlignment="Left" Height="19" Margin="250,220,0,0" VerticalAlignment="Top" Width="90" >
+        <ComboBox x:Name="SensorID_input" HorizontalAlignment="Left" Height="19" Margin="284,220,0,0" VerticalAlignment="Top" Width="90" >
             <ComboBoxItem>0</ComboBoxItem>
             <ComboBoxItem>1</ComboBoxItem>
             <ComboBoxItem>2</ComboBoxItem>
@@ -35,14 +35,14 @@
         </ComboBox>
 
         <CheckBox x:Name="OutputType_ckb" Content="OutputType" Checked="OutputType_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,280,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
-        <ComboBox x:Name="OutputType_input" HorizontalAlignment="Left" Height="19" Margin="250,280,0,0" VerticalAlignment="Top" Width="90">
+        <ComboBox x:Name="OutputType_input" HorizontalAlignment="Left" Height="19" Margin="284,280,0,0" VerticalAlignment="Top" Width="90">
             <ComboBoxItem>None</ComboBoxItem>
             <ComboBoxItem>send Object</ComboBoxItem>
             <ComboBoxItem>send Cluster</ComboBoxItem>
         </ComboBox>
 
         <CheckBox x:Name="RadarPower_ckb" Content="RadarPower" Checked="RadarPower_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,340,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
-        <ComboBox x:Name="RadarPower_input" HorizontalAlignment="Left" Height="19" Margin="250,340,0,0" VerticalAlignment="Top" Width="90">
+        <ComboBox x:Name="RadarPower_input" HorizontalAlignment="Left" Height="19" Margin="284,340,0,0" VerticalAlignment="Top" Width="90">
             <ComboBoxItem>Standard</ComboBoxItem>
             <ComboBoxItem>-3dB Tx gain</ComboBoxItem>
             <ComboBoxItem>-6dB Tx gain</ComboBoxItem>
@@ -50,44 +50,44 @@
         </ComboBox>
 
         <CheckBox x:Name="CtrlRelay_ckb" Content="CtrlRelay" Checked="CtrlRelay_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,400,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
-        <ComboBox x:Name="CtrlRelay_input" HorizontalAlignment="Left" Height="19" Margin="250,400,0,0" VerticalAlignment="Top" Width="90">
+        <ComboBox x:Name="CtrlRelay_input" HorizontalAlignment="Left" Height="19" Margin="284,400,0,0" VerticalAlignment="Top" Width="90">
             <ComboBoxItem>Inactive</ComboBoxItem>
             <ComboBoxItem>active</ComboBoxItem>
         </ComboBox>
 
         <CheckBox x:Name="SendQuality_ckb" Content="SendQuality" Checked="SendQuality_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,460,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
-        <ComboBox x:Name="SendQuality_input" HorizontalAlignment="Left" Height="19" Margin="250,460,0,0" VerticalAlignment="Top" Width="90">
+        <ComboBox x:Name="SendQuality_input" HorizontalAlignment="Left" Height="19" Margin="284,460,0,0" VerticalAlignment="Top" Width="90">
             <ComboBoxItem>Inactive</ComboBoxItem>
             <ComboBoxItem>active</ComboBoxItem>
         </ComboBox>
 
         <CheckBox x:Name="SendExtInfo_ckb" Content="SendExtInfo" Checked="SendExtInfo_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,520,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
-        <ComboBox x:Name="SendExtInfo_input" HorizontalAlignment="Left" Height="19" Margin="250,520,0,0" VerticalAlignment="Top" Width="90">
+        <ComboBox x:Name="SendExtInfo_input" HorizontalAlignment="Left" Height="19" Margin="284,520,0,0" VerticalAlignment="Top" Width="90">
             <ComboBoxItem>Inactive</ComboBoxItem>
             <ComboBoxItem>active</ComboBoxItem>
         </ComboBox>
 
         <CheckBox x:Name="SortIndex_ckb" Content="SortIndex" Checked="SortIndex_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,580,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
-        <ComboBox x:Name="SortIndex_input" HorizontalAlignment="Left" Height="19" Margin="250,580,0,0" VerticalAlignment="Top" Width="90">
+        <ComboBox x:Name="SortIndex_input" HorizontalAlignment="Left" Height="19" Margin="284,580,0,0" VerticalAlignment="Top" Width="90">
             <ComboBoxItem>no sorting</ComboBoxItem>
             <ComboBoxItem>Sorted by range</ComboBoxItem>
             <ComboBoxItem>Sorted by RCS</ComboBoxItem>
         </ComboBox>
 
         <CheckBox x:Name="StoreInNVM_ckb" Content="StoreInNVM" Checked="StoreInNVM_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,640,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
-        <ComboBox x:Name="StoreInNVM_input" HorizontalAlignment="Left" Height="19" Margin="250,640,0,0" VerticalAlignment="Top" Width="90">
+        <ComboBox x:Name="StoreInNVM_input" HorizontalAlignment="Left" Height="19" Margin="284,640,0,0" VerticalAlignment="Top" Width="90">
             <ComboBoxItem>Inactive</ComboBoxItem>
             <ComboBoxItem>active</ComboBoxItem>
         </ComboBox>
 
         <CheckBox x:Name="RCS_Threshold_ckb" Content="RCS Threshold" Checked="RCSThreshold_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,700,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
-        <ComboBox x:Name="RCS_Threshold_input" HorizontalAlignment="Left" Height="19" Margin="250,700,0,0" VerticalAlignment="Top" Width="90">
+        <ComboBox x:Name="RCS_Threshold_input" HorizontalAlignment="Left" Height="19" Margin="284,700,0,0" VerticalAlignment="Top" Width="90">
             <ComboBoxItem>Standard</ComboBoxItem>
             <ComboBoxItem>High sensitivity</ComboBoxItem>
         </ComboBox>
 
         <CheckBox x:Name="InvalidClusters_ckb" Content="InvalidClusters" Checked="InvalidClusters_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,760,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
-        <ComboBox x:Name="InvalidClusters_input" HorizontalAlignment="Left" Height="19" Margin="250,760,0,0" VerticalAlignment="Top" Width="90">
+        <ComboBox x:Name="InvalidClusters_input" HorizontalAlignment="Left" Height="19" Margin="284,760,0,0" VerticalAlignment="Top" Width="90">
             <ComboBoxItem>Disable invalid cluster</ComboBoxItem>
             <ComboBoxItem>Enable all invalid clusters</ComboBoxItem>
             <ComboBoxItem>Enable low RCS dynamic</ComboBoxItem>
@@ -206,5 +206,16 @@
         <CheckBox x:Name="VXOncome_Valid_ckb" Content="VXOncome" HorizontalAlignment="Left" Margin="426,692,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
         <CheckBox x:Name="VYLeftRight_Valid_ckb" Content="VYLeftRight" HorizontalAlignment="Left" Margin="426,737,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
         <CheckBox x:Name="VXDepart_Valid_ckb" Content="VXDepart" HorizontalAlignment="Left" Margin="426,782,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
+        <Label x:Name="MaxDistance_value" Content="0" Margin="220,160,510,786"/>
+        <Label x:Name="SensorID_value" Content="0" Margin="220,220,510,726"/>
+        <Label x:Name="OutputType_value" Content="0" Margin="220,280,510,666"/>
+        <Label x:Name="RadarPower_value" Content="0" Margin="220,340,510,606"/>
+        <Label x:Name="CtrlRelay_value" Content="0" Margin="220,400,510,546"/>
+        <Label x:Name="SendQuality_value" Content="0" Margin="220,460,510,486"/>
+        <Label x:Name="SendExtInfo_value" Content="0" Margin="220,520,510,426"/>
+        <Label x:Name="SortIndex_value" Content="0" Margin="220,580,510,366"/>
+        <Label x:Name="StoreInNVM_value" Content="0" Margin="220,640,510,306"/>
+        <Label x:Name="RCS_Threshold_value" Content="0" Margin="220,700,510,246"/>
+        <Label x:Name="InvalidClusters_value" Content="0" Margin="220,760,510,186"/>
     </Grid>
 </Window>
