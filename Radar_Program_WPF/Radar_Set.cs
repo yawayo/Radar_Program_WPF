@@ -23,6 +23,9 @@ namespace Radar_Program_WPF
     {
         #region member
         #region radar
+        //test
+        //test
+        //test
         private TPCANHandle PcanHandle;
         private TPCANBaudrate Baudrate;
         private TPCANType HwType;
