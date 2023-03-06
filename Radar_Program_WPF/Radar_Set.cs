@@ -67,10 +67,6 @@ namespace Radar_Program_WPF
         }
         public bool Radar_Connect()
         {
-            //test
-            //test
-            //test
-            //test
             TPCANStatus stsResult;
             stsResult = PCANBasic.Initialize(
                 PcanHandle,
@@ -101,7 +97,7 @@ namespace Radar_Program_WPF
         public void Initialize_DB_Value(string s = "127.0.0.1",
             string p = "3306",
             string ID = "root",
-            string PW = "0000")
+            string PW = "wjsthwjd0105!")
         {
             Set_DB_Server(s);
             Set_DB_Port(p);

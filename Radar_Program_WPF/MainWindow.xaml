@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Radar_Program_WPF"
         mc:Ignorable="d"
-        Title="MainWindow" SizeToContent="WidthAndHeight" Width="1000">
+        Title="MainWindow" SizeToContent="WidthAndHeight" Width="1000"
+        Closing="MainWindow_Closing">
     <Grid x:Name="main" Margin="0,0,0.286,0.429">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>

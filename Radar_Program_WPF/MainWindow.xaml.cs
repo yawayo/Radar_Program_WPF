@@ -59,6 +59,35 @@ namespace Radar_Program_WPF
             this.SizeChanged += new SizeChangedEventHandler(MainWindow_SizeChanged);
         }
 
+        void MainWindow_Closing(object sender, EventArgs e)
+        {
+            Radar_status = false;
+
+            if (Device_set.Radar_Disconnect())
+            {
+                if (ReadThread != null)
+                {
+                    ReadThread.Abort();
+                    ReadThread.Join();
+                    ReadThread = null;
+                }
+                if (DrawThread != null)
+                {
+                    DrawThread.Abort();
+                    DrawThread.Join();
+                    DrawThread = null;
+                }
+                /*if (Device_set.DB_Disconnect())
+                {
+                    BitmapImage theImage = new BitmapImage(new Uri("image/radar_off.png", UriKind.Relative));
+                    ImageBrush imageBrush = new ImageBrush(theImage);
+                    imageBrush.Stretch = Stretch.None;
+                    Radar_btn.Background = imageBrush;
+                    Radar_btn_label.Foreground = Brushes.White;
+                }*/
+            }
+        }
+
         private void ChangeSize(double width, double height)
         {
             scale.ScaleX = width / orginalWidth;
@@ -486,6 +515,23 @@ namespace Radar_Program_WPF
             {
                 Msg_Format.Radar_state rs = Device_set.Msg_format.msg2RadarState(Msg);
                 Device_set.Set_Radar_ID(rs.SensorID);
+
+                #region setting form set Radar state
+                Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(delegate
+                {
+                    setting_form.MaxDistance_value.Content = rs.MaxDistanceCfg.ToString();
+                    setting_form.SensorID_value.Content = rs.SensorID.ToString();
+                    setting_form.OutputType_value.Content = rs.OutputTypeCfg.ToString();
+                    setting_form.RadarPower_value.Content = rs.RadarPowerCfg.ToString();
+                    setting_form.CtrlRelay_value.Content = rs.CtrlRelayCfg.ToString();
+                    setting_form.SendQuality_value.Content = rs.SendQualityCfg.ToString();
+                    setting_form.SendExtInfo_value.Content = rs.SendExtInfoCfg.ToString();
+                    setting_form.SortIndex_value.Content = rs.SortIndex.ToString();
+                    //setting_form.StoreInNVM_value = rs.
+                    setting_form.RCS_Threshold_value.Content = rs.RCS_Threshold.ToString();
+                    setting_form.InvalidClusters_value.Content = rs.InvalidClusters.ToString();
+                }));
+                #endregion
             }
         }
         #endregion
