@@ -97,9 +97,9 @@ namespace Radar_Program_WPF
 
         #region DB method
         public void Initialize_DB_Value(string IP = "127.0.0.1",
-            string PORT = "9591",
+            string PORT = "3306",
             string ID = "root",
-            string PW = "cody0901")
+            string PW = "wjsthwjd0105!")
         {
             Set_DB_Server(IP);
             Set_DB_Port(PORT);

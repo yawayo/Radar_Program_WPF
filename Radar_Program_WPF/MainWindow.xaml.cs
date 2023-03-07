@@ -43,6 +43,7 @@ namespace Radar_Program_WPF
         {
             InitializeComponent();
             this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
+            change_btn_state(false);
         }
         void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -129,6 +130,13 @@ namespace Radar_Program_WPF
         private string Msg_60E;
         #endregion
 
+        #region btn 
+        void change_btn_state(bool b)
+        {
+            Radar_Connect_btn.IsEnabled = !b;
+            Radar_Disconnect_btn.IsEnabled = b;
+            Radar_Setting_btn.IsEnabled = b;
+        }
         private void Radar_Connect_btn_Click(object sender, RoutedEventArgs e)
         {
             if (!Radar_status)
@@ -136,6 +144,14 @@ namespace Radar_Program_WPF
                 Radar_Connect();
             }
         }
+        private void Radar_Disconnect_btn_Click(object sender, RoutedEventArgs e)
+        {
+            if (Radar_status)
+            {
+                Radar_Disconnect();
+            }
+        }
+
         private void Data_View_btn_Click(object sender, RoutedEventArgs e)
         {
             main.Cursor = Cursors.Wait;
@@ -158,6 +174,7 @@ namespace Radar_Program_WPF
                 setting_form_close();
             }
         }
+        #endregion
 
         #region radar setting
         private void WriteMessage(TPCANMsg Msg)
@@ -371,9 +388,32 @@ namespace Radar_Program_WPF
                 Radar_status = true;
                 read_Thread_Func();
                 draw_Thread_Func();
+
+                change_btn_state(true);
             }
         }
 
+        private void Radar_Disconnect()
+        {
+            if (Device_set.Radar_Disconnect())
+            {
+                Radar_status = false;
+
+                if (ReadThread != null)
+                {
+                    ReadThread.Abort();
+                    ReadThread.Join();
+                    ReadThread = null;
+                }
+                if (DrawThread != null)
+                {
+                    DrawThread.Abort();
+                    DrawThread.Join();
+                    DrawThread = null;
+                }
+                change_btn_state(false);
+            }
+        }
         private void read_Thread_Func()
         {
             ReadThread = new Thread(new ThreadStart(ReadMessages));
@@ -745,6 +785,7 @@ namespace Radar_Program_WPF
         {
             setting_form_close();
         }
+
         private void setting_form_close()
         {
             Setting_status = false;
