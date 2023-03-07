@@ -30,6 +30,8 @@ namespace Radar_Program_WPF
         private double rect_size = 10;
         Setting setting_form;
 
+
+        private DateTime Aframe_timestamp = DateTime.Now;
         private Msg_Format.Object_inf[] this_frame_data = new Msg_Format.Object_inf[100];
         private bool[] exist = new bool[100];
 
@@ -458,10 +460,6 @@ namespace Radar_Program_WPF
         {
             uint Msg_ID = Msg.ID & 0xF0F;
 
-            //선배님 방법으로 현재 ID 값 초기화
-            //int sensor_id = ((int)Msg.ID & 0xF0) >> 4;
-            //Device_set.Set_Radar_ID(sensor_id);
-
             switch (Msg_ID)
             {
                 case 0x201:
@@ -536,6 +534,7 @@ namespace Radar_Program_WPF
         #region 60A
         private void Process_Obj_Status(TPCANMsg Msg, DateTime Timestamp)
         {
+            Aframe_timestamp = DateTime.Now;
             if (first_A)
             {
                 if (Text_status)
@@ -559,7 +558,7 @@ namespace Radar_Program_WPF
                 {
                     exist[og.ID] = true;
 
-                    this_frame_data[og.ID].Timestamp = Timestamp;
+                    this_frame_data[og.ID].Timestamp = Aframe_timestamp;
 
                     this_frame_data[og.ID].ID = og.ID;
                     this_frame_data[og.ID].DistLong = og.DistLong;
@@ -647,7 +646,7 @@ namespace Radar_Program_WPF
         private void save_this_frame_obj_data()
         {
             bool exist_DB = false;
-            string sql = "INSERT INTO test VALUES";
+            string sql = "INSERT INTO " + Device_set.table + " VALUES";
             
             for (int i = 0; i < 100; i++)
             {

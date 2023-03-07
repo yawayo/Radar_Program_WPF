@@ -38,7 +38,7 @@ namespace Radar_Program_WPF
         private string DB_PW;
 
         private MySqlConnection Database;
-        private string table;
+        public string table;
 
         #endregion
         #region obj info
@@ -96,13 +96,13 @@ namespace Radar_Program_WPF
         #endregion
 
         #region DB method
-        public void Initialize_DB_Value(string s = "127.0.0.1",
-            string p = "9591",
+        public void Initialize_DB_Value(string IP = "127.0.0.1",
+            string PORT = "9591",
             string ID = "root",
             string PW = "cody0901")
         {
-            Set_DB_Server(s);
-            Set_DB_Port(p);
+            Set_DB_Server(IP);
+            Set_DB_Port(PORT);
             Set_DB_ID(ID);
             Set_DB_PW(PW);
         }
@@ -123,12 +123,15 @@ namespace Radar_Program_WPF
         private bool make_DB()
         {
             Database.Open();
-            MySqlCommand cmd = Database.CreateCommand();
-            cmd.CommandText = "CREATE DATABASE IF NOT EXISTS RADAR;" +
-                "USE RADAR;";
+            MySqlCommand createDB_cmd = Database.CreateCommand();
+            createDB_cmd.CommandText = "CREATE DATABASE IF NOT EXISTS RADAR;";
+            MySqlCommand useDB_cmd = Database.CreateCommand();
+            useDB_cmd.CommandText = "USE RADAR;";
+
             try
             {
-                cmd.ExecuteNonQuery();
+                createDB_cmd.ExecuteNonQuery();
+                useDB_cmd.ExecuteNonQuery();
             }
             catch
             {
