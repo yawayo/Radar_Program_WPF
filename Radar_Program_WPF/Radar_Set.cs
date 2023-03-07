@@ -38,7 +38,7 @@ namespace Radar_Program_WPF
         private string DB_PW;
 
         private MySqlConnection Database;
-        private string table;
+        public string table;
 
         #endregion
         #region obj info
@@ -96,13 +96,13 @@ namespace Radar_Program_WPF
         #endregion
 
         #region DB method
-        public void Initialize_DB_Value(string s = "127.0.0.1",
-            string p = "3306",
+        public void Initialize_DB_Value(string IP = "127.0.0.1",
+            string PORT = "9591",
             string ID = "root",
-            string PW = "wjsthwjd0105!")
+            string PW = "cody0901")
         {
-            Set_DB_Server(s);
-            Set_DB_Port(p);
+            Set_DB_Server(IP);
+            Set_DB_Port(PORT);
             Set_DB_ID(ID);
             Set_DB_PW(PW);
         }
@@ -123,12 +123,15 @@ namespace Radar_Program_WPF
         private bool make_DB()
         {
             Database.Open();
-            MySqlCommand cmd = Database.CreateCommand();
-            cmd.CommandText = "CREATE DATABASE IF NOT EXISTS RADAR;" +
-                "USE RADAR;";
+            MySqlCommand createDB_cmd = Database.CreateCommand();
+            createDB_cmd.CommandText = "CREATE DATABASE IF NOT EXISTS RADAR;";
+            MySqlCommand useDB_cmd = Database.CreateCommand();
+            useDB_cmd.CommandText = "USE RADAR;";
+
             try
             {
-                cmd.ExecuteNonQuery();
+                createDB_cmd.ExecuteNonQuery();
+                useDB_cmd.ExecuteNonQuery();
             }
             catch
             {
@@ -141,7 +144,7 @@ namespace Radar_Program_WPF
         private bool make_Table()
         {
             Database.Open();
-            table = "test";
+            table = "OBJ_INFO";
             MySqlCommand cmd = Database.CreateCommand();
             cmd.CommandText = "CREATE TABLE IF NOT EXISTS " + table + "(" +
                 "TIME DATETIME(3) NOT NULL," +
@@ -181,44 +184,6 @@ namespace Radar_Program_WPF
             Database.Close();
             return true;
         }
-        int value_cnt = 0;
-        string insert_fix = "INSERT INTO test VALUES";
-        public void Data_preprocess(TPCANMsg Msg, DateTime Timestamp)
-        {
-           /* Msg_Format.Object_Extended oe = Msg_format.msg2ObjectExtended(Msg);
-
-            //string insert_fix = "INSERT INTO " + table + " VALUES"; 여기에 넣으면 데이터가 들어올때마다 insert into가 실행 됨
-            string insert_data = "('" + Timestamp.ToString("yyyy-MM-dd HH:mm:ss.fff") + "', " +
-                                      Obj_inf[oe.ID].First.Value.ID + ", " + Obj_inf[oe.ID].First.Value.DistLong.ToString("F2") + ", " +
-                                      Obj_inf[oe.ID].First.Value.DistLat.ToString("F2") + ", " + Obj_inf[oe.ID].First.Value.VrelLong + ", " +
-                                      Obj_inf[oe.ID].First.Value.VrelLat + ", " + Obj_inf[oe.ID].First.Value.DynProp + ", " +
-                                      Obj_inf[oe.ID].First.Value.RCS + ", " + Obj_inf[oe.ID].First.Value.DistLat_rms + ", " +
-                                      Obj_inf[oe.ID].First.Value.DistLong_rms + ", " + Obj_inf[oe.ID].First.Value.VrelLat_rms + ", " +
-                                      Obj_inf[oe.ID].First.Value.VrelLong_rms + ", " + Obj_inf[oe.ID].First.Value.ArelLat_rms + ", " +
-                                      Obj_inf[oe.ID].First.Value.ArelLong_rms + ", " + Obj_inf[oe.ID].First.Value.Orientation_rms + ", " +
-                                      Obj_inf[oe.ID].First.Value.MirrorProb + ", " + Obj_inf[oe.ID].First.Value.ProbOfExist + ", " +
-                                      Obj_inf[oe.ID].First.Value.MeasState + ", " + Obj_inf[oe.ID].First.Value.ArelLong + ", " +
-                                      Obj_inf[oe.ID].First.Value.ArelLat + ", " + Obj_inf[oe.ID].First.Value.Class + ", " +
-                                      Obj_inf[oe.ID].First.Value.OrientationAngle + ", " + Obj_inf[oe.ID].First.Value.Length + ", " +
-                                      Obj_inf[oe.ID].First.Value.Width +
-                                      ")";
-
-            value_cnt++;
-
-            //Data_preprocess가 100번 실행됬을때
-            if (value_cnt < 100)
-            {
-                insert_fix += insert_data + ", ";
-            }
-            if (value_cnt == 100)
-            {
-                insert_fix += insert_data;
-                save_DB(insert_fix);
-                value_cnt = 0;
-                insert_fix = "INSERT INTO test VALUES";
-            }*/
-        }
-
         public bool save_DB(string data)
         {
             Database.Open();

@@ -4,16 +4,28 @@
 winexe
 C#
 .cs
+<<<<<<< HEAD
 D:\source\SaveDB_RadarOBJ\Radar_Program_WPF\obj\Debug\
+=======
+C:\Users\iyaso\source\repos\SaveDB_RadarOBJ\Radar_Program_WPF\obj\Debug\
+>>>>>>> 78b54b1a77264ff6aa81d64721e610c02e20bb1b
 Radar_Program_WPF
 none
 false
 DEBUG;TRACE
+<<<<<<< HEAD
 D:\source\SaveDB_RadarOBJ\Radar_Program_WPF\App.xaml
 2-595470214
 
 9733534269
 126779380541
+=======
+C:\Users\iyaso\source\repos\SaveDB_RadarOBJ\Radar_Program_WPF\App.xaml
+2-595470214
+
+9733534269
+1261316572093
+>>>>>>> 78b54b1a77264ff6aa81d64721e610c02e20bb1b
 MainWindow.xaml;Setting.xaml;
 
 False

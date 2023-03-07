@@ -1,16 +1,14 @@
-﻿using Peak.Can.Basic;
-using MsgFormat;
-using System;
-using System.Collections.Generic;
+﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Threading;
-using System.Windows.Controls;
-using MySql.Data.MySqlClient;
-using System.Diagnostics;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using MsgFormat;
+using Peak.Can.Basic;
 
 namespace Radar_Program_WPF
 {
@@ -32,6 +30,8 @@ namespace Radar_Program_WPF
         private double rect_size = 10;
         Setting setting_form;
 
+
+        private DateTime Aframe_timestamp = DateTime.Now;
         private Msg_Format.Object_inf[] this_frame_data = new Msg_Format.Object_inf[100];
         private bool[] exist = new bool[100];
 
@@ -366,7 +366,7 @@ namespace Radar_Program_WPF
             if (Device_set.Radar_Connect())
             {
                 Device_set.Initialize_DB_Value(); //20230211
-                //Device_set.DB_Connect(); //20230211
+                Device_set.DB_Connect(); //20230211
 
                 Radar_status = true;
                 read_Thread_Func();
@@ -460,10 +460,6 @@ namespace Radar_Program_WPF
         {
             uint Msg_ID = Msg.ID & 0xF0F;
 
-            //선배님 방법으로 현재 ID 값 초기화
-            //int sensor_id = ((int)Msg.ID & 0xF0) >> 4;
-            //Device_set.Set_Radar_ID(sensor_id);
-
             switch (Msg_ID)
             {
                 case 0x201:
@@ -538,12 +534,12 @@ namespace Radar_Program_WPF
         #region 60A
         private void Process_Obj_Status(TPCANMsg Msg, DateTime Timestamp)
         {
+            Aframe_timestamp = DateTime.Now;
             if (first_A)
             {
                 if (Text_status)
                     update_Textbox_msg();
 
-                Device_set.Data_preprocess(Msg, Timestamp);
                 save_this_frame_obj_data();
             }
 
@@ -562,7 +558,7 @@ namespace Radar_Program_WPF
                 {
                     exist[og.ID] = true;
 
-                    this_frame_data[og.ID].Timestamp = Timestamp;
+                    this_frame_data[og.ID].Timestamp = Aframe_timestamp;
 
                     this_frame_data[og.ID].ID = og.ID;
                     this_frame_data[og.ID].DistLong = og.DistLong;
@@ -649,6 +645,9 @@ namespace Radar_Program_WPF
         }
         private void save_this_frame_obj_data()
         {
+            bool exist_DB = false;
+            string sql = "INSERT INTO " + Device_set.table + " VALUES";
+            
             for (int i = 0; i < 100; i++)
             {
                 if (exist[i])
@@ -656,6 +655,22 @@ namespace Radar_Program_WPF
                     Device_set.Obj_inf[i].AddLast(this_frame_data[i]);
                     if (Device_set.Obj_inf[i].Count >= 100)
                         Device_set.Obj_inf[i].RemoveFirst();
+
+                    sql += "('" + this_frame_data[i].Timestamp.ToString("yyyy-MM-dd HH:mm:ss.fff") + "', " +
+                                      this_frame_data[i].ID + ", " + this_frame_data[i].DistLong.ToString("F2") + ", " +
+                                      this_frame_data[i].DistLat.ToString("F2") + ", " + this_frame_data[i].VrelLong + ", " +
+                                      this_frame_data[i].VrelLat + ", " + this_frame_data[i].DynProp + ", " +
+                                      this_frame_data[i].RCS + ", " + this_frame_data[i].DistLat_rms + ", " +
+                                      this_frame_data[i].DistLong_rms + ", " + this_frame_data[i].VrelLat_rms + ", " +
+                                      this_frame_data[i].VrelLong_rms + ", " + this_frame_data[i].ArelLat_rms + ", " +
+                                      this_frame_data[i].ArelLong_rms + ", " + this_frame_data[i].Orientation_rms + ", " +
+                                      this_frame_data[i].MirrorProb + ", " + this_frame_data[i].ProbOfExist + ", " +
+                                      this_frame_data[i].MeasState + ", " + this_frame_data[i].ArelLong + ", " +
+                                      this_frame_data[i].ArelLat + ", " + this_frame_data[i].Class + ", " +
+                                      this_frame_data[i].OrientationAngle + ", " + this_frame_data[i].Length + ", " +
+                                      this_frame_data[i].Width +
+                                      "),";
+                    exist_DB = true;
                 }
                 else
                 {
@@ -667,6 +682,11 @@ namespace Radar_Program_WPF
                             Device_set.Obj_inf[i].Clear();
                     }
                 }
+            }
+            if(exist_DB)
+            {
+                sql = sql.TrimEnd(',');
+                Device_set.save_DB(sql);
             }
             Clear_thisframe_data();
         }

@@ -29,6 +29,7 @@ C:\Users\iyaso\source\repos\SaveDB_RadarOBJ\Radar_Program_WPF\obj\Debug\Radar_Pr
 C:\Users\iyaso\source\repos\SaveDB_RadarOBJ\Radar_Program_WPF\obj\Debug\Radar_Program_WPF.csproj.CopyComplete
 C:\Users\iyaso\source\repos\SaveDB_RadarOBJ\Radar_Program_WPF\obj\Debug\Radar_Program_WPF.exe
 C:\Users\iyaso\source\repos\SaveDB_RadarOBJ\Radar_Program_WPF\obj\Debug\Radar_Program_WPF.pdb
+<<<<<<< HEAD
 D:\source\SaveDB_RadarOBJ\Radar_Program_WPF\bin\Debug\Radar_Program_WPF.exe.config
 D:\source\SaveDB_RadarOBJ\Radar_Program_WPF\bin\Debug\Radar_Program_WPF.exe
 D:\source\SaveDB_RadarOBJ\Radar_Program_WPF\bin\Debug\Radar_Program_WPF.pdb
@@ -61,3 +62,6 @@ D:\source\SaveDB_RadarOBJ\Radar_Program_WPF\obj\Debug\Radar_Program_WPF.csproj.C
 D:\source\SaveDB_RadarOBJ\Radar_Program_WPF\obj\Debug\Radar_Program_WPF.csproj.CopyComplete
 D:\source\SaveDB_RadarOBJ\Radar_Program_WPF\obj\Debug\Radar_Program_WPF.exe
 D:\source\SaveDB_RadarOBJ\Radar_Program_WPF\obj\Debug\Radar_Program_WPF.pdb
+=======
+C:\Users\iyaso\source\repos\SaveDB_RadarOBJ\Radar_Program_WPF\obj\Debug\Radar_Program_WPF.csproj.AssemblyReference.cache
+>>>>>>> 78b54b1a77264ff6aa81d64721e610c02e20bb1b
