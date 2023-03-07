@@ -217,5 +217,6 @@
         <Label x:Name="StoreInNVM_value" Content="0" Margin="220,640,510,306"/>
         <Label x:Name="RCS_Threshold_value" Content="0" Margin="220,700,510,246"/>
         <Label x:Name="InvalidClusters_value" Content="0" Margin="220,760,510,186"/>
+        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="100" Margin="787,83,-95,0" VerticalAlignment="Top" Width="100"/>
     </Grid>
 </Window>

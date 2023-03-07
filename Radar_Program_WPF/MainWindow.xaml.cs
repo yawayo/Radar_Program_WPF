@@ -718,6 +718,10 @@ namespace Radar_Program_WPF
                 setting_form.Write_Radar += new Setting.Write_Radar_Handler(write_RadarCfg);
                 setting_form.Write_Filter += new Setting.Write_Filter_Hendler(write_FilterCfg);
                 setting_form.Closed += setting_form_closed;
+                if (Radar_status)
+                {
+                    write_FilterCfg(true);
+                }
                 setting_form.Show();
             }
         }
