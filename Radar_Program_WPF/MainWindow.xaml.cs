@@ -130,7 +130,7 @@ namespace Radar_Program_WPF
         private string Msg_60E;
         #endregion
 
-        #region btn 
+        #region btn
         void change_btn_state(bool b)
         {
             Radar_Connect_btn.IsEnabled = !b;
@@ -173,6 +173,11 @@ namespace Radar_Program_WPF
             {
                 setting_form_close();
             }
+        }
+
+        private void Data_Save_Server_btn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
         #endregion
 
@@ -455,20 +460,24 @@ namespace Radar_Program_WPF
             {
                 if (Device_set.Obj_inf[i].Count != 0)
                 {
-                    Msg_Format.Object_inf last_data = Device_set.Obj_inf[i].Last.Value;
-
-                    double X = ((-1 * last_data.DistLat) * (Data_Draw.ActualWidth / max_lat)) + (Data_Draw.ActualWidth / 2);
-                    double Y = last_data.DistLong * (Data_Draw.ActualHeight / max_long);
-
-                    Rectangle rect = new Rectangle
+                    try
                     {
-                        Stroke = new SolidColorBrush(Color.FromRgb(244, 143, 61)),
-                        StrokeThickness = rect_size
-                    };
+                        Msg_Format.Object_inf last_data = Device_set.Obj_inf[i].Last.Value;
 
-                    Canvas.SetLeft(rect, X);
-                    Canvas.SetTop(rect, Data_Draw.ActualHeight - Y);
-                    this.Data_Draw.Children.Add(rect);
+                        double X = ((-1 * last_data.DistLat) * (Data_Draw.ActualWidth / max_lat)) + (Data_Draw.ActualWidth / 2);
+                        double Y = last_data.DistLong * (Data_Draw.ActualHeight / max_long);
+
+                        Rectangle rect = new Rectangle
+                        {
+                            Stroke = new SolidColorBrush(Color.FromRgb(244, 143, 61)),
+                            StrokeThickness = rect_size
+                        };
+
+                        Canvas.SetLeft(rect, X);
+                        Canvas.SetTop(rect, Data_Draw.ActualHeight - Y);
+                        this.Data_Draw.Children.Add(rect);
+                    }
+                    catch { }
                 }
             }
         }
@@ -977,6 +986,17 @@ namespace Radar_Program_WPF
         #endregion
 
         #region update textbox
+        private void Data_View_ckb_Click(object sender, RoutedEventArgs e)
+        {
+            main.Cursor = Cursors.Wait;
+            Data_View_btn.Cursor = Cursors.Wait;
+            if (!Text_status)
+                Text_on();
+            else
+                Text_off();
+            main.Cursor = Cursors.Arrow;
+            Data_View_btn.Cursor = Cursors.Arrow;
+        }
         public void update_Textbox_msg()
         {
             string str = "";

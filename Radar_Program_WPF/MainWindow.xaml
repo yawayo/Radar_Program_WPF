@@ -14,26 +14,52 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Label Content="Image Box" FontSize="20" Margin="0,80,499.714,209"/>
-        <Canvas x:Name="Data_Draw" Width="494" Height="550" Margin="2,113,497.714,219.857" ClipToBounds="True"/>
-        <Border BorderBrush="Black" BorderThickness="1" Margin="506,663,-0.286,0"/>
-        <Button x:Name="Radar_Connect_btn" Content="Radar connect" Margin="0,0,363,162" Click="Radar_Connect_btn_Click" Background="#C0C0C0" RenderTransformOrigin="0.903,16.579" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="108"/>
-        <Button x:Name="Radar_Setting_btn" Content="Radar setting" Margin="0,0,97,162" Click="Radar_Setting_btn_Click" Background="#C0C0C0" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="108"/>
-        <Button x:Name="Radar_Disconnect_btn" Content="Radar disconnect
-" Margin="0,0,230,162" Click="Radar_Disconnect_btn_Click" Background="#C0C0C0" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="108"/>
-        <Button x:Name="Data_View_btn" Content="Data view" Margin="0,0,230,104" Click="Data_View_btn_Click" Background="#C0C0C0" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="108"/>
-        <Button x:Name="Camera_Connect_btn" Content="Camera Connect" Margin="0,0,363,104" Background="#C0C0C0" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="108"/>
-
-        <ListBox x:Name="listbox_data" Margin="2,663,493.714,0" >
-            <TextBox x:Name="TextBox_data" HorizontalAlignment="Left" Height="183" TextWrapping="Wrap" VerticalAlignment="Top" Width="488" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
-        </ListBox>
-        <Label Content="Camera Box" FontSize="20" Margin="506,80,0,219.286" HorizontalAlignment="Left" Width="485"/>
-        <Border BorderBrush="Black" BorderThickness="1" Margin="506,80,-0.286,219.286"/>
         <Border BorderBrush="Black" BorderThickness="1" VerticalAlignment="Top" HorizontalAlignment="Right" Width="1000" Height="80" Margin="-6,0,-0.286,0">
             <Label Content="HBrain Radar Program" FontSize="30" Width="1000" Height="80" Margin="8.857,-1.143,-11.143,-1.143"/>
         </Border>
+        <Label Content="Image Box" FontSize="20" Margin="0,80,499.714,209"/>
+        <Canvas x:Name="Data_Draw" Width="494" Height="550" Margin="2,113,497.714,219.857" ClipToBounds="True"/>
+
+        <Border BorderBrush="Black" Margin="506,663,0,0" BorderThickness="1"/>
+        <Grid Margin="506,663,0,0" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="140"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid x:Name="radar_btn" Grid.Row="0" HorizontalAlignment="Left" >
+                <Button x:Name="Radar_Connect_btn" Content="Radar connect" Margin="10,0,375,0" Click="Radar_Connect_btn_Click" Background="#C0C0C0" Height="20" Width="100"/>
+                <Button x:Name="Radar_Setting_btn" Content="Radar setting" Margin="120,0,265,0" Click="Radar_Setting_btn_Click" Background="#C0C0C0" Height="20" Width="100"/>
+                <Button x:Name="Radar_Disconnect_btn" Content="Radar disconnect" Margin="230,0,155,0" Click="Radar_Disconnect_btn_Click" Background="#C0C0C0" Height="20" Width="100"/>
+            </Grid>
+            <Grid x:Name="camera_btn" Grid.Row="1" HorizontalAlignment="Left">
+                <Button x:Name="Camera_Connect_btn" Content="Camera Connect" Margin="10,5.5,375,5.5" Background="#C0C0C0" Height="20" Width="100"/>
+                <Button x:Name="Data_View_btn" Content="Data view" Margin="120,5.5,265,5.5" Click="Data_View_btn_Click" Background="#C0C0C0" Height="20" Width="100"/>
+            </Grid>
+
+            <Grid x:Name="serverDB" Grid.Row="2" HorizontalAlignment="Left" >
+                <Label Content="Server_IP : " Margin="10,13,380,103"  FontSize="10"/>
+                <TextBox x:Name="serverIP_input" Text="183.99.41.239" Margin="103,5,280,100" Height="20" Width="100"/>
+                <Label Content="Server_PORT : " Margin="10,38,380,78" FontSize="10"/>
+                <TextBox x:Name="serverPORT_input" Text="23306" Margin="103,33,280,78"  Height="20" Width="100"/>
+                <Label Content="Server_USER : " Margin="10,63,380,53" FontSize="10"/>
+                <TextBox x:Name="serverUSER_input" Text="root" Margin="103,58,280,53"  Height="20" Width="100"/>
+                <Label Content="Server_PSWD : " Margin="10,88,380,28" FontSize="10"/>
+                <PasswordBox x:Name="serverPSWD_input" Margin="103,83,280,28"  Height="20" Width="100"/>
+                <Button x:Name="Data_Save_Server_btn" Click="Data_Save_Server_btn_Click" Content="Data Save&#xD;&#xA;(Local &gt; Server)" Margin="228,13,155,80" Background="#C0C0C0" Height="40" Width="100"/>
+            </Grid>
+        </Grid>
 
 
+
+
+
+        <ListBox x:Name="listbox_data" Margin="2,663,493.714,0">
+            <CheckBox x:Name="Data_view_ckb" Content="show data" Click="Data_View_ckb_Click" IsChecked="True" Margin="0,1,0,1"></CheckBox>
+            <TextBox x:Name="TextBox_data" HorizontalAlignment="Left" Height="183" TextWrapping="Wrap" VerticalAlignment="Top" Width="488" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+        </ListBox>
+        <Label Content="Camera Box" FontSize="20" Margin="506,80,0,219.286" HorizontalAlignment="Left" Width="485"/>
+        <Border BorderBrush="Black" BorderThickness="1" Margin="506,80,0,229"/>
 
     </Grid>
 </Window>
