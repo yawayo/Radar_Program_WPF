@@ -467,7 +467,7 @@ namespace Radar_Program_WPF
                     };
 
                     Canvas.SetLeft(rect, X);
-                    Canvas.SetTop(rect, Y);
+                    Canvas.SetTop(rect, Data_Draw.ActualHeight - Y);
                     this.Data_Draw.Children.Add(rect);
                 }
             }
@@ -1022,8 +1022,12 @@ namespace Radar_Program_WPF
                 setting_form.Write_Radar += new Setting.Write_Radar_Handler(write_RadarCfg);
                 setting_form.Write_Filter += new Setting.Write_Filter_Hendler(write_FilterCfg);
                 setting_form.Closed += setting_form_closed;
+                // dummy filter
+                if (Radar_status)
+                    write_FilterCfg(true);
                 setting_form.Show();
             }
+            
         }
         private void setting_form_closed(object sender, EventArgs e)
         {
