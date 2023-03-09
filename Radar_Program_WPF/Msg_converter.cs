@@ -213,6 +213,7 @@ namespace MsgFormat
         {
 
             TPCANMsg msg;
+            //msg.ID = 0x200 + (uint)(radarSensorID * 0x10);
             msg.ID = 0x202 + (uint)(radarSensorID * 0x10);
             msg.DATA = new byte[8];
             msg.LEN = 5;

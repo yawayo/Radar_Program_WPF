@@ -177,83 +177,128 @@ namespace Radar_Program_WPF
         private void NofObj_Valid_ckb_Checked(object sender, RoutedEventArgs e)
         {
             NofObj_Valid = !NofObj_Valid;
+        }
+        private void NofObj_Active_ckb_Checked(object sender, RoutedEventArgs e)
+        {
             NofObj_Active = !NofObj_Active;
         }
-
         private void Distance_Valid_ckb_Checked(object sender, RoutedEventArgs e)
         {
             Distance_Valid = !Distance_Valid;
+        }
+        private void Distance_Active_ckb_Checked(object sender, RoutedEventArgs e)
+        {
             Distance_Active = !Distance_Active;
         }
-
         private void Azimuth_Valid_ckb_Checked(object sender, RoutedEventArgs e)
         {
             Azimuth_Valid = !Azimuth_Valid;
+        }
+        private void Azimuth_Active_ckb_Checked(object sender, RoutedEventArgs e)
+        {
             Azimuth_Active = !Azimuth_Active;
         }
 
         private void VrelOncome_Valid_ckb_Checked(object sender, RoutedEventArgs e)
         {
             VrelOncome_Valid = !VrelOncome_Valid;
+        }
+        private void VrelOncome_Active_ckb_Checked(object sender, RoutedEventArgs e)
+        {
             VrelOncome_Active = !VrelOncome_Active;
         }
-
         private void VrelDepart_Valid_ckb_Checked(object sender, RoutedEventArgs e)
         {
             VrelDepart_Valid = !VrelDepart_Valid;
         }
+        private void VrelDepart_Active_ckb_Checked(object sender, RoutedEventArgs e)
+        {
+            VrelDepart_Active = !VrelDepart_Active;
 
+        }
         private void RCS_Valid_ckb_Checked(object sender, RoutedEventArgs e)
         {
             RCS_Valid = !RCS_Valid;
         }
-
+        private void RCS_Active_ckb_Checked(object sender, RoutedEventArgs e)
+        {
+            RCS_Active = !RCS_Active;
+        }
         private void Lifetime_Valid_ckb_Checked(object sender, RoutedEventArgs e)
         {
             Lifetime_Valid = !Lifetime_Valid;
         }
-
+        private void Lifetime_Active_ckb_Checked(object sender, RoutedEventArgs e)
+        {
+            Lifetime_Active = !Lifetime_Active;
+        }
         private void Size_Valid_ckb_Checked(object sender, RoutedEventArgs e)
         {
             Size_Valid = !Size_Valid;
         }
-
+        private void Size_Active_ckb_Checked(object sender, RoutedEventArgs e)
+        {
+            Size_Active = !Size_Active;
+        }
         private void ProbExists_Valid_ckb_Checked(object sender, RoutedEventArgs e)
         {
             ProbExists_Valid = !ProbExists_Valid;
         }
-
+        private void ProbExists_Active_ckb_Checked(object sender, RoutedEventArgs e)
+        {
+            ProbExists_Active = !ProbExists_Active;
+        }
         private void Y_Valid_ckb_Checked(object sender, RoutedEventArgs e)
         {
             Y_Valid = !Y_Valid;
         }
-
+        private void Y_Active_ckb_Checked(object sender, RoutedEventArgs e)
+        {
+            Y_Active = !Y_Active;
+        }
         private void X_Valid_ckb_Checked(object sender, RoutedEventArgs e)
         {
             X_Valid = !X_Valid;
+        }
+        private void X_Active_ckb_Checked(object sender, RoutedEventArgs e)
+        {
+            X_Active = !X_Active;
         }
 
         private void VYRightLeft_Valid_ckb_Checked(object sender, RoutedEventArgs e)
         {
             VYRightLeft_Valid = !VYRightLeft_Valid;
         }
-
+        private void VYRightLeft_Active_ckb_Checked(object sender, RoutedEventArgs e)
+        {
+            VYLeftRight_Active = !VYLeftRight_Active;
+        }
         private void VXOncome_Valid_ckb_Checked(object sender, RoutedEventArgs e)
         { 
             VXOncome_Valid = !VXOncome_Valid;
         }
-
+        private void VXOncome_Active_ckb_Checked(object sender, RoutedEventArgs e)
+        {
+            VXOncome_Active = !VXOncome_Active;
+        }
         private void VYLeftRight_Valid_ckb_Checked(object sender, RoutedEventArgs e)
         {
             VYLeftRight_Valid = !VYLeftRight_Valid;
         }
-
+        private void VYLeftRight_Active_ckb_Checked(object sender, RoutedEventArgs e)
+        {
+            VYLeftRight_Active = !VYLeftRight_Active;
+        }
         private void VXDepart_Valid_ckb_Checked(object sender, RoutedEventArgs e)
         {
             VXDepart_Valid = !VXDepart_Valid;
         }
+        private void VXDepart_Active_ckb_Checked(object sender, RoutedEventArgs e)
+        {
+            VXDepart_Active = !VXDepart_Active;
+        }
         #endregion
 
-        
+
     }
 }

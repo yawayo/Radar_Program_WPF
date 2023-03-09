@@ -5,217 +5,352 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Radar_Program_WPF"
         mc:Ignorable="d"
-        Title="Setting" Height="1000" Width="800">
-    <Grid Height="971" Margin="0,0,0.286,0.429" VerticalAlignment="Bottom">
+        Title="Setting" Height="1000" Width="1620">
+    <Grid Height="1000" Margin="0,0,0.286,0.429" VerticalAlignment="Bottom">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="400"/>
         </Grid.ColumnDefinitions>
-        <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="800" Margin="17,60,0,0" VerticalAlignment="Top" Width="370">
-            <Label Content="Radar Setting" FontSize="20" Margin="8.857,25.857,219.143,732.857"/>
-        </Border>
-        <Border BorderBrush="Black" BorderThickness="1" Margin="407,60,9.714,111">
-            <Label Content="Fillter Setting" FontSize="20" Margin="8.857,25.857,219.143,732.857"/>
-        </Border>
-        <Button x:Name="Radar_Write_btn" Content="Button" HorizontalAlignment="Left" Height="45" Margin="280,885,0,0" VerticalAlignment="Top" Width="110" Click="Radar_Write_btn_Click"/>
-        <Button x:Name="Filter_Write_btn" Content="Button" HorizontalAlignment="Left" Height="45" Margin="667,885,0,0" VerticalAlignment="Top" Width="110" Click="Filter_Write_btn_Click"/>
-
-        <CheckBox x:Name="MaxDistance_Valid_ckb" Content="Max Distance(0~2046)" Checked="MaxDistance_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,160,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
-        <TextBox x:Name="MaxDistance_input" HorizontalAlignment="Left" Height="22" Margin="284,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="90"/>
-
-        <CheckBox x:Name="SensorID_ckb" Content="SensorID" Checked="SensorID_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,220,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
-        <ComboBox x:Name="SensorID_input" HorizontalAlignment="Left" Height="19" Margin="284,220,0,0" VerticalAlignment="Top" Width="90" >
-            <ComboBoxItem>0</ComboBoxItem>
-            <ComboBoxItem>1</ComboBoxItem>
-            <ComboBoxItem>2</ComboBoxItem>
-            <ComboBoxItem>3</ComboBoxItem>
-            <ComboBoxItem>4</ComboBoxItem>
-            <ComboBoxItem>5</ComboBoxItem>
-            <ComboBoxItem>6</ComboBoxItem>
-            <ComboBoxItem>7</ComboBoxItem>
-        </ComboBox>
-
-        <CheckBox x:Name="OutputType_ckb" Content="OutputType" Checked="OutputType_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,280,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
-        <ComboBox x:Name="OutputType_input" HorizontalAlignment="Left" Height="19" Margin="284,280,0,0" VerticalAlignment="Top" Width="90">
-            <ComboBoxItem>None</ComboBoxItem>
-            <ComboBoxItem>send Object</ComboBoxItem>
-            <ComboBoxItem>send Cluster</ComboBoxItem>
-        </ComboBox>
-
-        <CheckBox x:Name="RadarPower_ckb" Content="RadarPower" Checked="RadarPower_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,340,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
-        <ComboBox x:Name="RadarPower_input" HorizontalAlignment="Left" Height="19" Margin="284,340,0,0" VerticalAlignment="Top" Width="90">
-            <ComboBoxItem>Standard</ComboBoxItem>
-            <ComboBoxItem>-3dB Tx gain</ComboBoxItem>
-            <ComboBoxItem>-6dB Tx gain</ComboBoxItem>
-            <ComboBoxItem>-9dB Tx gain</ComboBoxItem>
-        </ComboBox>
-
-        <CheckBox x:Name="CtrlRelay_ckb" Content="CtrlRelay" Checked="CtrlRelay_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,400,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
-        <ComboBox x:Name="CtrlRelay_input" HorizontalAlignment="Left" Height="19" Margin="284,400,0,0" VerticalAlignment="Top" Width="90">
-            <ComboBoxItem>Inactive</ComboBoxItem>
-            <ComboBoxItem>active</ComboBoxItem>
-        </ComboBox>
-
-        <CheckBox x:Name="SendQuality_ckb" Content="SendQuality" Checked="SendQuality_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,460,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
-        <ComboBox x:Name="SendQuality_input" HorizontalAlignment="Left" Height="19" Margin="284,460,0,0" VerticalAlignment="Top" Width="90">
-            <ComboBoxItem>Inactive</ComboBoxItem>
-            <ComboBoxItem>active</ComboBoxItem>
-        </ComboBox>
-
-        <CheckBox x:Name="SendExtInfo_ckb" Content="SendExtInfo" Checked="SendExtInfo_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,520,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
-        <ComboBox x:Name="SendExtInfo_input" HorizontalAlignment="Left" Height="19" Margin="284,520,0,0" VerticalAlignment="Top" Width="90">
-            <ComboBoxItem>Inactive</ComboBoxItem>
-            <ComboBoxItem>active</ComboBoxItem>
-        </ComboBox>
-
-        <CheckBox x:Name="SortIndex_ckb" Content="SortIndex" Checked="SortIndex_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,580,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
-        <ComboBox x:Name="SortIndex_input" HorizontalAlignment="Left" Height="19" Margin="284,580,0,0" VerticalAlignment="Top" Width="90">
-            <ComboBoxItem>no sorting</ComboBoxItem>
-            <ComboBoxItem>Sorted by range</ComboBoxItem>
-            <ComboBoxItem>Sorted by RCS</ComboBoxItem>
-        </ComboBox>
-
-        <CheckBox x:Name="StoreInNVM_ckb" Content="StoreInNVM" Checked="StoreInNVM_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,640,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
-        <ComboBox x:Name="StoreInNVM_input" HorizontalAlignment="Left" Height="19" Margin="284,640,0,0" VerticalAlignment="Top" Width="90">
-            <ComboBoxItem>Inactive</ComboBoxItem>
-            <ComboBoxItem>active</ComboBoxItem>
-        </ComboBox>
-
-        <CheckBox x:Name="RCS_Threshold_ckb" Content="RCS Threshold" Checked="RCSThreshold_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,700,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
-        <ComboBox x:Name="RCS_Threshold_input" HorizontalAlignment="Left" Height="19" Margin="284,700,0,0" VerticalAlignment="Top" Width="90">
-            <ComboBoxItem>Standard</ComboBoxItem>
-            <ComboBoxItem>High sensitivity</ComboBoxItem>
-        </ComboBox>
-
-        <CheckBox x:Name="InvalidClusters_ckb" Content="InvalidClusters" Checked="InvalidClusters_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,760,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
-        <ComboBox x:Name="InvalidClusters_input" HorizontalAlignment="Left" Height="19" Margin="284,760,0,0" VerticalAlignment="Top" Width="90">
-            <ComboBoxItem>Disable invalid cluster</ComboBoxItem>
-            <ComboBoxItem>Enable all invalid clusters</ComboBoxItem>
-            <ComboBoxItem>Enable low RCS dynamic</ComboBoxItem>
-            <ComboBoxItem>Enable low RCS static</ComboBoxItem>
-            <ComboBoxItem>Enable invalid range rate</ComboBoxItem>
-            <ComboBoxItem>Enable range 1m</ComboBoxItem>
-            <ComboBoxItem>Enable ego mirror</ComboBoxItem>
-            <ComboBoxItem>Enable wrqpped stationary</ComboBoxItem>
-        </ComboBox>
-
-        <Grid Margin="566,152,36.714,797">
-            <TextBox x:Name="NofObj_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143"/>
-            <TextBox x:Name="NofObj_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143"/>
-
+        <Grid x:Name="now_radar_status" Grid.Column="0">
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="800" Margin="17,60,0,0" VerticalAlignment="Top" Width="373">
+                <Label Content="Radar Status" FontSize="20" Margin="8.857,25.857,219.143,732.857"/>
+            </Border>
+            <Label x:Name="NVMReadStatus" Content="NVMReadStatus" Margin="50,140,150,830" FontSize="14"/>
+            <Label x:Name="NVMReadStatus_value" Content="0" Margin="300,140,50,830" FontSize="14"/>
+            <Label x:Name="NVMWriteStatus" Content="NVMWriteStatus" Margin="50,180,150,790" FontSize="14"/>
+            <Label x:Name="NVMWriteStatus_value" Content="0" Margin="300,180,50,790" FontSize="14"/>
+            <Label x:Name="MaxDistance" Content="MaxDistance" Margin="50,220,150,750" FontSize="14"/>
+            <Label x:Name="MaxDistance_value" Content="0" Margin="300,220,50,750" FontSize="14"/>
+            <Label x:Name="PersistentError" Content="Persistent Error" Margin="50,260,150,710" FontSize="14"/>
+            <Label x:Name="PersistentError_value" Content="0" Margin="300,260,50,710" FontSize="14"/>
+            <Label x:Name="interference" Content="interference" Margin="50,300,150,670" FontSize="14"/>
+            <Label x:Name="Interference_value" Content="0" Margin="300,300,50,670" FontSize="14"/>
+            <Label x:Name="TemperatureError" Content="Temperatur eError" Margin="50,340,150,630" FontSize="14"/>
+            <Label x:Name="TemperatureError_value" Content="0" Margin="300,340,50,630" FontSize="14"/>
+            <Label x:Name="TemporaryError" Content="Temporary Error" Margin="50,380,150,590" FontSize="14"/>
+            <Label x:Name="TemporaryError_value" Content="0" Margin="300,380,50,590" FontSize="14"/>
+            <Label x:Name="VoltageError" Content="Voltage Error" Margin="50,420,150,550" FontSize="14"/>
+            <Label x:Name="VoltageError_value" Content="0" Margin="300,420,50,550" FontSize="14"/>
+            <Label x:Name="SensorID" Content="SensorID" Margin="50,460,150,510" FontSize="14"/>
+            <Label x:Name="SensorID_value" Content="0" Margin="300,460,50,510" FontSize="14"/>
+            <Label x:Name="SortIndex" Content="SortIndex" Margin="50,500,150,470" FontSize="14"/>
+            <Label x:Name="SortIndex_value" Content="0" Margin="300,500,50,470" FontSize="14"/>
+            <Label x:Name="RadarPower" Content="Radar Power" Margin="50,540,150,430" FontSize="14"/>
+            <Label x:Name="RadarPower_value" Content="0" Margin="300,540,50,430" FontSize="14"/>
+            <Label x:Name="CtrlRelay" Content="CtrlRelay" Margin="50,580,150,390" FontSize="14"/>
+            <Label x:Name="CtrlRelay_value" Content="0" Margin="300,580,50,390" FontSize="14"/>
+            <Label x:Name="OutputType" Content="OutputType" Margin="50,620,150,350" FontSize="14"/>
+            <Label x:Name="OutputType_value" Content="0" Margin="300,620,50,350" FontSize="14"/>
+            <Label x:Name="SendQuality" Content="SendQuality" Margin="50,660,150,310" FontSize="14"/>
+            <Label x:Name="SendQuality_value" Content="0" Margin="300,660,50,310" FontSize="14"/>
+            <Label x:Name="SendExtInfo" Content="SendExtInfo" Margin="50,700,150,270" FontSize="14"/>
+            <Label x:Name="SendExtInfo_value" Content="0" Margin="300,700,50,270" FontSize="14"/>
+            <Label x:Name="MotionRxState" Content="MotionRxState" Margin="50,740,150,230" FontSize="14"/>
+            <Label x:Name="MotionRxState_value" Content="0" Margin="300,740,50,230" FontSize="14"/>
+            <Label x:Name="RCS_Threshold" Content="RCS_Threshold" Margin="50,780,150,190" FontSize="14"/>
+            <Label x:Name="RCS_Threshold_value" Content="0" Margin="300,780,50,190" FontSize="14"/>
+            <Label x:Name="InvalidClusters" Content="InvalidClusters" Margin="50,820,150,150" FontSize="14"/>
+            <Label x:Name="InvalidClusters_value" Content="0" Margin="300,820,50,150" FontSize="14"/>
         </Grid>
-        <Grid Margin="566,197,36.714,752" RenderTransformOrigin="0.501,1.075">
-            <TextBox x:Name="Distance_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143" />
-            <TextBox x:Name="Distance_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143" RenderTransformOrigin="0.478,0.857"/>
+        <Grid x:Name="radar_set" Grid.Column="1">
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="800" Margin="17,60,0,0" VerticalAlignment="Top" Width="373">
+                <Label Content="Radar Setting" FontSize="20" Margin="8.857,25.857,219.143,732.857"/>
+            </Border>
+            <CheckBox x:Name="MaxDistance_Valid_ckb" Content="Max Distance(0~2046)" Click="MaxDistance_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,160,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
+            <TextBox x:Name="MaxDistance_input" HorizontalAlignment="Left" Height="22" Margin="284,161,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="90"/>
 
+            <CheckBox x:Name="SensorID_ckb" Content="SensorID" Click="SensorID_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,220,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
+            <ComboBox x:Name="SensorID_input" HorizontalAlignment="Left" Height="19" Margin="284,220,0,0" VerticalAlignment="Top" Width="90" >
+                <ComboBoxItem>0</ComboBoxItem>
+                <ComboBoxItem>1</ComboBoxItem>
+                <ComboBoxItem>2</ComboBoxItem>
+                <ComboBoxItem>3</ComboBoxItem>
+                <ComboBoxItem>4</ComboBoxItem>
+                <ComboBoxItem>5</ComboBoxItem>
+                <ComboBoxItem>6</ComboBoxItem>
+                <ComboBoxItem>7</ComboBoxItem>
+            </ComboBox>
+
+            <CheckBox x:Name="OutputType_ckb" Content="OutputType" Click="OutputType_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,280,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
+            <ComboBox x:Name="OutputType_input" HorizontalAlignment="Left" Height="19" Margin="284,280,0,0" VerticalAlignment="Top" Width="90">
+                <ComboBoxItem>None</ComboBoxItem>
+                <ComboBoxItem>send Object</ComboBoxItem>
+                <ComboBoxItem>send Cluster</ComboBoxItem>
+            </ComboBox>
+
+            <CheckBox x:Name="RadarPower_ckb" Content="RadarPower" Click="RadarPower_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,340,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
+            <ComboBox x:Name="RadarPower_input" HorizontalAlignment="Left" Height="19" Margin="284,340,0,0" VerticalAlignment="Top" Width="90">
+                <ComboBoxItem>Standard</ComboBoxItem>
+                <ComboBoxItem>-3dB Tx gain</ComboBoxItem>
+                <ComboBoxItem>-6dB Tx gain</ComboBoxItem>
+                <ComboBoxItem>-9dB Tx gain</ComboBoxItem>
+            </ComboBox>
+
+            <CheckBox x:Name="CtrlRelay_ckb" Content="CtrlRelay" Click="CtrlRelay_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,400,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
+            <ComboBox x:Name="CtrlRelay_input" HorizontalAlignment="Left" Height="19" Margin="284,400,0,0" VerticalAlignment="Top" Width="90">
+                <ComboBoxItem>Inactive</ComboBoxItem>
+                <ComboBoxItem>active</ComboBoxItem>
+            </ComboBox>
+
+            <CheckBox x:Name="SendQuality_ckb" Content="SendQuality" Click="SendQuality_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,460,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
+            <ComboBox x:Name="SendQuality_input" HorizontalAlignment="Left" Height="19" Margin="284,460,0,0" VerticalAlignment="Top" Width="90">
+                <ComboBoxItem>Inactive</ComboBoxItem>
+                <ComboBoxItem>active</ComboBoxItem>
+            </ComboBox>
+
+            <CheckBox x:Name="SendExtInfo_ckb" Content="SendExtInfo" Click="SendExtInfo_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,520,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
+            <ComboBox x:Name="SendExtInfo_input" HorizontalAlignment="Left" Height="19" Margin="284,520,0,0" VerticalAlignment="Top" Width="90">
+                <ComboBoxItem>Inactive</ComboBoxItem>
+                <ComboBoxItem>active</ComboBoxItem>
+            </ComboBox>
+
+            <CheckBox x:Name="SortIndex_ckb" Content="SortIndex" Click="SortIndex_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,580,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
+            <ComboBox x:Name="SortIndex_input" HorizontalAlignment="Left" Height="19" Margin="284,580,0,0" VerticalAlignment="Top" Width="90">
+                <ComboBoxItem>no sorting</ComboBoxItem>
+                <ComboBoxItem>Sorted by range</ComboBoxItem>
+                <ComboBoxItem>Sorted by RCS</ComboBoxItem>
+            </ComboBox>
+
+            <CheckBox x:Name="StoreInNVM_ckb" Content="StoreInNVM" Click="StoreInNVM_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,640,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
+            <ComboBox x:Name="StoreInNVM_input" HorizontalAlignment="Left" Height="19" Margin="284,640,0,0" VerticalAlignment="Top" Width="90">
+                <ComboBoxItem>Inactive</ComboBoxItem>
+                <ComboBoxItem>active</ComboBoxItem>
+            </ComboBox>
+
+            <CheckBox x:Name="RCS_Threshold_ckb" Content="RCS Threshold" Click="RCSThreshold_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,700,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
+            <ComboBox x:Name="RCS_Threshold_input" HorizontalAlignment="Left" Height="19" Margin="284,700,0,0" VerticalAlignment="Top" Width="90">
+                <ComboBoxItem>Standard</ComboBoxItem>
+                <ComboBoxItem>High sensitivity</ComboBoxItem>
+            </ComboBox>
+
+            <CheckBox x:Name="InvalidClusters_ckb" Content="InvalidClusters" Click="InvalidClusters_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="32,760,0,0" VerticalAlignment="Top" Height="25" Width="180" FontSize="15"/>
+            <ComboBox x:Name="InvalidClusters_input" HorizontalAlignment="Left" Height="19" Margin="284,760,0,0" VerticalAlignment="Top" Width="90">
+                <ComboBoxItem>Disable invalid cluster</ComboBoxItem>
+                <ComboBoxItem>Enable all invalid clusters</ComboBoxItem>
+                <ComboBoxItem>Enable low RCS dynamic</ComboBoxItem>
+                <ComboBoxItem>Enable low RCS static</ComboBoxItem>
+                <ComboBoxItem>Enable invalid range rate</ComboBoxItem>
+                <ComboBoxItem>Enable range 1m</ComboBoxItem>
+                <ComboBoxItem>Enable ego mirror</ComboBoxItem>
+                <ComboBoxItem>Enable wrqpped stationary</ComboBoxItem>
+            </ComboBox>
+            <Button x:Name="Radar_Write_btn" Content="Setting Write" HorizontalAlignment="Left" Height="45" Margin="280,885,0,0" VerticalAlignment="Top" Width="110" Click="Radar_Write_btn_Click"/>
         </Grid>
-        <Grid Margin="566,242,36.714,707" RenderTransformOrigin="0.456,2.789">
-            <TextBox x:Name="Azimuth_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143"/>
-            <TextBox x:Name="Azimuth_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143"/>
+        <Grid x:Name="now_radar_filter" Grid.Column="2">
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="800" Margin="17,60,0,0" VerticalAlignment="Top" Width="373">
+                <Label Content="Radar Filter" FontSize="20" Margin="8.857,25.857,219.143,732.857"/>
+            </Border>
+            <Label x:Name="active" Content="Active" FontWeight="Bold" Margin="62,125,138,850"/>
+            <Label x:Name="min" Content="Min" FontWeight="Bold" Margin="200,125,100,850"/>
+            <Label x:Name="max" Content="Max" FontWeight="Bold" Margin="300,125,0,850"/>
 
+            <Label x:Name="NofObj" Content="NofObj" Margin="62,152,188,820" FontSize="14"/>
+            <Label x:Name="NofObj_Min_value" Content="0" Margin="200,152,100,820" FontSize="14"/>
+            <Label x:Name="NofObj_Max_value" Content="0" Margin="300,152,0,820" FontSize="14"/>
+
+            <Label x:Name="Distance" Content="Distance" Margin="62,197,188,770" FontSize="14"/>
+            <Label x:Name="Distance_Min_value" Content="0" Margin="200,197,100,770" FontSize="14"/>
+            <Label x:Name="Distance_Max_value" Content="0" Margin="300,197,0,770" FontSize="14"/>
+
+            <Label x:Name="Azimuth" Content="Azimuth" Margin="62,242,188,720" FontSize="14"/>
+            <Label x:Name="Azimuth_Min_value" Content="0" Margin="200,242,100,720" FontSize="14"/>
+            <Label x:Name="Azimuth_Max_value" Content="0" Margin="300,242,0,720" FontSize="14"/>
+
+            <Label x:Name="VrelOncome" Content="VrelOncome" Margin="62,287,188,685" FontSize="14"/>
+            <Label x:Name="VrelOncome_Min_value" Content="0" Margin="200,287,100,685" FontSize="14"/>
+            <Label x:Name="VrelOncome_Max_value" Content="0" Margin="300,287,0,685" FontSize="14"/>
+
+            <Label x:Name="VrelDepart" Content="VrelDepart" Margin="62,332,188,640" FontSize="14"/>
+            <Label x:Name="VrelDepart_Min_value" Content="0" Margin="200,332,100,640" FontSize="14"/>
+            <Label x:Name="VrelDepart_Max_value" Content="0" Margin="300,332,0,640" FontSize="14"/>
+
+            <Label x:Name="RCS" Content="RCS" Margin="62,377,188,595" FontSize="14"/>
+            <Label x:Name="RCS_Min_value" Content="0" Margin="200,377,100,595" FontSize="14"/>
+            <Label x:Name="RCS_Max_value" Content="0" Margin="300,377,0,595" FontSize="14"/>
+
+            <Label x:Name="Lifetime" Content="Lifetime" Margin="62,422,188,550" FontSize="14"/>
+            <Label x:Name="Lifetime_Min_value" Content="0" Margin="200,422,100,550" FontSize="14"/>
+            <Label x:Name="Lifetime_Max_value" Content="0" Margin="300,422,0,550" FontSize="14"/>
+
+            <Label x:Name="Size" Content="Size" Margin="62,467,188,505" FontSize="14"/>
+            <Label x:Name="Size_Min_value" Content="0" Margin="200,467,100,505" FontSize="14"/>
+            <Label x:Name="Size_Max_value" Content="0" Margin="300,467,0,505" FontSize="14"/>
+
+            <Label x:Name="ProbExists" Content="ProbExists" Margin="62,512,188,460" FontSize="14"/>
+            <Label x:Name="ProbExists_Min_value" Content="0" Margin="200,512,100,460" FontSize="14"/>
+            <Label x:Name="ProbExists_Max_value" Content="0" Margin="300,512,0,460" FontSize="14"/>
+
+            <Label x:Name="X" Content="X" Margin="62,557,188,415" FontSize="14"/>
+            <Label x:Name="X_Min_value" Content="0" Margin="200,557,100,415" FontSize="14"/>
+            <Label x:Name="X_Max_value" Content="0" Margin="300,557,0,415" FontSize="14"/>
+
+            <Label x:Name="Y" Content="Y" Margin="62,602,188,370" FontSize="14"/>
+            <Label x:Name="Y_Min_value" Content="0" Margin="200,602,100,370" FontSize="14"/>
+            <Label x:Name="Y_Max_value" Content="0" Margin="300,602,0,370" FontSize="14"/>
+
+            <Label x:Name="VYRightLeft" Content="VYRightLeft" Margin="62,651,188,320" FontSize="14"/>
+            <Label x:Name="VYRightLeft_Min_value" Content="0" Margin="200,651,100,320" FontSize="14"/>
+            <Label x:Name="VYRightLeft_Max_value" Content="0" Margin="300,651,0,320" FontSize="14"/>
+
+            <Label x:Name="VXOncome" Content="VXOncome" Margin="62,692,188,275" FontSize="14"/>
+            <Label x:Name="VXOncome_Min_value" Content="0" Margin="200,692,100,275" FontSize="14"/>
+            <Label x:Name="VXOncome_Max_value" Content="0" Margin="300,692,0,275" FontSize="14"/>
+
+            <Label x:Name="VYLeftRight" Content="VYLeftRight" Margin="62,737,188,230" FontSize="14"/>
+            <Label x:Name="VYLeftRight_Min_value" Content="0" Margin="200,737,100,230" FontSize="14"/>
+            <Label x:Name="VYLeftRight_Max_value" Content="0" Margin="300,737,0,230" FontSize="14"/>
+
+            <Label x:Name="VXDepart" Content="VSDepart" Margin="62,782,188,185" FontSize="14"/>
+            <Label x:Name="VXDepart_Min_value" Content="0" Margin="200,782,100,185" FontSize="14"/>
+            <Label x:Name="VXDepart_Max_value" Content="0" Margin="300,782,0,185" FontSize="14"/>
         </Grid>
-        <Grid Margin="566,287,36.714,662" RenderTransformOrigin="0.456,2.789">
-            <TextBox x:Name="VrelOncome_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143"/>
-            <TextBox x:Name="VrelOncome_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143"/>
+        <Grid x:Name="radar_filter_set" Grid.Column="3">
 
+            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="800" Margin="17,60,0,0" VerticalAlignment="Top" Width="373">
+                <Label Content="Radar Fillter Setting" FontSize="20" Margin="9,26,168,733"/>
+            </Border>
+            <Label Content="V" Margin="30,118,334,852" Width="50" Height="30" RenderTransformOrigin="1.27,0.5"/>
+            <Label Content="Min" Margin="154,118,197,852" Width="50" Height="30" RenderTransformOrigin="1.27,0.5"/>
+            <Label Content="Max" Margin="250,118,101,852" Width="50" Height="30" RenderTransformOrigin="1.36,0.65"/>
+            <Label Content="A" Margin="350,118,0,852" Width="50" Height="30" RenderTransformOrigin="1.36,0.65"/>
+
+            <CheckBox x:Name="NofObj_Valid_ckb" Content="NofObj" Click="NofObj_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="30,155,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
+            <Grid Margin="115,152,20,823">
+                <TextBox x:Name="NofObj_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143" Width="90" Height="20"/>
+                <TextBox x:Name="NofObj_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143" Width="90" Height="22"/>
+                <CheckBox x:Name="NofObj_Active_ckb" Click="NofObj_Active_ckb_Checked" HorizontalAlignment="Left" Margin="240,5,0,0" VerticalAlignment="Top" Height="25" Width="30" FontSize="15" Grid.Column="1"/>
+
+            </Grid>
+            <CheckBox x:Name="Distance_Valid_ckb" Content="Distance" Click="Distance_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="30,200,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
+            <Grid Margin="115,197,20,778" RenderTransformOrigin="0.501,1.075">
+                <TextBox x:Name="Distance_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143" Width="90" Height="22" />
+                <TextBox x:Name="Distance_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143" RenderTransformOrigin="0.478,0.857" Width="90" Height="22"/>
+                <CheckBox x:Name="Distance_Active_ckb" Click="Distance_Active_ckb_Checked" HorizontalAlignment="Left" Margin="240,5,0,0" VerticalAlignment="Top" Height="25" Width="30" FontSize="15" Grid.Column="1"/>
+
+            </Grid>
+
+            <CheckBox x:Name="VrelOncome_Valid_ckb" Content="VrelOncome" Click="VrelOncome_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="30,290,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
+            <Grid Margin="115,242,20,733" RenderTransformOrigin="0.456,2.789">
+                <TextBox x:Name="Azimuth_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143" Width="90" Height="22"/>
+                <TextBox x:Name="Azimuth_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143" Width="90" Height="22"/>
+                <CheckBox x:Name="Azimuth_Active_ckb" Click="Azimuth_Active_ckb_Checked" HorizontalAlignment="Left" Margin="240,5,0,0" VerticalAlignment="Top" Height="25" Width="30" FontSize="15" Grid.Column="1"/>
+
+            </Grid>
+            <CheckBox x:Name="Azimuth_Valid_ckb" Content="Azimuth" Click="Azimuth_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="30,245,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
+            <Grid Margin="115,287,20,688" RenderTransformOrigin="0.456,2.789">
+                <TextBox x:Name="VrelOncome_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143" Width="90" Height="22"/>
+                <TextBox x:Name="VrelOncome_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143" Width="90" Height="22"/>
+                <CheckBox x:Name="VrelOncome_Active_ckb" Click="VrelOncome_Active_ckb_Checked" HorizontalAlignment="Left" Margin="240,5,0,0" VerticalAlignment="Top" Height="25" Width="30" FontSize="15" Grid.Column="1"/>
+
+            </Grid>
+            <CheckBox x:Name="VrelDepart_Valid_ckb" Content="VrelDepart" Click="VrelDepart_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="30,335,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
+            <Grid Margin="115,332,20,643" RenderTransformOrigin="0.456,2.789">
+                <TextBox x:Name="VrelDepart_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143" Width="90" Height="22"/>
+                <TextBox x:Name="VrelDepart_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143" Width="90" Height="22"/>
+                <CheckBox x:Name="VrelDepart_Active_ckb" Click="VrelDepart_Active_ckb_Checked" HorizontalAlignment="Left" Margin="240,5,0,0" VerticalAlignment="Top" Height="25" Width="30" FontSize="15" Grid.Column="1"/>
+
+            </Grid>
+            <CheckBox x:Name="RCS_Valid_ckb" Content="RCS" Click="RCS_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="30,380,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
+            <Grid Margin="115,377,20,598" RenderTransformOrigin="0.456,2.789">
+                <TextBox x:Name="RCS_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143" Width="90" Height="22"/>
+                <TextBox x:Name="RCS_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143" Width="90" Height="22"/>
+                <CheckBox x:Name="RCS_Active_ckb" Click="RCS_Active_ckb_Checked" HorizontalAlignment="Left" Margin="240,5,0,0" VerticalAlignment="Top" Height="25" Width="30" FontSize="15" Grid.Column="1"/>
+
+            </Grid>
+            <CheckBox x:Name="Lifetime_Valid_ckb" Content="Lifetime" Click="Lifetime_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="30,425,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
+            <Grid Margin="115,422,20,553" RenderTransformOrigin="0.456,2.789">
+                <TextBox x:Name="Lifetime_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143" Width="90" Height="22"/>
+                <TextBox x:Name="Lifetime_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143" Width="90" Height="22"/>
+                <CheckBox x:Name="Lifetime_Active_ckb" Click="Lifetime_Active_ckb_Checked" HorizontalAlignment="Left" Margin="240,5,0,0" VerticalAlignment="Top" Height="25" Width="30" FontSize="15" Grid.Column="1"/>
+
+            </Grid>
+            <CheckBox x:Name="Size_Valid_ckb" Content="Size" Click="Size_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="30,470,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
+            <Grid Margin="115,467,20,508" RenderTransformOrigin="0.456,2.789">
+                <TextBox x:Name="Size_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143" Width="90" Height="22"/>
+                <TextBox x:Name="Size_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143" Width="90" Height="22"/>
+                <CheckBox x:Name="Size_Active_ckb" Click="Size_Active_ckb_Checked" HorizontalAlignment="Left" Margin="240,5,0,0" VerticalAlignment="Top" Height="25" Width="30" FontSize="15" Grid.Column="1"/>
+
+            </Grid>
+            <CheckBox x:Name="ProbExists_Valid_ckb" Content="ProbExists" Click="ProbExists_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="30,513,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
+            <Grid Margin="115,512,20,463" RenderTransformOrigin="0.456,2.789">
+                <ComboBox x:Name="ProbExists_MIN_input" Width="90" Height="22" Margin="0,0,101,0" VerticalAlignment="Top" Grid.Column="1">
+                    <ComboBoxItem>0 %</ComboBoxItem>
+                    <ComboBoxItem>25%</ComboBoxItem>
+                    <ComboBoxItem>50%</ComboBoxItem>
+                    <ComboBoxItem>75%</ComboBoxItem>
+                    <ComboBoxItem>90%</ComboBoxItem>
+                    <ComboBoxItem>99%</ComboBoxItem>
+                    <ComboBoxItem>99.9%</ComboBoxItem>
+                    <ComboBoxItem>100%</ComboBoxItem>
+                </ComboBox>
+                <ComboBox x:Name="ProbExists_MAX_input" Width="90" Height="22" Margin="101,0,0,0" VerticalAlignment="Top" Grid.Column="1">
+                    <ComboBoxItem>0 %</ComboBoxItem>
+                    <ComboBoxItem>25%</ComboBoxItem>
+                    <ComboBoxItem>50%</ComboBoxItem>
+                    <ComboBoxItem>75%</ComboBoxItem>
+                    <ComboBoxItem>90%</ComboBoxItem>
+                    <ComboBoxItem>99%</ComboBoxItem>
+                    <ComboBoxItem>99.9%</ComboBoxItem>
+                    <ComboBoxItem>100%</ComboBoxItem>
+                </ComboBox>
+                <CheckBox x:Name="ProbExists_Active_ckb" Click="ProbExists_Active_ckb_Checked" HorizontalAlignment="Left" Margin="240,5,0,0" VerticalAlignment="Top" Height="25" Width="30" FontSize="15" Grid.Column="1"/>
+            </Grid>
+            <CheckBox x:Name="Y_Valid_ckb" Content="Y" Click="Y_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="30,605,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
+            <Grid Margin="115,557,20,418" RenderTransformOrigin="0.456,2.789">
+                <TextBox x:Name="X_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143" Width="90" Height="22"/>
+                <TextBox x:Name="X_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143" Width="90" Height="22"/>
+                <CheckBox x:Name="X_Active_ckb" Click="X_Active_ckb_Checked" HorizontalAlignment="Left" Margin="240,5,0,0" VerticalAlignment="Top" Height="25" Width="30" FontSize="15" Grid.Column="1"/>
+
+            </Grid>
+            <CheckBox x:Name="X_Valid_ckb" Content="X" Click="X_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="30,560,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
+            <Grid Margin="115,602,20,373" RenderTransformOrigin="0.456,2.789">
+                <TextBox x:Name="Y_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143" Width="90" Height="22"/>
+                <TextBox x:Name="Y_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143" Width="90" Height="22"/>
+                <CheckBox x:Name="Y_Active_ckb" Click="Y_Active_ckb_Checked" HorizontalAlignment="Left" Margin="240,5,0,0" VerticalAlignment="Top" Height="25" Width="30" FontSize="15" Grid.Column="1"/>
+
+            </Grid>
+            <CheckBox x:Name="VYRightLeft_Valid_ckb" Content="VYRightLeft" Click="VYRightLeft_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="30,654,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
+            <Grid Margin="115,651,20,324" RenderTransformOrigin="0.456,2.789">
+                <TextBox x:Name="VYRightLeft_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143" Width="90" Height="22"/>
+                <TextBox x:Name="VYRightLeft_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143" Width="90" Height="22"/>
+                <CheckBox x:Name="VYRightLeft_Active_ckb" Click="VYRightLeft_Active_ckb_Checked" HorizontalAlignment="Left" Margin="240,5,0,0" VerticalAlignment="Top" Height="25" Width="30" FontSize="15" Grid.Column="1"/>
+
+            </Grid>
+            <CheckBox x:Name="VXOncome_Valid_ckb" Content="VXOncome" Click="VXOncome_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="30,695,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
+            <Grid Margin="115,692,20,283" RenderTransformOrigin="0.456,2.789">
+                <TextBox x:Name="VXOncome_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143" Width="90" Height="22"/>
+                <TextBox x:Name="VXOncome_MAX_input" Height="22" TextWrapping="Wrap" VerticalAlignment="Top" Margin="101,0,0,-0.143" Width="90"/>
+                <CheckBox x:Name="VXOncome_Active_ckb" Click="VXOncome_Active_ckb_Checked" HorizontalAlignment="Left" Margin="240,5,0,0" VerticalAlignment="Top" Height="25" Width="30" FontSize="15" Grid.Column="1"/>
+
+            </Grid>
+            <CheckBox x:Name="VYLeftRight_Valid_ckb" Content="VYLeftRight" Click="VYLeftRight_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="30,740,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
+            <Grid Margin="115,737,20,238" RenderTransformOrigin="0.456,2.789">
+                <TextBox x:Name="VYLeftRight_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143" Width="90" Height="22"/>
+                <TextBox x:Name="VYLeftRight_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143" Width="90" Height="22"/>
+                <CheckBox x:Name="VYLeftRight_Active_ckb" Click="VYLeftRight_Active_ckb_Checked" HorizontalAlignment="Left" Margin="240,5,0,0" VerticalAlignment="Top" Height="25" Width="30" FontSize="15" Grid.Column="1"/>
+
+            </Grid>
+            <CheckBox x:Name="VXDepart_Valid_ckb" Content="VXDepart" Click="VXDepart_Valid_ckb_Checked" HorizontalAlignment="Left" Margin="30,785,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
+            <Grid Margin="115,782,20,193" RenderTransformOrigin="0.456,2.789">
+                <TextBox x:Name="VXDepart_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143" Width="90" Height="22"/>
+                <TextBox x:Name="VXDepart_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143" Width="90" Height="22"/>
+                <CheckBox x:Name="VXDepart_Active_ckb" Click="VXDepart_Active_ckb_Checked" HorizontalAlignment="Left" Margin="240,5,0,0" VerticalAlignment="Top" Height="25" Width="30" FontSize="15" Grid.Column="1"/>
+
+            </Grid>
+
+            <Button x:Name="Filter_Write_btn" Content="Filter Write" HorizontalAlignment="Left" Height="45" Margin="280,885,0,0" VerticalAlignment="Top" Width="110" Click="Filter_Write_btn_Click" Grid.Column="1"/>
         </Grid>
-        <Grid Margin="566,332,36.714,617" RenderTransformOrigin="0.456,2.789">
-            <TextBox x:Name="VrelDepart_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143"/>
-            <TextBox x:Name="VrelDepart_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143"/>
 
-        </Grid>
-        <Grid Margin="566,377,36.714,572" RenderTransformOrigin="0.456,2.789">
-            <TextBox x:Name="RCS_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143"/>
-            <TextBox x:Name="RCS_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143"/>
 
-        </Grid>
-        <Grid Margin="566,422,36.714,527" RenderTransformOrigin="0.456,2.789">
-            <TextBox x:Name="Lifetime_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143"/>
-            <TextBox x:Name="Lifetime_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143"/>
 
-        </Grid>
-        <Grid Margin="566,467,36.714,482" RenderTransformOrigin="0.456,2.789">
-            <TextBox x:Name="Size_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143"/>
-            <TextBox x:Name="Size_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143"/>
 
-        </Grid>
-        <Grid Margin="566,557,36.714,392" RenderTransformOrigin="0.456,2.789">
-            <TextBox x:Name="X_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143"/>
-            <TextBox x:Name="X_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143"/>
 
-        </Grid>
-        <Grid Margin="566,602,36.714,347" RenderTransformOrigin="0.456,2.789">
-            <TextBox x:Name="Y_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143"/>
-            <TextBox x:Name="Y_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143"/>
 
-        </Grid>
-        <Grid Margin="566,651,36.714,298" RenderTransformOrigin="0.456,2.789">
-            <TextBox x:Name="VYRightLeft_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143"/>
-            <TextBox x:Name="VYRightLeft_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143"/>
 
-        </Grid>
-        <Grid Margin="566,692,36.714,257" RenderTransformOrigin="0.456,2.789">
-            <TextBox x:Name="VXOncome_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143"/>
-            <TextBox x:Name="VXOncome_MAX_input" Height="22" TextWrapping="Wrap" VerticalAlignment="Top" Margin="101,0,0,-0.143"/>
 
-        </Grid>
-        <Grid Margin="566,737,36.714,212" RenderTransformOrigin="0.456,2.789">
-            <TextBox x:Name="VYLeftRight_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143"/>
-            <TextBox x:Name="VYLeftRight_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143"/>
 
-        </Grid>
-        <Grid Margin="566,782,36.714,167" RenderTransformOrigin="0.456,2.789">
-            <TextBox x:Name="VXDepart_MIN_input" TextWrapping="Wrap" Margin="0,0,101,-0.143"/>
-            <TextBox x:Name="VXDepart_MAX_input" TextWrapping="Wrap" Margin="101,0,0,-0.143"/>
 
-        </Grid>
-
-        <ComboBox x:Name="ProbExists_MIN_input" Height="19" Margin="566,512,137.714,0" VerticalAlignment="Top">
-            <ComboBoxItem>0 %</ComboBoxItem>
-            <ComboBoxItem>25%</ComboBoxItem>
-            <ComboBoxItem>50%</ComboBoxItem>
-            <ComboBoxItem>75%</ComboBoxItem>
-            <ComboBoxItem>90%</ComboBoxItem>
-            <ComboBoxItem>99%</ComboBoxItem>
-            <ComboBoxItem>99.9%</ComboBoxItem>
-            <ComboBoxItem>100%</ComboBoxItem>
-        </ComboBox>
-        <ComboBox x:Name="ProbExists_MAX_input" Height="19" Margin="667,512,36.714,0" VerticalAlignment="Top">
-            <ComboBoxItem>0 %</ComboBoxItem>
-            <ComboBoxItem>25%</ComboBoxItem>
-            <ComboBoxItem>50%</ComboBoxItem>
-            <ComboBoxItem>75%</ComboBoxItem>
-            <ComboBoxItem>90%</ComboBoxItem>
-            <ComboBoxItem>99%</ComboBoxItem>
-            <ComboBoxItem>99.9%</ComboBoxItem>
-            <ComboBoxItem>100%</ComboBoxItem>
-        </ComboBox>
-        <Label Content="Min" Margin="566,118,137.714,828"/>
-        <Label Content="Max" Margin="667,118,36.714,828"/>
-        <CheckBox x:Name="NofObj_Valid_ckb" Content="NofObj" HorizontalAlignment="Left" Margin="426,152,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
-        <CheckBox x:Name="Distance_Valid_ckb" Content="Distance" HorizontalAlignment="Left" Margin="426,197,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
-        <CheckBox x:Name="VrelOncome_Valid_ckb" Content="VrelOncome" HorizontalAlignment="Left" Margin="426,287,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
-        <CheckBox x:Name="Azimuth_Valid_ckb" Content="Azimuth" HorizontalAlignment="Left" Margin="426,242,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
-        <CheckBox x:Name="VrelDepart_Valid_ckb" Content="VrelDepart" HorizontalAlignment="Left" Margin="426,332,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
-        <CheckBox x:Name="RCS_Valid_ckb" Content="RCS " HorizontalAlignment="Left" Margin="426,377,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
-        <CheckBox x:Name="Lifetime_Valid_ckb" Content="Lifetime" HorizontalAlignment="Left" Margin="426,422,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
-        <CheckBox x:Name="Size_Valid_ckb" Content="Size" HorizontalAlignment="Left" Margin="426,467,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
-        <CheckBox x:Name="ProbExists_Valid_ckb" Content="ProbExists" HorizontalAlignment="Left" Margin="426,512,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
-        <CheckBox x:Name="Y_Valid_ckb" Content="Y" HorizontalAlignment="Left" Margin="426,602,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
-        <CheckBox x:Name="X_Valid_ckb" Content="X" HorizontalAlignment="Left" Margin="426,557,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
-        <CheckBox x:Name="VYRightLeft_Valid_ckb" Content="VYRightLeft" HorizontalAlignment="Left" Margin="426,651,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
-        <CheckBox x:Name="VXOncome_Valid_ckb" Content="VXOncome" HorizontalAlignment="Left" Margin="426,692,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
-        <CheckBox x:Name="VYLeftRight_Valid_ckb" Content="VYLeftRight" HorizontalAlignment="Left" Margin="426,737,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
-        <CheckBox x:Name="VXDepart_Valid_ckb" Content="VXDepart" HorizontalAlignment="Left" Margin="426,782,0,0" VerticalAlignment="Top" Height="25" Width="122" FontSize="15"/>
-        <Label x:Name="MaxDistance_value" Content="0" Margin="220,160,510,786"/>
-        <Label x:Name="SensorID_value" Content="0" Margin="220,220,510,726"/>
-        <Label x:Name="OutputType_value" Content="0" Margin="220,280,510,666"/>
-        <Label x:Name="RadarPower_value" Content="0" Margin="220,340,510,606"/>
-        <Label x:Name="CtrlRelay_value" Content="0" Margin="220,400,510,546"/>
-        <Label x:Name="SendQuality_value" Content="0" Margin="220,460,510,486"/>
-        <Label x:Name="SendExtInfo_value" Content="0" Margin="220,520,510,426"/>
-        <Label x:Name="SortIndex_value" Content="0" Margin="220,580,510,366"/>
-        <Label x:Name="StoreInNVM_value" Content="0" Margin="220,640,510,306"/>
-        <Label x:Name="RCS_Threshold_value" Content="0" Margin="220,700,510,246"/>
-        <Label x:Name="InvalidClusters_value" Content="0" Margin="220,760,510,186"/>
     </Grid>
 </Window>
