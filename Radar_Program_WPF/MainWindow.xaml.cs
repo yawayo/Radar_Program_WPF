@@ -43,6 +43,7 @@ namespace Radar_Program_WPF
         {
             InitializeComponent();
             this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
+            change_btn_state(false);
         }
         void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -129,6 +130,13 @@ namespace Radar_Program_WPF
         private string Msg_60E;
         #endregion
 
+        #region btn 
+        void change_btn_state(bool b)
+        {
+            Radar_Connect_btn.IsEnabled = !b;
+            Radar_Disconnect_btn.IsEnabled = b;
+            Radar_Setting_btn.IsEnabled = b;
+        }
         private void Radar_Connect_btn_Click(object sender, RoutedEventArgs e)
         {
             if (!Radar_status)
@@ -136,6 +144,14 @@ namespace Radar_Program_WPF
                 Radar_Connect();
             }
         }
+        private void Radar_Disconnect_btn_Click(object sender, RoutedEventArgs e)
+        {
+            if (Radar_status)
+            {
+                Radar_Disconnect();
+            }
+        }
+
         private void Data_View_btn_Click(object sender, RoutedEventArgs e)
         {
             main.Cursor = Cursors.Wait;
@@ -158,6 +174,7 @@ namespace Radar_Program_WPF
                 setting_form_close();
             }
         }
+        #endregion
 
         #region radar setting
         private void WriteMessage(TPCANMsg Msg)
@@ -371,9 +388,32 @@ namespace Radar_Program_WPF
                 Radar_status = true;
                 read_Thread_Func();
                 draw_Thread_Func();
+
+                change_btn_state(true);
             }
         }
 
+        private void Radar_Disconnect()
+        {
+            if (Device_set.Radar_Disconnect())
+            {
+                Radar_status = false;
+
+                if (ReadThread != null)
+                {
+                    ReadThread.Abort();
+                    ReadThread.Join();
+                    ReadThread = null;
+                }
+                if (DrawThread != null)
+                {
+                    DrawThread.Abort();
+                    DrawThread.Join();
+                    DrawThread = null;
+                }
+                change_btn_state(false);
+            }
+        }
         private void read_Thread_Func()
         {
             ReadThread = new Thread(new ThreadStart(ReadMessages));
@@ -427,7 +467,7 @@ namespace Radar_Program_WPF
                     };
 
                     Canvas.SetLeft(rect, X);
-                    Canvas.SetTop(rect, Y);
+                    Canvas.SetTop(rect, Data_Draw.ActualHeight - Y);
                     this.Data_Draw.Children.Add(rect);
                 }
             }
@@ -504,20 +544,32 @@ namespace Radar_Program_WPF
                 Device_set.Set_Radar_ID(rs.SensorID);
 
                 #region setting form set Radar state
-                Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(delegate
+                try
                 {
-                    setting_form.MaxDistance_value.Content = rs.MaxDistanceCfg.ToString();
-                    setting_form.SensorID_value.Content = rs.SensorID.ToString();
-                    setting_form.OutputType_value.Content = rs.OutputTypeCfg.ToString();
-                    setting_form.RadarPower_value.Content = rs.RadarPowerCfg.ToString();
-                    setting_form.CtrlRelay_value.Content = rs.CtrlRelayCfg.ToString();
-                    setting_form.SendQuality_value.Content = rs.SendQualityCfg.ToString();
-                    setting_form.SendExtInfo_value.Content = rs.SendExtInfoCfg.ToString();
-                    setting_form.SortIndex_value.Content = rs.SortIndex.ToString();
-                    //setting_form.StoreInNVM_value = rs.
-                    setting_form.RCS_Threshold_value.Content = rs.RCS_Threshold.ToString();
-                    setting_form.InvalidClusters_value.Content = rs.InvalidClusters.ToString();
-                }));
+                    Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(delegate
+                    {
+                        setting_form.NVMReadStatus_value.Content = rs.NVMReadStatus.ToString();
+                        setting_form.NVMWriteStatus_value.Content = rs.NVMwriteStatus.ToString();
+                        setting_form.MaxDistance_value.Content = rs.MaxDistanceCfg.ToString();
+                        setting_form.PersistentError_value.Content = rs.Persistent_Error.ToString();
+                        setting_form.Interference_value.Content = rs.Interference.ToString();
+                        setting_form.TemperatureError_value.Content = rs.Temperature_Error.ToString();
+                        setting_form.TemporaryError_value.Content = rs.Temporary_Error.ToString();
+                        setting_form.VoltageError_value.Content = rs.Voltage_Error.ToString();
+                        setting_form.SensorID_value.Content = rs.SensorID.ToString();
+                        setting_form.SortIndex_value.Content = rs.SortIndex.ToString();
+                        setting_form.RadarPower_value.Content = rs.RadarPowerCfg.ToString();
+                        setting_form.CtrlRelay_value.Content = rs.CtrlRelayCfg.ToString();
+                        setting_form.OutputType_value.Content = rs.OutputTypeCfg.ToString();
+                        setting_form.SendQuality_value.Content = rs.SendQualityCfg.ToString();
+                        setting_form.SendExtInfo_value.Content = rs.SendExtInfoCfg.ToString();
+                        setting_form.MotionRxState_value.Content = rs.MotionRxState.ToString();
+                        setting_form.RCS_Threshold_value.Content = rs.RCS_Threshold.ToString();
+                        setting_form.InvalidClusters_value.Content = rs.InvalidClusters.ToString();
+
+                    }));
+                }
+                catch { }
                 #endregion
             }
         }
@@ -528,6 +580,238 @@ namespace Radar_Program_WPF
             if (Setting_status)
             {
                 Msg_Format.FilterState_Config fsc = Device_set.Msg_format.msg2FilterStateCfg(Msg);
+                Brush brushcolor;
+                try
+                {
+                    switch (fsc.Index)
+                    {
+                        case 0:
+
+                            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(delegate
+                            {
+                                if (fsc.Active == 1) brushcolor = new SolidColorBrush(Color.FromRgb(244, 143, 61));
+                                else brushcolor = new SolidColorBrush(Colors.Black);
+                                setting_form.NofObj.Foreground = brushcolor;
+                                setting_form.NofObj_Min_value.Foreground = brushcolor;
+                                setting_form.NofObj_Max_value.Foreground = brushcolor;
+                                setting_form.NofObj_Min_value.Content = fsc.Min.ToString();
+                                setting_form.NofObj_Max_value.Content = fsc.Max.ToString();
+                            }));
+                            break;
+
+                        case 1:
+                            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(delegate
+                            {
+                                if (fsc.Active == 1) brushcolor = new SolidColorBrush(Color.FromRgb(244, 143, 61));
+                                else brushcolor = new SolidColorBrush(Colors.Black);
+                                setting_form.Distance.Foreground = brushcolor;
+                                setting_form.Distance_Min_value.Foreground = brushcolor;
+                                setting_form.Distance_Max_value.Foreground = brushcolor;
+                                setting_form.Distance_Min_value.Content = fsc.Min.ToString();
+                                setting_form.Distance_Max_value.Content = fsc.Max.ToString();
+                            }));
+                            break;
+
+                        case 2:
+                            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(delegate
+                            {
+                                if (fsc.Active == 1) brushcolor = new SolidColorBrush(Color.FromRgb(244, 143, 61));
+                                else brushcolor = new SolidColorBrush(Colors.Black);
+                                setting_form.Azimuth.Foreground = brushcolor;
+                                setting_form.Azimuth_Min_value.Foreground = brushcolor;
+                                setting_form.Azimuth_Max_value.Foreground = brushcolor;
+                                setting_form.Azimuth_Min_value.Content = fsc.Min.ToString();
+                                setting_form.Azimuth_Max_value.Content = fsc.Max.ToString();
+                            }));
+                            break;
+
+                        case 3:
+                            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(delegate
+                            {
+                                if (fsc.Active == 1) brushcolor = new SolidColorBrush(Color.FromRgb(244, 143, 61));
+                                else brushcolor = new SolidColorBrush(Colors.Black);
+                                setting_form.VrelOncome.Foreground = brushcolor;
+                                setting_form.VrelOncome_Min_value.Foreground = brushcolor;
+                                setting_form.VrelOncome_Max_value.Foreground = brushcolor;
+                                setting_form.VrelOncome_Min_value.Content = fsc.Min.ToString();
+                                setting_form.VrelOncome_Max_value.Content = fsc.Max.ToString();
+                            }));
+                            break;
+
+                        case 4:
+                            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(delegate
+                            {
+                                if (fsc.Active == 1) brushcolor = new SolidColorBrush(Color.FromRgb(244, 143, 61));
+                                else brushcolor = new SolidColorBrush(Colors.Black);
+                                setting_form.VrelDepart.Foreground = brushcolor;
+                                setting_form.VrelDepart_Min_value.Foreground = brushcolor;
+                                setting_form.VrelDepart_Max_value.Foreground = brushcolor;
+                                setting_form.VrelDepart_Min_value.Content = fsc.Min.ToString();
+                                setting_form.VrelDepart_Max_value.Content = fsc.Max.ToString();
+                            }));
+                            break;
+
+                        case 5:
+                            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(delegate
+                            {
+                                if (fsc.Active == 1) brushcolor = new SolidColorBrush(Color.FromRgb(244, 143, 61));
+                                else brushcolor = new SolidColorBrush(Colors.Black);
+                                setting_form.RCS.Foreground = brushcolor;
+                                setting_form.RCS_Min_value.Foreground = brushcolor;
+                                setting_form.RCS_Max_value.Foreground = brushcolor;
+                                setting_form.RCS_Min_value.Content = fsc.Min.ToString();
+                                setting_form.RCS_Max_value.Content = fsc.Max.ToString();
+                            }));
+                            break;
+
+                        case 6:
+                            //setting_form.Filter_Lifetime_MIN_value.Text = string.Format("{0:N1}", (float)min * 0.1);
+                            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(delegate
+                            {
+                                if (fsc.Active == 1) brushcolor = new SolidColorBrush(Color.FromRgb(244, 143, 61));
+                                else brushcolor = new SolidColorBrush(Colors.Black);
+                                setting_form.Lifetime.Foreground = brushcolor;
+                                setting_form.Lifetime_Min_value.Foreground = brushcolor;
+                                setting_form.Lifetime_Max_value.Foreground = brushcolor;
+                                setting_form.Lifetime_Min_value.Content = fsc.Min.ToString();
+                                setting_form.Lifetime_Max_value.Content = fsc.Max.ToString();
+                            }));
+                            break;
+
+                        case 7:
+                            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(delegate
+                            {
+                                if (fsc.Active == 1) brushcolor = new SolidColorBrush(Color.FromRgb(244, 143, 61));
+                                else brushcolor = new SolidColorBrush(Colors.Black);
+                                setting_form.Size.Foreground = brushcolor;
+                                setting_form.Size_Min_value.Foreground = brushcolor;
+                                setting_form.Size_Max_value.Foreground = brushcolor;
+                                setting_form.Size_Min_value.Content = fsc.Min.ToString();
+                                setting_form.Size_Max_value.Content = fsc.Max.ToString();
+                            }));
+                            break;
+
+                        case 8:
+                            string min_value = "", max_value = "";
+                            switch (fsc.Min)
+                            {
+                                case 0: min_value = "0%"; break;
+                                case 1: min_value = "25%"; break;
+                                case 2: min_value = "50%"; break;
+                                case 3: min_value = "75%"; break;
+                                case 4: min_value = "90%"; break;
+                                case 5: min_value = "99%"; break;
+                                case 6: min_value = "99.9%"; break;
+                                case 7: min_value = "100%"; break;
+                                default: break;
+                            }
+                            switch (fsc.Max)
+                            {
+                                case 0: max_value = "0%"; break;
+                                case 1: max_value = "25%"; break;
+                                case 2: max_value = "50%"; break;
+                                case 3: max_value = "75%"; break;
+                                case 4: max_value = "90%"; break;
+                                case 5: max_value = "99%"; break;
+                                case 6: max_value = "99.9%"; break;
+                                case 7: max_value = "100%"; break;
+                                default: break;
+                            }
+                            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(delegate
+                            {
+                                if (fsc.Active == 1) brushcolor = new SolidColorBrush(Color.FromRgb(244, 143, 61));
+                                else brushcolor = new SolidColorBrush(Colors.Black);
+                                setting_form.ProbExists.Foreground = brushcolor;
+                                setting_form.ProbExists_Min_value.Foreground = brushcolor;
+                                setting_form.ProbExists_Max_value.Foreground = brushcolor;
+                                setting_form.ProbExists_Min_value.Content = min_value;
+                                setting_form.ProbExists_Max_value.Content = max_value;
+                            }));
+                            break;
+
+                        case 9:
+                            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(delegate
+                            {
+                                if (fsc.Active == 1) brushcolor = new SolidColorBrush(Color.FromRgb(244, 143, 61));
+                                else brushcolor = new SolidColorBrush(Colors.Black);
+                                setting_form.Y.Foreground = brushcolor;
+                                setting_form.Y_Min_value.Foreground = brushcolor;
+                                setting_form.Y_Max_value.Foreground = brushcolor;
+                                setting_form.Y_Min_value.Content = fsc.Min.ToString();
+                                setting_form.Y_Max_value.Content = fsc.Max.ToString();
+                            }));
+                            break;
+
+                        case 10:
+                            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(delegate
+                            {
+                                if (fsc.Active == 1) brushcolor = new SolidColorBrush(Color.FromRgb(244, 143, 61));
+                                else brushcolor = new SolidColorBrush(Colors.Black);
+                                setting_form.X.Foreground = brushcolor;
+                                setting_form.X_Min_value.Foreground = brushcolor;
+                                setting_form.X_Max_value.Foreground = brushcolor;
+                                setting_form.X_Min_value.Content = fsc.Min.ToString();
+                                setting_form.X_Max_value.Content = fsc.Max.ToString();
+                            }));
+                            break;
+
+                        case 11:
+                            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(delegate
+                            {
+                                if (fsc.Active == 1) brushcolor = new SolidColorBrush(Color.FromRgb(244, 143, 61));
+                                else brushcolor = new SolidColorBrush(Colors.Black);
+                                setting_form.VYRightLeft.Foreground = brushcolor;
+                                setting_form.VYRightLeft_Min_value.Foreground = brushcolor;
+                                setting_form.VYRightLeft_Max_value.Foreground = brushcolor;
+                                setting_form.VYRightLeft_Min_value.Content = fsc.Min.ToString();
+                                setting_form.VYRightLeft_Max_value.Content = fsc.Max.ToString();
+                            }));
+                            break;
+
+                        case 12:
+                            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(delegate
+                            {
+                                if (fsc.Active == 1) brushcolor = new SolidColorBrush(Color.FromRgb(244, 143, 61));
+                                else brushcolor = new SolidColorBrush(Colors.Black);
+                                setting_form.VXOncome.Foreground = brushcolor;
+                                setting_form.VXOncome_Min_value.Foreground = brushcolor;
+                                setting_form.VXOncome_Max_value.Foreground = brushcolor;
+                                setting_form.VXOncome_Min_value.Content = fsc.Min.ToString();
+                                setting_form.VXOncome_Max_value.Content = fsc.Max.ToString();
+                            }));
+                            break;
+
+                        case 13:
+                            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(delegate
+                            {
+                                if (fsc.Active == 1) brushcolor = new SolidColorBrush(Color.FromRgb(244, 143, 61));
+                                else brushcolor = new SolidColorBrush(Colors.Black);
+                                setting_form.VYLeftRight.Foreground = brushcolor;
+                                setting_form.VYLeftRight_Min_value.Foreground = brushcolor;
+                                setting_form.VYLeftRight_Max_value.Foreground = brushcolor;
+                                setting_form.VYLeftRight_Min_value.Content = fsc.Min.ToString();
+                                setting_form.VYLeftRight_Max_value.Content = fsc.Max.ToString();
+                            }));
+                            break;
+
+                        case 14:
+                            Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(delegate
+                            {
+                                if (fsc.Active == 1) brushcolor = new SolidColorBrush(Color.FromRgb(244, 143, 61));
+                                else brushcolor = new SolidColorBrush(Colors.Black);
+                                setting_form.VXDepart.Foreground = brushcolor;
+                                setting_form.VXDepart_Min_value.Foreground = brushcolor;
+                                setting_form.VXDepart_Max_value.Foreground = brushcolor;
+                                setting_form.VXDepart_Min_value.Content = fsc.Min.ToString();
+                                setting_form.VXDepart_Max_value.Content = fsc.Max.ToString();
+                            }));
+                            break;
+
+                        default:
+                            break;
+                    }
+                }
+                catch { }
             }
         }
         #endregion
@@ -738,13 +1022,18 @@ namespace Radar_Program_WPF
                 setting_form.Write_Radar += new Setting.Write_Radar_Handler(write_RadarCfg);
                 setting_form.Write_Filter += new Setting.Write_Filter_Hendler(write_FilterCfg);
                 setting_form.Closed += setting_form_closed;
+                // dummy filter
+                if (Radar_status)
+                    write_FilterCfg(true);
                 setting_form.Show();
             }
+            
         }
         private void setting_form_closed(object sender, EventArgs e)
         {
             setting_form_close();
         }
+
         private void setting_form_close()
         {
             Setting_status = false;

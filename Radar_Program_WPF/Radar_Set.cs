@@ -97,9 +97,9 @@ namespace Radar_Program_WPF
 
         #region DB method
         public void Initialize_DB_Value(string IP = "127.0.0.1",
-            string PORT = "9591",
+            string PORT = "3306",
             string ID = "root",
-            string PW = "cody0901")
+            string PW = "wjsthwjd0105!")
         {
             Set_DB_Server(IP);
             Set_DB_Port(PORT);
@@ -116,7 +116,7 @@ namespace Radar_Program_WPF
             Database = new MySqlConnection(ConStr);
             if (make_DB())
                 if (make_Table())
-                    return true;
+                return true;
 
             return false;
         }
@@ -124,20 +124,21 @@ namespace Radar_Program_WPF
         {
             Database.Open();
             MySqlCommand createDB_cmd = Database.CreateCommand();
-            createDB_cmd.CommandText = "CREATE DATABASE IF NOT EXISTS RADAR;";
+            createDB_cmd.CommandText = "CREATE DATABASE IF NOT EXISTS RADAR; use radar";
             MySqlCommand useDB_cmd = Database.CreateCommand();
             useDB_cmd.CommandText = "USE RADAR;";
 
-            try
-            {
+            try{
                 createDB_cmd.ExecuteNonQuery();
-                useDB_cmd.ExecuteNonQuery();
-            }
-            catch
+            }catch
+            { }
+
+            /*try
             {
-                Database.Close();
-                return false;
-            }
+                useDB_cmd.ExecuteNonQuery();
+            } catch
+            { }*/
+
             Database.Close();
             return true;
         }
@@ -179,7 +180,7 @@ namespace Radar_Program_WPF
             catch
             {
                 Database.Close();
-                return false;
+                //return false;
             }
             Database.Close();
             return true;
@@ -189,7 +190,7 @@ namespace Radar_Program_WPF
             Database.Open();
             MySqlCommand cmd = Database.CreateCommand();
 
-            cmd.CommandText = data + ";";
+            cmd.CommandText = "use radar;" + data + ";";
 
             System.Console.WriteLine("time: {0}", cmd.CommandText);
 
