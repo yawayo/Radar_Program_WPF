@@ -43,7 +43,7 @@ namespace Radar_Program_WPF
         {
             InitializeComponent();
             this.Loaded += new RoutedEventHandler(MainWindow_Loaded);
-            change_btn_state(false);
+           // change_btn_state(false);
         }
         void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -392,7 +392,7 @@ namespace Radar_Program_WPF
 
                 Radar_status = true;
                 read_Thread_Func();
-                draw_Thread_Func();
+                //draw_Thread_Func();
 
                 change_btn_state(true);
             }
@@ -462,7 +462,8 @@ namespace Radar_Program_WPF
                 {
                     try
                     {
-                        Msg_Format.Object_inf last_data = Device_set.Obj_inf[i].Last.Value;
+                        //Msg_Format.Object_inf last_data = Device_set.Obj_inf[i].Last.Value;
+                        Msg_Format.Object_inf last_data = this_frame_data[i];
 
                         double X = ((-1 * last_data.DistLat) * (Data_Draw.ActualWidth / max_lat)) + (Data_Draw.ActualWidth / 2);
                         double Y = last_data.DistLong * (Data_Draw.ActualHeight / max_long);
@@ -830,10 +831,13 @@ namespace Radar_Program_WPF
             Aframe_timestamp = DateTime.Now;
             if (first_A)
             {
-                if (Text_status)
-                    update_Textbox_msg();
-
                 save_this_frame_obj_data();
+                if (Text_status)
+                {
+                    update_Textbox_msg();
+                }
+
+                Clear_thisframe_data();
             }
 
             Msg_Format.Object_Status os = Device_set.Msg_format.msg2ObjectStatus(Msg);
@@ -938,6 +942,12 @@ namespace Radar_Program_WPF
         }
         private void save_this_frame_obj_data()
         {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+            {
+                ClearCanvas();
+                DrawCube();
+            }));
+
             bool exist_DB = false;
             string sql = "INSERT INTO " + Device_set.table + " VALUES";
             
@@ -981,7 +991,6 @@ namespace Radar_Program_WPF
                 sql = sql.TrimEnd(',');
                 Device_set.save_DB(sql);
             }
-            Clear_thisframe_data();
         }
         #endregion
 
