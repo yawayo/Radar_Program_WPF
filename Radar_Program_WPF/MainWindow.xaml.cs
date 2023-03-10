@@ -387,7 +387,7 @@ namespace Radar_Program_WPF
 
                 Radar_status = true;
                 read_Thread_Func();
-                draw_Thread_Func();
+                //draw_Thread_Func();
 
                 change_btn_state(true);
             }
@@ -453,9 +453,9 @@ namespace Radar_Program_WPF
         {
             for (int i = 0; i < 100; i++)
             {
-                if (Device_set.Obj_inf[i].Count != 0)
+                if(Device_set.Obj_inf[i].Count != 0)
                 {
-                    Msg_Format.Object_inf last_data = Device_set.Obj_inf[i].Last.Value;
+                    Msg_Format.Object_inf last_data = this_frame_data[i];//Device_set.Obj_inf[i].Last.Value;
 
                     double X = ((-1 * last_data.DistLat) * (Data_Draw.ActualWidth / max_lat)) + (Data_Draw.ActualWidth / 2);
                     double Y = last_data.DistLong * (Data_Draw.ActualHeight / max_long);
@@ -929,6 +929,12 @@ namespace Radar_Program_WPF
         }
         private void save_this_frame_obj_data()
         {
+            Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
+            {
+                ClearCanvas();
+                DrawCube();
+            }));
+
             bool exist_DB = false;
             string sql = "INSERT INTO " + Device_set.table + " VALUES";
             
