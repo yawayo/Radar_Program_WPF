@@ -191,13 +191,9 @@ namespace Radar_Program_WPF
             MySqlCommand cmd = Database.CreateCommand();
 
             cmd.CommandText = "use radar;" + data + ";";
-
-            System.Console.WriteLine("time: {0}", cmd.CommandText);
-
             try
             {
                 cmd.ExecuteNonQuery();
-
             }
             catch
             {
