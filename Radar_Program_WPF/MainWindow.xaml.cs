@@ -9,6 +9,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using MsgFormat;
 using Peak.Can.Basic;
+using MySql.Data.MySqlClient;
 
 namespace Radar_Program_WPF
 {
@@ -34,6 +35,8 @@ namespace Radar_Program_WPF
         private DateTime Aframe_timestamp = DateTime.Now;
         private Msg_Format.Object_inf[] this_frame_data = new Msg_Format.Object_inf[100];
         private bool[] exist = new bool[100];
+
+
 
 
         #region 창 크기에 따른 컨트롤 크기 조절
@@ -136,6 +139,7 @@ namespace Radar_Program_WPF
             Radar_Connect_btn.IsEnabled = !b;
             Radar_Disconnect_btn.IsEnabled = b;
             Radar_Setting_btn.IsEnabled = b;
+            Data_Save_Server_btn.IsEnabled = !b;
         }
         private void Radar_Connect_btn_Click(object sender, RoutedEventArgs e)
         {
@@ -177,7 +181,13 @@ namespace Radar_Program_WPF
 
         private void Data_Save_Server_btn_Click(object sender, RoutedEventArgs e)
         {
+            Device_set.Initialize_DB_Value(
+                "127.0.0.1", "9591", "root", "cody0901",
+                "183.99.41.239", "23306", "root", "hbrain0372!");
+            Device_set.localDB_Connect();
+            Device_set.serverDB_Connect();
 
+            Device_set.update_Data_to_ServerDB();
         }
         #endregion
 
@@ -387,8 +397,10 @@ namespace Radar_Program_WPF
 
             if (Device_set.Radar_Connect())
             {
-                Device_set.Initialize_DB_Value(); //20230211
-                Device_set.DB_Connect(); //20230211
+                Device_set.Initialize_DB_Value(
+                    "127.0.0.1", "9591", "root", "cody0901",
+                    "183.99.41.239", "23306", "root", "hbrain0372!");
+                Device_set.localDB_Connect();
 
                 Radar_status = true;
                 read_Thread_Func();
@@ -834,8 +846,9 @@ namespace Radar_Program_WPF
                 save_this_frame_obj_data();
                 if (Text_status)
                 {
-                    update_Textbox_msg();
+                    text_this_frame_obj_data();
                 }
+                draw_this_frame_obj_data();
 
                 Clear_thisframe_data();
             }
@@ -940,16 +953,18 @@ namespace Radar_Program_WPF
                 this_frame_data[i] = default(Msg_Format.Object_inf);
             System.Array.Clear(exist, 0, sizeof(bool) * 100);
         }
-        private void save_this_frame_obj_data()
+        private void draw_this_frame_obj_data()
         {
             Dispatcher.BeginInvoke(DispatcherPriority.Normal, new Action(() =>
             {
                 ClearCanvas();
                 DrawCube();
             }));
-
+        }
+        private void save_this_frame_obj_data()
+        {
             bool exist_DB = false;
-            string sql = "INSERT INTO " + Device_set.table + " VALUES";
+            string sql = "INSERT INTO " + Device_set.local_TABLENAME + " VALUES";
             
             for (int i = 0; i < 100; i++)
             {
@@ -989,7 +1004,7 @@ namespace Radar_Program_WPF
             if(exist_DB)
             {
                 sql = sql.TrimEnd(',');
-                Device_set.save_DB(sql);
+                Device_set.save_localDB(sql);
             }
         }
         #endregion
@@ -1006,7 +1021,7 @@ namespace Radar_Program_WPF
             main.Cursor = Cursors.Arrow;
             Data_View_btn.Cursor = Cursors.Arrow;
         }
-        public void update_Textbox_msg()
+        public void text_this_frame_obj_data()
         {
             string str = "";
             for (int i = 0; i < 100; i++)

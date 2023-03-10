@@ -42,10 +42,10 @@
                 <TextBox x:Name="serverIP_input" Text="183.99.41.239" Margin="103,5,280,100" Height="20" Width="100"/>
                 <Label Content="Server_PORT : " Margin="10,38,380,78" FontSize="10"/>
                 <TextBox x:Name="serverPORT_input" Text="23306" Margin="103,33,280,78"  Height="20" Width="100"/>
-                <Label Content="Server_USER : " Margin="10,63,380,53" FontSize="10"/>
-                <TextBox x:Name="serverUSER_input" Text="root" Margin="103,58,280,53"  Height="20" Width="100"/>
-                <Label Content="Server_PSWD : " Margin="10,88,380,28" FontSize="10"/>
-                <PasswordBox x:Name="serverPSWD_input" Margin="103,83,280,28"  Height="20" Width="100"/>
+                <Label Content="Server_ID : " Margin="10,63,380,53" FontSize="10"/>
+                <TextBox x:Name="serverID_input" Text="root" Margin="103,58,280,53"  Height="20" Width="100"/>
+                <Label Content="Server_PW : " Margin="10,88,380,28" FontSize="10"/>
+                <PasswordBox x:Name="serverPW_input" Margin="103,83,280,28"  Height="20" Width="100"/>
                 <Button x:Name="Data_Save_Server_btn" Click="Data_Save_Server_btn_Click" Content="Data Save&#xD;&#xA;(Local &gt; Server)" Margin="228,13,155,80" Background="#C0C0C0" Height="40" Width="100"/>
             </Grid>
         </Grid>

@@ -32,14 +32,24 @@ namespace Radar_Program_WPF
         public Msg_Format Msg_format = new Msg_Format();
         #endregion
         #region DB
-        private string DB_Server;
-        private string DB_Port;
-        private string DB_ID;
-        private string DB_PW;
-
-        private MySqlConnection Database;
-        public string table;
-
+        #region Local DB
+        private MySqlConnection local_DB;
+        private string local_IP = "127.0.0.1";
+        private string local_PORT = "9591";
+        private string local_ID = "root";
+        private string local_PW = "cody0901";
+        public string local_DBNAME = "RADAR";
+        public string local_TABLENAME = "OBJ_INFO";
+        #endregion
+        #region Server DB
+        private MySqlConnection server_DB;
+        private string server_IP = "183.99.41.239";
+        private string server_PORT = "23306";
+        private string server_ID = "root";
+        private string server_PW = "hbrain0372!";
+        public string server_DBNAME = "RADAR";
+        public string server_TABLENAME = "REAL_DATA";
+        #endregion
         #endregion
         #region obj info
         public LinkedList<Msg_Format.Object_inf>[] Obj_inf = new LinkedList<Msg_Format.Object_inf>[100];
@@ -96,58 +106,59 @@ namespace Radar_Program_WPF
         #endregion
 
         #region DB method
-        public void Initialize_DB_Value(string IP = "127.0.0.1",
-            string PORT = "9591",
-            string ID = "root",
-            string PW = "cody0901")
+        public void Initialize_DB_Value(
+            string localIP = "127.0.0.1", string localPORT = "9591", string localID = "root", string localPW = "cody0901",
+            string serverIP = "183.99.41.239", string serverPORT = "23306", string serverID = "root", string serverPW = "hbrain0372!")
         {
-            Set_DB_Server(IP);
-            Set_DB_Port(PORT);
-            Set_DB_ID(ID);
-            Set_DB_PW(PW);
+            Set_localDB_IP(localIP);
+            Set_localDB_PORT(localPORT);
+            Set_localDB_ID(localID);
+            Set_localDB_PW(localPW);
+            Set_serverDB_IP(serverIP);
+            Set_serverDB_PORT(serverPORT);
+            Set_serverDB_ID(serverID);
+            Set_serverDB_PW(serverPW);
         }
-        public bool DB_Connect()
+        #region local DB
+        public void localDB_Connect()
         {
-            string ConStr = "Server = " + Get_DB_Server() +
-                   ";port = " + Get_DB_Port() +
-                   ";uid = " + Get_DB_ID() +
-                   ";pwd = " + Get_DB_PW() + ";";
+            make_localDB();
 
-            Database = new MySqlConnection(ConStr);
-            if (make_DB())
-                if (make_Table())
-                return true;
+            string ConStr = "Server = " + Get_localDB_IP() +
+                    ";port = " + Get_localDB_PORT() +
+                ";database = " + local_DBNAME +
+                    ";uid = " + Get_localDB_ID() +
+                    ";pwd = " + Get_localDB_PW() + ";";
 
-            return false;
+            local_DB = new MySqlConnection(ConStr);
+            make_localTable();
         }
-        private bool make_DB()
+        private void make_localDB()
         {
-            Database.Open();
-            MySqlCommand createDB_cmd = Database.CreateCommand();
-            createDB_cmd.CommandText = "CREATE DATABASE IF NOT EXISTS RADAR; use radar";
-            MySqlCommand useDB_cmd = Database.CreateCommand();
-            useDB_cmd.CommandText = "USE RADAR;";
+            string ConStr = "Server = " + Get_localDB_IP() +
+                    ";port = " + Get_localDB_PORT() +
+                    ";uid = " + Get_localDB_ID() +
+                    ";pwd = " + Get_localDB_PW() + ";";
 
-            try{
-                createDB_cmd.ExecuteNonQuery();
-            }catch
-            { }
-
-            /*try
+            MySqlConnection create_localDB = new MySqlConnection(ConStr);
+            create_localDB.Open();
+            MySqlCommand cmd = create_localDB.CreateCommand();
+            cmd.CommandText = "CREATE DATABASE IF NOT EXISTS " + local_DBNAME + ";";
+            try
             {
-                useDB_cmd.ExecuteNonQuery();
-            } catch
-            { }*/
-
-            Database.Close();
-            return true;
+                cmd.ExecuteNonQuery();
+            }
+            catch
+            {
+                System.Console.WriteLine("make local DB ERROR");
+            }
+            create_localDB.Close();
         }
-        private bool make_Table()
+        private void make_localTable()
         {
-            Database.Open();
-            table = "OBJ_INFO";
-            MySqlCommand cmd = Database.CreateCommand();
-            cmd.CommandText = "CREATE TABLE IF NOT EXISTS " + table + "(" +
+            local_DB.Open();
+            MySqlCommand cmd = local_DB.CreateCommand();
+            cmd.CommandText = "CREATE TABLE IF NOT EXISTS " + local_TABLENAME + "(" +
                 "TIME DATETIME(3) NOT NULL," +
                 "ID INT NOT NULL," +
                 "DISTLONG DOUBLE DEFAULT NULL," +
@@ -179,31 +190,27 @@ namespace Radar_Program_WPF
             }
             catch
             {
-                Database.Close();
-                //return false;
+                System.Console.WriteLine("make local table ERROR");
             }
-            Database.Close();
-            return true;
+            local_DB.Close();
         }
-        public bool save_DB(string data)
+        public void save_localDB(string data)
         {
-            Database.Open();
-            MySqlCommand cmd = Database.CreateCommand();
+            local_DB.Open();
+            MySqlCommand cmd = local_DB.CreateCommand();
 
-            cmd.CommandText = "use radar;" + data + ";";
+            cmd.CommandText = data + ";";
             try
             {
                 cmd.ExecuteNonQuery();
             }
             catch
             {
-                Database.Close();
-                return false;
+                System.Console.WriteLine("save local DB ERROR");
             }
-            Database.Close();
-            return true;
+            local_DB.Close();
         }
-        public bool DB_Disconnect()
+        public bool localDB_Disconnect()
         {
             /*
             try
@@ -218,6 +225,164 @@ namespace Radar_Program_WPF
             */
             return true;
         }
+        #endregion
+        #region server DB
+        public void serverDB_Connect()
+        {
+            make_serverDB();
+
+            string ConStr = "Server = " + Get_serverDB_IP() +
+                ";port = " + Get_serverDB_PORT() +
+                ";database = " + server_DBNAME +
+                ";uid = " + Get_serverDB_ID() +
+                ";pwd = " + Get_serverDB_PW() + ";";
+            server_DB = new MySqlConnection(ConStr);
+            make_serverTable();
+        }
+        private void make_serverDB()
+        {
+            string ConStr = "Server = " + Get_serverDB_IP() +
+                ";port = " + Get_serverDB_PORT() +
+                ";uid = " + Get_serverDB_ID() +
+                ";pwd = " + Get_serverDB_PW() + ";";
+
+            MySqlConnection create_serverDB = new MySqlConnection(ConStr);
+            create_serverDB.Open();
+            MySqlCommand cmd = create_serverDB.CreateCommand();
+            cmd.CommandText = "CREATE DATABASE IF NOT EXISTS " + server_DBNAME + ";";
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch
+            {
+                System.Console.WriteLine("make local DB ERROR");
+            }
+            create_serverDB.Close();
+        }
+        private void make_serverTable()
+        {
+            server_DB.Open();
+            MySqlCommand cmd = server_DB.CreateCommand();
+            cmd.CommandText = "CREATE TABLE IF NOT EXISTS " + server_TABLENAME + "(" +
+                "TIME DATETIME(3) NOT NULL," +
+                "ID INT NOT NULL," +
+                "DISTLONG DOUBLE DEFAULT NULL," +
+                "DISTLAT DOUBLE DEFAULT NULL," +
+                "VRELLONG DOUBLE DEFAULT NULL," +
+                "VRELLAT DOUBLE DEFAULT NULL," +
+                "DYNPROP INT DEFAULT NULL," +
+                "RCS DOUBLE DEFAULT NULL," +
+                "DISTLAT_RMS INT DEFAULT NULL," +
+                "DISTLONG_RMS INT DEFAULT NULL," +
+                "VRELLAT_RMS INT DEFAULT NULL," +
+                "VRELLONG_RMS INT DEFAULT NULL," +
+                "ARELLAT_RMS INT DEFAULT NULL," +
+                "ARELLONG_RMS INT DEFAULT NULL," +
+                "ORIENTATION_RMS INT DEFAULT NULL," +
+                "MIRRORPROB INT DEFAULT NULL," +
+                "PROBOFEXIST INT DEFAULT NULL," +
+                "MEASSTATE INT DEFAULT NULL," +
+                "ARELLONG DOUBLE DEFAULT NULL," +
+                "ARELLAT DOUBLE DEFAULT NULL," +
+                "CLASS INT DEFAULT NULL," +
+                "ORIEMTATIONANGLE DOUBLE DEFAULT NULL," +
+                "LENGTH DOUBLE DEFAULT NULL," +
+                "WIDTH DOUBLE DEFAULT NULL," +
+                "PRIMARY KEY(TIME, ID));";
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch
+            {
+                System.Console.WriteLine("make server table ERROR");
+            }
+            server_DB.Close();
+        }
+        public void update_Data_to_ServerDB()
+        {
+            try
+            {
+                local_DB.Open();
+                string query = "SELECT * FROM " + local_TABLENAME + ";";
+
+                using (MySqlCommand cmd = new MySqlCommand(query, local_DB))
+                {
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        string sql = "INSERT INTO " + server_TABLENAME + " VALUES";
+                        int count = 0;
+                        while (reader.Read())
+                        {
+
+                            sql += "('" + ((DateTime)reader["TIME"]).ToString("yyyy-MM-dd HH:mm:ss.fff") + "', " +
+                                                reader["ID"] + ", " + reader["DISTLONG"] + ", " +
+                                                reader["DISTLAT"] + ", " + reader["VRELLONG"] + ", " +
+                                                reader["VRELLAT"] + ", " + reader["DYNPROP"] + ", " +
+                                                reader["RCS"] + ", " + reader["DISTLAT_RMS"] + ", " +
+                                                reader["DISTLONG_RMS"] + ", " + reader["VRELLAT_RMS"] + ", " +
+                                                reader["VRELLONG_RMS"] + ", " + reader["ARELLAT_RMS"] + ", " +
+                                                reader["ARELLONG_RMS"] + ", " + reader["ORIENTATION_RMS"] + ", " +
+                                                reader["MIRRORPROB"] + ", " + reader["PROBOFEXIST"] + ", " +
+                                                reader["MEASSTATE"] + ", " + reader["ARELLONG"] + ", " +
+                                                reader["ARELLAT"] + ", " + reader["CLASS"] + ", " +
+                                                reader["ORIEMTATIONANGLE"] + ", " + reader["LENGTH"] + ", " +
+                                                reader["WIDTH"] +
+                                                "),";
+
+                            count++;
+                            if(count >= 1000)
+                            {
+                                sql = sql.TrimEnd(',');
+                                save_serverDB(sql);
+                                
+                                sql = "INSERT INTO " + server_TABLENAME + " VALUES";
+                                count = 0;
+                            }
+                        }
+                        sql = sql.TrimEnd(',');
+                        save_serverDB(sql);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                System.Console.WriteLine("update Data to Server DB ERROR");
+            }
+        }
+        public void save_serverDB(string data)
+        {
+            server_DB.Open();
+            MySqlCommand cmd = server_DB.CreateCommand();
+
+            cmd.CommandText = data + ";";
+            try
+            {
+                cmd.ExecuteNonQuery();
+            }
+            catch
+            {
+                System.Console.WriteLine("save local DB ERROR");
+            }
+            server_DB.Close();
+        }
+        public bool serverDB_Disconnect()
+        {
+            /*
+            try
+            {
+                Database.Close();
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+            */
+            return true;
+        }
+        #endregion
         #endregion
 
         #region control member
@@ -273,38 +438,74 @@ namespace Radar_Program_WPF
         }
         #endregion
         #region DB
-        public string Get_DB_ID()
+        #region local DB
+        public string Get_localDB_IP()
         {
-            return DB_ID;
+            return local_IP;
         }
-        public void Set_DB_ID(string input)
+        public void Set_localDB_IP(string input)
         {
-            DB_ID = input;
+            local_IP = input;
         }
-        public string Get_DB_PW()
+        public string Get_localDB_PORT()
         {
-            return DB_PW;
+            return local_PORT;
         }
-        public void Set_DB_PW(string input)
+        public void Set_localDB_PORT(string input)
         {
-            DB_PW = input;
+            local_PORT = input;
         }
-        public string Get_DB_Server()
+        public string Get_localDB_ID()
         {
-            return DB_Server;
+            return local_ID;
         }
-        public void Set_DB_Server(string input)
+        public void Set_localDB_ID(string input)
         {
-            DB_Server = input;
+            local_ID = input;
         }
-        public string Get_DB_Port()
+        public string Get_localDB_PW()
         {
-            return DB_Port;
+            return local_PW;
         }
-        public void Set_DB_Port(string input)
+        public void Set_localDB_PW(string input)
         {
-            DB_Port = input;
+            local_PW = input;
         }
+        #endregion
+        #region server DB
+        public string Get_serverDB_IP()
+        {
+            return server_IP;
+        }
+        public void Set_serverDB_IP(string input)
+        {
+            server_IP = input;
+        }
+        public string Get_serverDB_PORT()
+        {
+            return server_PORT;
+        }
+        public void Set_serverDB_PORT(string input)
+        {
+            server_PORT = input;
+        }
+        public string Get_serverDB_ID()
+        {
+            return server_ID;
+        }
+        public void Set_serverDB_ID(string input)
+        {
+            server_ID = input;
+        }
+        public string Get_serverDB_PW()
+        {
+            return server_PW;
+        }
+        public void Set_serverDB_PW(string input)
+        {
+            server_PW = input;
+        }
+        #endregion
         #endregion
         #endregion
     }
