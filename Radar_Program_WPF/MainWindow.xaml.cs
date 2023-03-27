@@ -5,18 +5,23 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using MsgFormat;
 using Peak.Can.Basic;
 using MySql.Data.MySqlClient;
+using System.Collections.Generic;
+using OpenCvSharp;
+using OpenCvSharp.WpfExtensions;
+using System.Threading.Tasks;
 
 namespace Radar_Program_WPF
 {
     /// <summary>
     /// MainWindow.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : System.Windows.Window
     {
         private bool Radar_status = false;
         private readonly Radar_Set Device_set = new Radar_Set();
@@ -27,7 +32,7 @@ namespace Radar_Program_WPF
         private bool Setting_status = false;
         private double max_lat = 20;
         private double max_long = 150;
-        private Point shift_pos;
+        private System.Windows.Point shift_pos;
         private double rect_size = 10;
         Setting setting_form;
 
@@ -182,7 +187,7 @@ namespace Radar_Program_WPF
         private void Data_Save_Server_btn_Click(object sender, RoutedEventArgs e)
         {
             Device_set.Initialize_DB_Value(
-                "127.0.0.1", "9591", "root", "cody0901",
+                "127.0.0.1", "3306", "root", "0000",
                 "183.99.41.239", "23306", "root", "hbrain0372!");
             Device_set.localDB_Connect();
             Device_set.serverDB_Connect();
@@ -398,13 +403,13 @@ namespace Radar_Program_WPF
             if (Device_set.Radar_Connect())
             {
                 Device_set.Initialize_DB_Value(
-                    "127.0.0.1", "9591", "root", "cody0901",
+                    "127.0.0.1", "3306", "root", "0000",
                     "183.99.41.239", "23306", "root", "hbrain0372!");
                 Device_set.localDB_Connect();
 
                 Radar_status = true;
                 read_Thread_Func();
-                //draw_Thread_Func();
+                draw_Thread_Func();
 
                 change_btn_state(true);
             }
@@ -1086,6 +1091,69 @@ namespace Radar_Program_WPF
                 setting_form.Close();
                 setting_form = null;
             }
+        }
+        #endregion
+
+        #region 카메라 연결 및 녹화
+        private VideoCapture capture;
+        private VideoWriter writer;
+        private List<Mat> frameBuffer = new List<Mat>();
+        private bool cameraStatus;
+
+        private async void Camera_Connect_btn_Click(object sender, RoutedEventArgs e)
+        {
+            cameraStatus = true;
+            capture = new VideoCapture(0);
+            capture.Set(VideoCaptureProperties.Fps, 15);
+            writer = new VideoWriter("C:\\Users\\윤금채\\Desktop\\파일\\" + DateTime.Now.ToString("yyyy-MM-dd hh-mm-ss") + ".avi", FourCC.MJPG, 15, new OpenCvSharp.Size(640, 480));
+            await PlayVideoAsync();
+        }
+
+        private async Task PlayVideoAsync()
+        {
+            await Task.Run(() =>
+            {
+                while (cameraStatus)
+                {
+                    Mat frame = capture.RetrieveMat();
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        try
+                        {
+                            BitmapSource bitmapSource = BitmapSourceConverter.ToBitmapSource(frame);
+                            Cam_1.Source = bitmapSource;
+                            writer.Write(frame);
+                        }
+                        catch (Exception err)
+                        {
+                            frameBuffer.Add(frame.Clone());
+                            Console.WriteLine(err.Message);
+                        }
+                        frameBuffer_listup();
+                    });
+                }
+                frameBuffer_listup();
+                capture.Release();
+                writer.Release();
+                Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
+                {
+                    Cam_1.Source = null;
+                }));
+            });
+        }
+
+        private void frameBuffer_listup()
+        {
+            foreach (Mat frame in frameBuffer)
+            {
+                writer.Write(frame);
+            }
+            frameBuffer.Clear();
+        }
+
+        private void Camera_Disconnect_btn_Click(object sender, RoutedEventArgs e)
+        {
+            cameraStatus = false;
         }
         #endregion
     }

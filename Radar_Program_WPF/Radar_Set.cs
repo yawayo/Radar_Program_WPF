@@ -35,11 +35,11 @@ namespace Radar_Program_WPF
         #region Local DB
         private MySqlConnection local_DB;
         private string local_IP = "127.0.0.1";
-        private string local_PORT = "9591";
+        private string local_PORT = "3306";
         private string local_ID = "root";
-        private string local_PW = "cody0901";
+        private string local_PW = "0000";
         public string local_DBNAME = "RADAR";
-        public string local_TABLENAME = "OBJ_INFO";
+        public string local_TABLENAME = "TEST_DATA";
         #endregion
         #region Server DB
         private MySqlConnection server_DB;
@@ -48,7 +48,7 @@ namespace Radar_Program_WPF
         private string server_ID = "root";
         private string server_PW = "hbrain0372!";
         public string server_DBNAME = "RADAR";
-        public string server_TABLENAME = "REAL_DATA";
+        public string server_TABLENAME = "TEST_DATA";
         #endregion
         #endregion
         #region obj info
@@ -90,7 +90,7 @@ namespace Radar_Program_WPF
             if (stsResult != TPCANStatus.PCAN_ERROR_OK)
                 return false;
 
-            return true; ;
+            return true;
         }
         public bool Radar_Disconnect()
         {
@@ -107,7 +107,7 @@ namespace Radar_Program_WPF
 
         #region DB method
         public void Initialize_DB_Value(
-            string localIP = "127.0.0.1", string localPORT = "9591", string localID = "root", string localPW = "cody0901",
+            string localIP = "127.0.0.1", string localPORT = "3306", string localID = "root", string localPW = "0000",
             string serverIP = "183.99.41.239", string serverPORT = "23306", string serverID = "root", string serverPW = "hbrain0372!")
         {
             Set_localDB_IP(localIP);

@@ -1,0 +1,1111 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EmguFFmpeg</name>
+    </assembly>
+    <members>
+        <member name="T:EmguFFmpeg.FFmpegException">
+            <summary>
+            FFmpeg exception
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.FFmpegException.GetErrorString(System.Int32)">
+            <summary>
+            Get ffmpeg error string by error code
+            </summary>
+            <param name="errorCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.FFmpegHelper.RegisterBinaries(System.String)">
+            <summary>
+            Set ffmpeg root path, return <see cref="M:FFmpeg.AutoGen.ffmpeg.av_version_info"/>
+            </summary>
+            <param name="path"></param>
+        </member>
+        <member name="M:EmguFFmpeg.FFmpegHelper.SetupLogging(EmguFFmpeg.LogLevel,EmguFFmpeg.LogFlags,System.Action{System.String,System.Int32})">
+            <summary>
+            Set ffmpeg log
+            </summary>
+            <param name="logLevel">log level</param>
+            <param name="logFlags">log flags, support &amp; operator </param>
+            <param name="logWrite">set <see langword="null"/> to use default log output</param>
+        </member>
+        <member name="M:EmguFFmpeg.FFmpegHelper.RegisterDevice">
+            <summary>
+            <see cref="M:FFmpeg.AutoGen.ffmpeg.avdevice_register_all"/>
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.FFmpegHelper.PtrToStringUTF8(System.IntPtr)">
+            <summary>
+            Copies all characters up to the first null character from an unmanaged UTF8 string
+                to a managed <see langword="string"/>, and widens each UTF8 character to Unicode.
+            </summary>
+            <param name="ptr"></param>
+            <returns></returns>
+        </member>
+        <member name="P:EmguFFmpeg.FFmpegHelper.IsThrowIfError">
+            <summary>
+            throw exception if error when it's true, otherwise return error code
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.FFmpegHelper.ToDouble(FFmpeg.AutoGen.AVRational)">
+            <summary>
+            Convert an <see cref="T:FFmpeg.AutoGen.AVRational"/> to a double use <see cref="M:FFmpeg.AutoGen.ffmpeg.av_q2d(FFmpeg.AutoGen.AVRational)"/>.
+            <para>
+            NOTE: this will lose precision !!
+            </para>
+            </summary>
+            <param name="rational"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.FFmpegHelper.ToInvert(FFmpeg.AutoGen.AVRational)">
+            <summary>
+            Invert a <see cref="T:FFmpeg.AutoGen.AVRational"/> use <see cref="M:FFmpeg.AutoGen.ffmpeg.av_inv_q(FFmpeg.AutoGen.AVRational)"/>
+            </summary>
+            <param name="rational"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.FFmpegHelper.GetChannelLayout(System.Int32)">
+            <summary>
+            Return default channel layout for a given number of channels use <see cref="M:FFmpeg.AutoGen.ffmpeg.av_get_default_channel_layout(System.Int32)"/>
+            </summary>
+            <param name="channels"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.FFmpegHelper.CopyMemory(System.IntPtr,System.IntPtr,System.Int32)">
+            <summary>
+            Copy <paramref name="src"/> unmanaged memory to <paramref name="dst"/> unmanaged memory.
+            </summary>
+            <param name="src"></param>
+            <param name="dst"></param>
+            <param name="count"></param>
+        </member>
+        <member name="M:EmguFFmpeg.FFmpegHelper.CopyMemory(System.Void*,System.Void*,System.Int32)">
+            <summary>
+            [Unsafe] Copy <paramref name="src"/> unmanaged memory to <paramref name="dst"/> unmanaged memory.
+            </summary>
+            <param name="src"></param>
+            <param name="dst"></param>
+            <param name="count"></param>
+        </member>
+        <member name="M:EmguFFmpeg.FFmpegHelper.CopyPlane(System.IntPtr,System.Int32,System.IntPtr,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Batch copy <paramref name="src"/> unmanaged memory to <paramref name="dst"/> unmanaged memory.
+            <para>
+            Copy "<paramref name="height"/>" number of lines in a row,"<paramref name="byteWidth"/>" bytes each. 
+            The <paramref name="dst"/> address increments by <paramref name="dstLineSize"/> bytes per line.
+            The <paramref name="src"/> address increments by <paramref name="srcLineSize"/> bytes per line.
+            </para>
+            </summary>
+            <param name="src">source address.</param>
+            <param name="srcLineSize">linesize for the image plane in src.</param>
+            <param name="dst">destination address.</param>
+            <param name="dstLineSize">linesize for the image plane in dst.</param>
+            <param name="byteWidth">the number of bytes copied per line.</param>
+            <param name="height">the number of rows.</param>
+        </member>
+        <member name="T:EmguFFmpeg.IntPtr2Ptr">
+            <summary>
+            pointer to pointer (void**)
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.IntPtr2Ptr.#ctor(System.IntPtr)">
+            <summary>
+            create pointer to <paramref name="ptr"/>.
+            </summary>
+            <param name="ptr"></param>
+        </member>
+        <member name="M:EmguFFmpeg.IntPtr2Ptr.Pointer(System.IntPtr)">
+            <summary>
+            create a pointer to <paramref name="ptr"/>.
+            </summary>
+            <param name="ptr"></param>
+            <returns></returns>
+        </member>
+        <member name="P:EmguFFmpeg.IntPtr2Ptr.Null">
+            <summary>
+            create a pointer to <see langword="null"/>.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:EmguFFmpeg.IntPtr2Ptr.Ptr">
+            <summary>
+            get pointer (ptr).
+            </summary>
+        </member>
+        <member name="P:EmguFFmpeg.IntPtr2Ptr.Ptr2Ptr">
+            <summary>
+            get pointer to pointer (&amp;ptr).
+            </summary>
+        </member>
+        <member name="T:EmguFFmpeg.LogLevel">
+            <summary>
+            AV_LOG_
+            </summary>
+        </member>
+        <member name="F:EmguFFmpeg.LogLevel.All">
+            <summary>
+            <see cref="F:FFmpeg.AutoGen.ffmpeg.AV_LOG_MAX_OFFSET"/>
+            </summary>
+        </member>
+        <member name="F:EmguFFmpeg.LogLevel.Trace">
+            <summary>
+            <see cref="F:FFmpeg.AutoGen.ffmpeg.AV_LOG_TRACE"/>
+            </summary>
+        </member>
+        <member name="F:EmguFFmpeg.LogLevel.Debug">
+            <summary>
+            <see cref="F:FFmpeg.AutoGen.ffmpeg.AV_LOG_DEBUG"/>
+            </summary>
+        </member>
+        <member name="F:EmguFFmpeg.LogLevel.Verbose">
+            <summary>
+            <see cref="F:FFmpeg.AutoGen.ffmpeg.AV_LOG_VERBOSE"/>
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "F:EmguFFmpeg.LogLevel.Info" -->
+        <member name="F:EmguFFmpeg.LogLevel.Warning">
+            <summary>
+            <see cref="F:FFmpeg.AutoGen.ffmpeg.AV_LOG_WARNING"/>
+            </summary>
+        </member>
+        <member name="F:EmguFFmpeg.LogLevel.Error">
+            <summary>
+            <see cref="F:FFmpeg.AutoGen.ffmpeg.AV_LOG_ERROR"/>
+            </summary>
+        </member>
+        <member name="F:EmguFFmpeg.LogLevel.Fatal">
+            <summary>
+            <see cref="F:FFmpeg.AutoGen.ffmpeg.AV_LOG_FATAL"/>
+            </summary>
+        </member>
+        <member name="F:EmguFFmpeg.LogLevel.Panic">
+            <summary>
+            <see cref="F:FFmpeg.AutoGen.ffmpeg.AV_LOG_PANIC"/>
+            </summary>
+        </member>
+        <member name="F:EmguFFmpeg.LogLevel.Quiet">
+            <summary>
+            <see cref="F:FFmpeg.AutoGen.ffmpeg.AV_LOG_QUIET"/>
+            </summary>
+        </member>
+        <member name="F:EmguFFmpeg.LogFlags.SkipRepeated">
+            <summary>
+            <see cref="F:FFmpeg.AutoGen.ffmpeg.AV_LOG_SKIP_REPEATED"/>
+            </summary>
+        </member>
+        <member name="F:EmguFFmpeg.LogFlags.PrintLevel">
+            <summary>
+            <see cref="F:FFmpeg.AutoGen.ffmpeg.AV_LOG_PRINT_LEVEL"/>
+            </summary>
+        </member>
+        <member name="F:EmguFFmpeg.BufferSrcFlags.None">
+            <summary>
+            takes ownership of the reference passed to it.
+            </summary>
+        </member>
+        <member name="F:EmguFFmpeg.BufferSrcFlags.NoCheckFormat">
+            <summary>
+            AV_BUFFERSRC_FLAG_NO_CHECK_FORMAT, Do not check for format changes.
+            </summary>
+        </member>
+        <member name="F:EmguFFmpeg.BufferSrcFlags.Push">
+            <summary>
+            AV_BUFFERSRC_FLAG_PUSH, Immediately push the frame to the output.
+            </summary>
+        </member>
+        <member name="F:EmguFFmpeg.BufferSrcFlags.KeepRef">
+            <summary>
+            AV_BUFFERSRC_FLAG_KEEP_REF, Keep a reference to the frame.
+            If the frame if reference-counted, create a new reference; otherwise
+            copy the frame data.
+            </summary>
+        </member>
+        <member name="T:EmguFFmpeg.AudioFifo">
+            <summary>
+            <see cref="T:FFmpeg.AutoGen.AVAudioFifo"/> wapper
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.AudioFifo.#ctor(FFmpeg.AutoGen.AVSampleFormat,System.Int32,System.Int32)">
+            <summary>
+            alloc <see cref="T:FFmpeg.AutoGen.AVAudioFifo"/>
+            </summary>
+            <param name="format"></param>
+            <param name="channels"></param>
+            <param name="nbSamples"></param>
+        </member>
+        <member name="P:EmguFFmpeg.AudioFifo.Size">
+            <summary>
+            Get the current number of samples in the AVAudioFifo available for reading.
+            </summary>
+        </member>
+        <member name="P:EmguFFmpeg.AudioFifo.Space">
+            <summary>
+            Get the current number of samples in the AVAudioFifo available for writing.
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.AudioFifo.Peek(System.Void**,System.Int32)">
+            <summary>
+             Peek data from an AVAudioFifo.
+            </summary>
+            <param name="data"> audio data plane pointers</param>
+            <param name="nbSamples">number of samples to peek</param>
+            <returns>
+            number of samples actually peek, or negative AVERROR code on failure. The number
+            of samples actually peek will not be greater than nb_samples, and will only be
+            less than nb_samples if av_audio_fifo_size is less than nb_samples.
+            </returns>
+        </member>
+        <member name="M:EmguFFmpeg.AudioFifo.PeekAt(System.Void**,System.Int32,System.Int32)">
+            <summary>
+            Peek data from an AVAudioFifo.
+            </summary>
+            <param name="data">audio data plane pointers</param>
+            <param name="nbSamples">number of samples to peek</param>
+            <param name="Offset">offset from current read position</param>
+            <returns>
+            number of samples actually peek, or negative AVERROR code on failure. The number
+            of samples actually peek will not be greater than nb_samples, and will only be
+            less than nb_samples if av_audio_fifo_size is less than nb_samples.
+            </returns>
+        </member>
+        <member name="M:EmguFFmpeg.AudioFifo.Add(System.Void**,System.Int32)">
+            <summary>
+            auto realloc if space less than nbSamples
+            </summary>
+            <param name="data"></param>
+            <param name="nbSamples"></param>
+            <exception cref="T:EmguFFmpeg.FFmpegException"/>
+        </member>
+        <member name="M:EmguFFmpeg.AudioFifo.Read(System.Void**,System.Int32)">
+            <summary>
+            Read data from an AVAudioFifo.
+            </summary>
+            <param name="data">audio data plane pointers</param>
+            <param name="nbSamples">number of samples to read</param>
+            <exception cref="T:EmguFFmpeg.FFmpegException"/>
+            <returns>
+            number of samples actually read, or negative AVERROR code on failure. The number
+            of samples actually read will not be greater than nb_samples, and will only be
+            less than nb_samples if av_audio_fifo_size is less than nb_samples.
+            </returns>
+        </member>
+        <member name="M:EmguFFmpeg.AudioFifo.Drain(System.Int32)">
+            <summary>
+            Drain data from an <see cref="T:FFmpeg.AutoGen.AVAudioFifo"/>.
+            </summary>
+            <param name="nbSamples">number of samples to drain</param>
+            <returns>0 if OK, or negative AVERROR code on failure</returns>
+            <exception cref="T:EmguFFmpeg.FFmpegException"/>
+        </member>
+        <member name="M:EmguFFmpeg.AudioFifo.Reset">
+            <summary>
+            Clear tha <see cref="T:FFmpeg.AutoGen.AVAudioFifo"/>
+            </summary>
+        </member>
+        <member name="T:EmguFFmpeg.PixelConverter">
+            <summary>
+            <see cref="T:FFmpeg.AutoGen.SwsContext"/> wapper
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.PixelConverter.#ctor(FFmpeg.AutoGen.AVPixelFormat,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            create video frame converter by dst output parames
+            </summary>
+            <param name="dstFormat"></param>
+            <param name="dstWidth"></param>
+            <param name="dstHeight"></param>
+            <param name="flag"></param>
+        </member>
+        <member name="M:EmguFFmpeg.PixelConverter.#ctor(EmguFFmpeg.MediaCodec,System.Int32)">
+            <summary>
+            create video frame converter by dst codec
+            </summary>
+            <param name="dstCodec"></param>
+            <param name="flag"></param>
+        </member>
+        <member name="M:EmguFFmpeg.PixelConverter.#ctor(EmguFFmpeg.VideoFrame,System.Int32)">
+            <summary>
+            create video fram converter by dst frame
+            </summary>
+            <param name="dstFrame"></param>
+            <param name="flag"></param>
+        </member>
+        <member name="M:EmguFFmpeg.PixelConverter.Convert(EmguFFmpeg.MediaFrame)">
+            <summary>
+            Convert <paramref name="srcframe"/>
+            <para>
+            Video conversion can be made without the use of IEnumerable,
+            here In order to be consistent with the <see cref="T:EmguFFmpeg.SampleConverter"/> interface.
+            </para>
+            </summary>
+            <param name="srcframe"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EmguFFmpeg.SampleConverter">
+            <summary>
+            <see cref="T:FFmpeg.AutoGen.SwrContext"/> wapper, include a <see cref="T:FFmpeg.AutoGen.AVAudioFifo"/>.
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.SampleConverter.#ctor(FFmpeg.AutoGen.AVSampleFormat,FFmpeg.AutoGen.AVChannelLayout,System.Int32,System.Int32)">
+            <summary>
+            create audio converter by dst output parames
+            </summary>
+            <param name="dstFormat"></param>
+            <param name="dstChannelLayout">see <see cref="T:FFmpeg.AutoGen.AVChannelLayout"/></param>
+            <param name="dstNbSamples"></param>
+            <param name="dstSampleRate"></param>
+        </member>
+        <member name="M:EmguFFmpeg.SampleConverter.#ctor(FFmpeg.AutoGen.AVSampleFormat,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            create audio converter by dst output parames
+            </summary>
+            <param name="dstFormat"></param>
+            <param name="dstChannels"></param>
+            <param name="dstNbSamples"></param>
+            <param name="dstSampleRate"></param>
+        </member>
+        <member name="M:EmguFFmpeg.SampleConverter.#ctor(EmguFFmpeg.MediaCodec)">
+            <summary>
+            create audio converter by dst codec
+            </summary>
+            <param name="dstCodec"></param>
+        </member>
+        <member name="M:EmguFFmpeg.SampleConverter.#ctor(EmguFFmpeg.AudioFrame)">
+            <summary>
+            create audio converter by dst frame
+            </summary>
+            <param name="dstFrame"></param>
+        </member>
+        <member name="M:EmguFFmpeg.SampleConverter.Convert(EmguFFmpeg.MediaFrame)">
+            <summary>
+            Convert <paramref name="srcFrame"/>.
+            <para>
+            sometimes audio inputs and outputs are used at different
+            frequencies and need to be resampled using fifo, 
+            so use <see cref="T:System.Collections.Generic.IEnumerable`1"/>.
+            </para>
+            </summary>
+            <param name="srcFrame"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.SampleConverter.ConvertFrame(EmguFFmpeg.MediaFrame,System.Int32@,System.Int32@)">
+            <summary>
+            convert input audio frame to output frame
+            </summary>
+            <param name="srcFrame">input audio frame</param>
+            <param name="outSamples">number of samples actually output</param>
+            <param name="cacheSamples">number of samples in the internal cache</param>
+            <returns></returns>
+        </member>
+        <member name="T:EmguFFmpeg.MediaCodec">
+            <summary>
+            <see cref="P:EmguFFmpeg.MediaCodec.AVCodec"/> and <see cref="P:EmguFFmpeg.MediaCodec.AVCodecContext"/> wapper
+            </summary>
+        </member>
+        <member name="P:EmguFFmpeg.MediaCodec.AVCodec">
+            <summary>
+            Get value if <see cref="P:EmguFFmpeg.MediaCodec.Id"/> is not <see cref="F:FFmpeg.AutoGen.AVCodecID.AV_CODEC_ID_NONE"/>
+            </summary>
+            <exception cref="T:EmguFFmpeg.FFmpegException"/>
+        </member>
+        <member name="P:EmguFFmpeg.MediaCodec.AVCodecContext">
+            <summary>
+            Get value after <see cref="M:EmguFFmpeg.MediaCodec.Initialize(System.Action{EmguFFmpeg.MediaCodec},System.Int32,EmguFFmpeg.MediaDictionary)"/>
+            </summary>
+            <exception cref="T:EmguFFmpeg.FFmpegException"/>
+        </member>
+        <member name="M:EmguFFmpeg.MediaDecoder.#ctor(FFmpeg.AutoGen.AVCodecID)">
+            <summary>
+            Find decoder by id
+            <para>
+            Must call <see cref="M:EmguFFmpeg.MediaDecoder.Initialize(System.Action{EmguFFmpeg.MediaCodec},System.Int32,EmguFFmpeg.MediaDictionary)"/> before decode
+            </para>
+            </summary>
+            <param name="codecId">codec id</param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaDecoder.#ctor(System.String)">
+            <summary>
+            Find decoder by name
+            <para>
+            Must call <see cref="M:EmguFFmpeg.MediaDecoder.Initialize(System.Action{EmguFFmpeg.MediaCodec},System.Int32,EmguFFmpeg.MediaDictionary)"/> before decode
+            </para>
+            </summary>
+            <param name="codecName">codec name</param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaDecoder.#ctor(System.IntPtr)">
+            <summary>
+            <see cref="T:FFmpeg.AutoGen.AVCodec"/> decoder adapter.
+            </summary>
+            <param name="pAVCodec"></param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaDecoder.Initialize(System.Action{EmguFFmpeg.MediaCodec},System.Int32,EmguFFmpeg.MediaDictionary)">
+            <summary>
+            alloc <see cref="T:FFmpeg.AutoGen.AVCodecContext"/> and <see cref="M:FFmpeg.AutoGen.ffmpeg.avcodec_open2(FFmpeg.AutoGen.AVCodecContext*,FFmpeg.AutoGen.AVCodec*,FFmpeg.AutoGen.AVDictionary**)"/>
+            </summary>
+            <param name="setBeforeOpen">
+            set <see cref="T:FFmpeg.AutoGen.AVCodecContext"/> after <see cref="M:FFmpeg.AutoGen.ffmpeg.avcodec_alloc_context3(FFmpeg.AutoGen.AVCodec*)"/> and before <see cref="M:FFmpeg.AutoGen.ffmpeg.avcodec_open2(FFmpeg.AutoGen.AVCodecContext*,FFmpeg.AutoGen.AVCodec*,FFmpeg.AutoGen.AVDictionary**)"/>
+            </param>
+            <param name="flags">no used</param>
+            <param name="opts">options for "avcodec_open2"</param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaDecoder.DecodePacket(EmguFFmpeg.MediaPacket)">
+            <summary>
+            decode packet to get frame.
+            TODO: add SubtitleFrame support
+            <para>
+            <see cref="M:EmguFFmpeg.MediaDecoder.SendPacket(EmguFFmpeg.MediaPacket)"/> and <see cref="M:EmguFFmpeg.MediaDecoder.ReceiveFrame(EmguFFmpeg.MediaFrame)"/>
+            </para>
+            </summary>
+            <param name="packet"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.MediaDecoder.SendPacket(EmguFFmpeg.MediaPacket)">
+            <summary>
+            <see cref="M:FFmpeg.AutoGen.ffmpeg.avcodec_send_packet(FFmpeg.AutoGen.AVCodecContext*,FFmpeg.AutoGen.AVPacket*)"/>
+            </summary>
+            <param name="packet"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.MediaDecoder.ReceiveFrame(EmguFFmpeg.MediaFrame)">
+            <summary>
+            <see cref="M:FFmpeg.AutoGen.ffmpeg.avcodec_receive_frame(FFmpeg.AutoGen.AVCodecContext*,FFmpeg.AutoGen.AVFrame*)"/>
+            </summary>
+            <param name="frame"></param>
+            <returns></returns>
+        </member>
+        <member name="P:EmguFFmpeg.MediaDecoder.Decodes">
+            <summary>
+            get all decodes
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.MediaEncoder.CreateVideoEncode(FFmpeg.AutoGen.AVCodecID,System.Int32,System.Int32,System.Int32,System.Int32,System.Int64,FFmpeg.AutoGen.AVPixelFormat)">
+            <summary>
+            Create and init video encode
+            </summary>
+            <param name="videoCodec"></param>
+            <param name="flags"><see cref="P:EmguFFmpeg.MediaFormat.Flags"/></param>
+            <param name="width">width pixel, must be greater than 0</param>
+            <param name="height">height pixel, must be greater than 0</param>
+            <param name="fps">fps, must be greater than 0</param>
+            <param name="bitRate">default is auto bit rate, must be greater than or equal to 0</param>
+            <param name="format">default is first supported pixel format</param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.MediaEncoder.CreateAudioEncode(FFmpeg.AutoGen.AVCodecID,System.Int32,FFmpeg.AutoGen.AVChannelLayout,System.Int32,System.Int64,FFmpeg.AutoGen.AVSampleFormat)">
+            <summary>
+            Create and init audio encode
+            </summary>
+            <param name="audioCodec"></param>
+            <param name="flags"><see cref="P:EmguFFmpeg.MediaFormat.Flags"/></param>
+            <param name="channelLayout">channel layout see <see cref="T:FFmpeg.AutoGen.AVChannelLayout"/></param>
+            <param name="sampleRate">default is first supported sample rates, must be greater than 0</param>
+            <param name="bitRate">default is auto bit rate, must be greater than or equal to 0</param>
+            <param name="format">default is first supported pixel format</param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.MediaEncoder.#ctor(FFmpeg.AutoGen.AVCodecID)">
+            <summary>
+            Find encoder by id
+            <para>
+            Must call <see cref="M:EmguFFmpeg.MediaEncoder.Initialize(System.Action{EmguFFmpeg.MediaCodec},System.Int32,EmguFFmpeg.MediaDictionary)"/> before encode
+            </para>
+            </summary>
+            <param name="codecId">codec id</param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaEncoder.#ctor(System.String)">
+            <summary>
+            Find encoder by name
+            <para>
+            Must call <see cref="M:EmguFFmpeg.MediaEncoder.Initialize(System.Action{EmguFFmpeg.MediaCodec},System.Int32,EmguFFmpeg.MediaDictionary)"/> before encode
+            </para>
+            </summary>
+            <param name="codecName">codec name</param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaEncoder.#ctor(System.IntPtr)">
+            <summary>
+            <see cref="T:FFmpeg.AutoGen.AVCodec"/> encoder adapter.
+            </summary>
+            <param name="pAVCodec"></param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaEncoder.Initialize(System.Action{EmguFFmpeg.MediaCodec},System.Int32,EmguFFmpeg.MediaDictionary)">
+            <summary>
+            alloc <see cref="T:FFmpeg.AutoGen.AVCodecContext"/> and <see cref="M:FFmpeg.AutoGen.ffmpeg.avcodec_open2(FFmpeg.AutoGen.AVCodecContext*,FFmpeg.AutoGen.AVCodec*,FFmpeg.AutoGen.AVDictionary**)"/>
+            </summary>
+            <param name="setBeforeOpen">
+            set <see cref="T:FFmpeg.AutoGen.AVCodecContext"/> after <see cref="M:FFmpeg.AutoGen.ffmpeg.avcodec_alloc_context3(FFmpeg.AutoGen.AVCodec*)"/> and before <see cref="M:FFmpeg.AutoGen.ffmpeg.avcodec_open2(FFmpeg.AutoGen.AVCodecContext*,FFmpeg.AutoGen.AVCodec*,FFmpeg.AutoGen.AVDictionary**)"/>
+            </param>
+            <param name="flags">
+            check <see cref="P:EmguFFmpeg.MediaFormat.Flags"/> &amp; <see cref="F:FFmpeg.AutoGen.ffmpeg.AVFMT_GLOBALHEADER"/> set <see cref="F:FFmpeg.AutoGen.ffmpeg.AV_CODEC_FLAG_GLOBAL_HEADER"/>
+            </param>
+            <param name="opts">options for "avcodec_open2"</param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaEncoder.RemoveSideData(EmguFFmpeg.MediaFrame)">
+            <summary>
+            pre process frame
+            </summary>
+            <param name="frame"></param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaEncoder.EncodeFrame(EmguFFmpeg.MediaFrame)">
+            <summary>
+            TODO: add SubtitleFrame support
+            </summary>
+            <param name="frame"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.MediaEncoder.SendFrame(EmguFFmpeg.MediaFrame)">
+            <summary>
+            <see cref="M:FFmpeg.AutoGen.ffmpeg.avcodec_send_frame(FFmpeg.AutoGen.AVCodecContext*,FFmpeg.AutoGen.AVFrame*)"/>
+            </summary>
+            <param name="frame"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.MediaEncoder.ReceivePacket(EmguFFmpeg.MediaPacket)">
+            <summary>
+            <see cref="M:FFmpeg.AutoGen.ffmpeg.avcodec_receive_packet(FFmpeg.AutoGen.AVCodecContext*,FFmpeg.AutoGen.AVPacket*)"/>
+            </summary>
+            <param name="packet"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EmguFFmpeg.MediaDevice">
+            <summary>
+            must call <see cref="M:EmguFFmpeg.FFmpegHelper.RegisterDevice"/>
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.MediaDevice.PrintDeviceInfos(EmguFFmpeg.MediaFormat,System.String,EmguFFmpeg.MediaDictionary)">
+            <summary>
+            NOTE: ffmpeg cannot get device information through code, only print the display.
+            </summary>
+            <param name="device"></param>
+            <param name="parame"></param>
+            <param name="options">options for <see cref="M:FFmpeg.AutoGen.ffmpeg.avformat_open_input(FFmpeg.AutoGen.AVFormatContext**,System.String,FFmpeg.AutoGen.AVInputFormat*,FFmpeg.AutoGen.AVDictionary**)"/></param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.MediaDictionary.#ctor(FFmpeg.AutoGen.AVDictionary*)">
+            <summary>
+            <paramref name="ptr"/> will be free when <see cref="M:EmguFFmpeg.MediaDictionary.Dispose(System.Boolean)"/>
+            </summary>
+            <param name="ptr"></param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaDictionary.CopyTo(System.Collections.Generic.KeyValuePair{System.String,System.String}[],System.Int32)">
+            <summary>
+            Full copy
+            </summary>
+            <param name="array"></param>
+            <param name="arrayIndex"></param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaDictionary.Remove(System.String)">
+            <summary>
+            remove first match entry, can call multiple times to delete a entry with the same key
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.MediaDictionary.Clear">
+            <summary>
+            remove all
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.AVDictionaryEntryEx.GetEntry(FFmpeg.AutoGen.AVDictionaryEntry)">
+            <summary>
+            convert <see cref="T:FFmpeg.AutoGen.AVDictionaryEntry"/> to <see cref="T:System.Collections.Generic.KeyValuePair`2"/>
+            </summary>
+            <param name="entry"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.AVDictionaryEntryEx.GetKey(FFmpeg.AutoGen.AVDictionaryEntry)">
+            <summary>
+            get AVDictionaryEntry key
+            </summary>
+            <param name="entry"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.AVDictionaryEntryEx.GetValue(FFmpeg.AutoGen.AVDictionaryEntry)">
+            <summary>
+            get AVDictionaryEntry value
+            </summary>
+            <param name="entry"></param>
+            <returns></returns>
+        </member>
+        <member name="F:EmguFFmpeg.AVDictReadFlags.None">
+            <summary>
+            case insensitive and exact match.
+            </summary>
+        </member>
+        <member name="F:EmguFFmpeg.AVDictReadFlags.MatchCase">
+            <summary>
+            Only get an entry with exact-case key match. Only relevant in av_dict_get(). 
+            <para>{"k1","v1"}</para>
+            <para>//get "k1" is "v1"</para>
+            <para>//get "K1" is null</para>
+            </summary>
+        </member>
+        <member name="F:EmguFFmpeg.AVDictReadFlags.IgnoreSuffix">
+            <summary>
+            Return entry in a dictionary whose first part corresponds to the search key,
+            ignoring the suffix of the found key string. Only relevant in av_dict_get().
+            <para>{"k1","v1"}</para>
+            <para>{"k1","v2"}</para>
+            <para>{"k2","v3"}</para>
+            <para>get "k" is {"v1","v2","v3"}</para>
+            </summary>
+        </member>
+        <member name="F:EmguFFmpeg.AVDictWriteFlags.None">
+            <summary>
+            case insensitive and overwrite.
+            </summary>
+        </member>
+        <member name="F:EmguFFmpeg.AVDictWriteFlags.DnotStrDupKey">
+            <summary>
+            Take ownership of a key that's been
+            allocated with av_malloc() or another memory allocation function.
+            </summary>
+        </member>
+        <member name="F:EmguFFmpeg.AVDictWriteFlags.DontStrDupVal">
+            <summary>
+            Take ownership of a value that's been
+            allocated with av_malloc() or another memory allocation function.
+            </summary>
+        </member>
+        <member name="F:EmguFFmpeg.AVDictWriteFlags.DontOverwrite">
+            <summary>
+            Don't overwrite existing key.
+            </summary>
+        </member>
+        <member name="F:EmguFFmpeg.AVDictWriteFlags.Append">
+            <summary>
+            If the key already exists, append to it's value.
+            </summary>
+        </member>
+        <member name="F:EmguFFmpeg.AVDictWriteFlags.MultiKey">
+            <summary>
+            Allow to store several equal keys in the dictionary
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.MediaFilter.#ctor(System.IntPtr)">
+            <summary>
+            <see cref="P:EmguFFmpeg.MediaFilter.AVFilter"/> adapter.
+            </summary>
+            <param name="pAVFilter"></param>
+        </member>
+        <member name="P:EmguFFmpeg.MediaFilter.Filters">
+            <summary>
+            get all supported filter.
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.MediaFilterContext.LinkTo(System.UInt32,EmguFFmpeg.MediaFilterContext,System.UInt32)">
+            <summary>
+            link current filter's <paramref name="srcOutPad"/> to <paramref name="dstFilterContext"/>'s <paramref name="dstInPad"/>
+            </summary>
+            <param name="srcOutPad"></param>
+            <param name="dstFilterContext"></param>
+            <param name="dstInPad"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.MediaFilterGraph.AddVideoSrcFilter(EmguFFmpeg.MediaFilter,System.Int32,System.Int32,FFmpeg.AutoGen.AVPixelFormat,FFmpeg.AutoGen.AVRational,FFmpeg.AutoGen.AVRational,FFmpeg.AutoGen.AVRational,System.String,System.String)">
+            <summary>
+            command line: $"width={width}:height={height}:pix_fmt={format}:time_base={timebase.num}/{timebase.den}:pixel_aspect={aspect.num}/{aspect.den}:frame_rate={framerate.num}/{framerate.den}:sws_param={swsparam}";
+            </summary>
+            <param name="filter"></param>
+            <param name="width"></param>
+            <param name="height"></param>
+            <param name="format"></param>
+            <param name="timebase"></param>
+            <param name="aspect"></param>
+            <param name="framerate"></param>
+            <param name="swsparam"></param>
+            <param name="contextName"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EmguFFmpeg.InFormat">
+            <summary>
+            <see cref="P:EmguFFmpeg.InFormat.AVInputFormat"/> wapper
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.InFormat.#ctor(System.IntPtr)">
+            <summary>
+            <see cref="P:EmguFFmpeg.InFormat.AVInputFormat"/> adapter.
+            </summary>
+            <param name="pAVInputFormat"></param>
+        </member>
+        <member name="M:EmguFFmpeg.InFormat.Get(System.String)">
+            <summary>
+            get demuxer format by name
+            </summary>
+            <param name="name">e.g. mov,mp4 ...</param>
+        </member>
+        <member name="P:EmguFFmpeg.InFormat.Formats">
+            <summary>
+            get all supported input formats.
+            </summary>
+        </member>
+        <member name="T:EmguFFmpeg.OutFormat">
+            <summary>
+            <see cref="P:EmguFFmpeg.OutFormat.AVOutputFormat"/> wapper
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.OutFormat.#ctor(System.IntPtr)">
+            <summary>
+            <see cref="P:EmguFFmpeg.OutFormat.AVOutputFormat"/> adapter.
+            </summary>
+            <param name="pAVOutputFormat"></param>
+        </member>
+        <member name="M:EmguFFmpeg.OutFormat.Get(System.String)">
+            <summary>
+            get muxer format by name,e.g. "mp4" ".mp4"
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="M:EmguFFmpeg.OutFormat.GuessFormat(System.String,System.String,System.String)">
+            <summary>
+            Return the output format in the list of registered output formats which best matches the
+            provided parameters, or return NULL if there is no match.
+            </summary>
+            <param name="shortName">
+            if non-NULL checks if short_name matches with the names of the registered formats
+            </param>
+            <param name="fileName">
+            if non-NULL checks if filename terminates with the extensions of the registered formats
+            </param>
+            <param name="mimeType">
+            if non-NULL checks if mime_type matches with the MIME type of the registered formats
+            </param>
+            <returns></returns>
+        </member>
+        <member name="P:EmguFFmpeg.OutFormat.Formats">
+            <summary>
+            get all supported output formats
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.AudioFrame.CreateFrameByCodec(EmguFFmpeg.MediaCodec)">
+            <summary>
+            create a audio frame by codec's parames
+            </summary>
+            <param name="codec"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.AudioFrame.#ctor(FFmpeg.AutoGen.AVChannelLayout,System.Int32,FFmpeg.AutoGen.AVSampleFormat,System.Int32,System.Int32)">
+            <summary>
+            </summary>
+            <param name="channelLayout">see <see cref="T:FFmpeg.AutoGen.AVChannelLayout"/></param>
+            <param name="nbSamples">recommended use <see cref="F:FFmpeg.AutoGen.AVCodecContext.frame_size"/></param>
+            <param name="format"><see cref="F:FFmpeg.AutoGen.AVCodecContext.sample_fmt"/></param>
+            <param name="sampleRate"></param>
+            <param name="align">
+            Required buffer size alignment. If equal to 0, alignment will be chosen automatically for
+            the current CPU. It is highly recommended to pass 0 here unless you know what you are doing.
+            </param>
+        </member>
+        <member name="M:EmguFFmpeg.AudioFrame.SetSilence(System.Int32,System.Byte[])">
+            <summary>
+            refance <see cref="M:FFmpeg.AutoGen.ffmpeg.av_samples_set_silence(System.Byte**,System.Int32,System.Int32,System.Int32,FFmpeg.AutoGen.AVSampleFormat)"/>
+            </summary>
+            <param name="offset">sample offset</param>
+            <param name="fill">
+            default is new byte[] { 0x00 }
+            <para>
+            if fill is {0x01, 0x02}, loop fill data by {0x01, 0x02, 0x01, 0x02 ...}, all channels are the same.
+            </para>
+            </param>
+        </member>
+        <member name="M:EmguFFmpeg.AudioFrame.ToPlanar">
+            <summary>
+            convert current frame to planar frame.
+            if current frame is planer return current frame
+            else return new packet frame.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.AudioFrame.ToPacket">
+            <summary>
+            convert current frame to packet frame.
+            if current frame is planer return new packet frame
+            else return current frame.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.AudioFrame.Copy">
+            <summary>
+            A full copy.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.MediaFrame.GetData">
+            <summary>
+            Get managed copy of <see cref="F:FFmpeg.AutoGen.AVFrame.data"/>
+            <para>
+            reference <see cref="M:FFmpeg.AutoGen.ffmpeg.av_frame_copy(FFmpeg.AutoGen.AVFrame*,FFmpeg.AutoGen.AVFrame*)"/>
+            </para>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.MediaFrame.GetVideoData">
+            <summary>
+            reference <see cref="M:FFmpeg.AutoGen.ffmpeg.av_image_copy(FFmpeg.AutoGen.byte_ptrArray4@,FFmpeg.AutoGen.int_array4@,FFmpeg.AutoGen.byte_ptrArray4@,FFmpeg.AutoGen.int_array4,FFmpeg.AutoGen.AVPixelFormat,System.Int32,System.Int32)"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.MediaFrame.GetAudioData">
+            <summary>
+            reference <see cref="M:FFmpeg.AutoGen.ffmpeg.av_samples_copy(System.Byte**,System.Byte**,System.Int32,System.Int32,System.Int32,System.Int32,FFmpeg.AutoGen.AVSampleFormat)"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.MediaFrame.Clear">
+            <summary>
+            <see cref="M:FFmpeg.AutoGen.ffmpeg.av_frame_unref(FFmpeg.AutoGen.AVFrame*)"/>
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.VideoFrame.CreateFrameByCodec(EmguFFmpeg.MediaCodec)">
+            <summary>
+            create video frame by codec's parames
+            </summary>
+            <param name="codec"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EmguFFmpeg.MediaMux">
+            <summary>
+            <see cref="P:EmguFFmpeg.MediaMux.AVFormatContext"/> wapper
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.MediaMux.DumpFormat">
+            <summary>
+             Print detailed information about the format, such as duration,
+                bitrate, streams, container, programs, metadata, side data, codec and time base.
+            </summary>
+        </member>
+        <member name="P:EmguFFmpeg.MediaMux.Count">
+            <summary>
+            stream count in mux.
+            </summary>
+        </member>
+        <member name="P:EmguFFmpeg.MediaMux.Item(System.Int32)">
+            <summary>
+            get stream
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.MediaMux.GetEnumerator">
+            <summary>
+            enum stream
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:EmguFFmpeg.MediaReader.Format">
+            <summary>
+            Get <see cref="T:FFmpeg.AutoGen.AVInputFormat"/>
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.MediaReader.#ctor(System.IO.Stream,EmguFFmpeg.InFormat,EmguFFmpeg.MediaDictionary)">
+            <summary>
+            Load stream, default buffer size is 4096
+            </summary>
+            <param name="stream"></param>
+            <param name="iformat"></param>
+            <param name="options"></param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaReader.#ctor(System.IO.Stream,System.Int32,EmguFFmpeg.InFormat,EmguFFmpeg.MediaDictionary)">
+            <summary>
+            Load stream with buffersize
+            </summary>
+            <param name="stream"></param>
+            <param name="buffersize"></param>
+            <param name="iformat"></param>
+            <param name="options"></param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaReader.#ctor(System.String,EmguFFmpeg.InFormat,EmguFFmpeg.MediaDictionary)">
+            <summary>
+            Load path
+            </summary>
+            <param name="url"></param>
+            <param name="iformat"></param>
+            <param name="options"></param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaReader.DumpFormat">
+            <summary>
+            Print detailed information about the input format, such as duration,
+                bitrate, streams, container, programs, metadata, side data, codec and time base.
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.MediaReader.Seek(System.Int64,System.Int32)">
+            <summary>
+            Seek timestamp base <see cref="F:FFmpeg.AutoGen.ffmpeg.AV_TIME_BASE"/>. it's precision than <see cref="M:EmguFFmpeg.MediaReader.Seek(System.TimeSpan,System.Int32)"/>
+            <para></para>
+            </summary>
+            <param name="timestamp">Seconds * <see cref="F:FFmpeg.AutoGen.ffmpeg.AV_TIME_BASE"/> </param>
+            <param name="streamIndex"></param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaReader.Seek(System.TimeSpan,System.Int32)">
+            <summary>
+            <see cref="M:EmguFFmpeg.MediaReader.Seek(System.Int64,System.Int32)"/>
+            </summary>
+            <param name="time"></param>
+            <param name="streamIndex"></param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaWriter.#ctor(System.IO.Stream,EmguFFmpeg.OutFormat,EmguFFmpeg.MediaDictionary)">
+            <summary>
+            write to stream,default buffersize 4096
+            </summary>
+            <param name="stream"></param>
+            <param name="oformat"></param>
+            <param name="options"></param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaWriter.#ctor(System.IO.Stream,System.Int32,EmguFFmpeg.OutFormat,EmguFFmpeg.MediaDictionary)">
+            <summary>
+            write to stream
+            </summary>
+            <param name="stream"></param>
+            <param name="buffersize"></param>
+            <param name="oformat"></param>
+            <param name="options">useless, the future may change</param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaWriter.#ctor(System.String,EmguFFmpeg.OutFormat,EmguFFmpeg.MediaDictionary)">
+            <summary>
+            write to file.
+            <para><see cref="M:FFmpeg.AutoGen.ffmpeg.avformat_alloc_output_context2(FFmpeg.AutoGen.AVFormatContext**,FFmpeg.AutoGen.AVOutputFormat*,System.String,System.String)"/></para>
+            <para><see cref="M:FFmpeg.AutoGen.ffmpeg.avio_open(FFmpeg.AutoGen.AVIOContext**,System.String,System.Int32)"/></para>
+            </summary>
+            <param name="file"></param>
+            <param name="oformat"></param>
+            <param name="options"></param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaWriter.DumpFormat">
+            <summary>
+            Print detailed information about the output format, such as duration,
+                bitrate, streams, container, programs, metadata, side data, codec and time base.
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.MediaWriter.AddStream(EmguFFmpeg.MediaEncoder)">
+            <summary>
+            Add stream by encoder
+            </summary>
+            <param name="encode">Used to codec stream.
+            set null to add a data stream but no encoder,
+            then use <see cref="M:EmguFFmpeg.MediaWriter.WritePacket(EmguFFmpeg.MediaPacket)"/> write data directly.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.MediaWriter.AddStream(EmguFFmpeg.MediaStream,System.Int32)">
+            <summary>
+            Add stream by copy <see cref="M:FFmpeg.AutoGen.ffmpeg.avcodec_parameters_copy(FFmpeg.AutoGen.AVCodecParameters*,FFmpeg.AutoGen.AVCodecParameters*)"/>,
+            </summary>
+            <param name="stream"></param>
+            <param name="flags"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.MediaWriter.Initialize(EmguFFmpeg.MediaDictionary)">
+            <summary>
+            <see cref="M:FFmpeg.AutoGen.ffmpeg.avformat_write_header(FFmpeg.AutoGen.AVFormatContext*,FFmpeg.AutoGen.AVDictionary**)"/>
+            </summary>
+            <param name="options"></param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaWriter.WritePacket(EmguFFmpeg.MediaPacket)">
+            <summary>
+            <para><see cref="M:FFmpeg.AutoGen.ffmpeg.av_interleaved_write_frame(FFmpeg.AutoGen.AVFormatContext*,FFmpeg.AutoGen.AVPacket*)"/></para>
+            <para><see cref="M:FFmpeg.AutoGen.ffmpeg.av_packet_unref(FFmpeg.AutoGen.AVPacket*)"/></para>
+            </summary>
+            <param name="packet"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.MediaWriter.FlushMuxer">
+            <summary>
+            send null frame to flush encoder cache and write trailer
+            <para><see cref="M:EmguFFmpeg.MediaStream.WriteFrame(EmguFFmpeg.MediaFrame)"/></para>
+            <para><see cref="M:EmguFFmpeg.MediaWriter.WritePacket(EmguFFmpeg.MediaPacket)"/></para>
+            <para><see cref="M:FFmpeg.AutoGen.ffmpeg.av_write_trailer(FFmpeg.AutoGen.AVFormatContext*)"/></para>
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.MediaWriter.Dispose(System.Boolean)">
+            <summary>
+            <para><see cref="M:FFmpeg.AutoGen.ffmpeg.avio_close(FFmpeg.AutoGen.AVIOContext*)"/></para>
+            <para><see cref="M:FFmpeg.AutoGen.ffmpeg.avformat_free_context(FFmpeg.AutoGen.AVFormatContext*)"/></para>
+            </summary>
+            <param name="disposing"></param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaPacket.op_Implicit(EmguFFmpeg.MediaPacket)~FFmpeg.AutoGen.AVPacket*">
+            <summary>
+            [Unsafe]
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaPacket.Clear">
+            <summary>
+            <see cref="M:FFmpeg.AutoGen.ffmpeg.av_packet_unref(FFmpeg.AutoGen.AVPacket*)"/>
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.MediaPacket.Clone">
+            <summary>
+            Deep copy
+            <para><see cref="M:FFmpeg.AutoGen.ffmpeg.av_packet_ref(FFmpeg.AutoGen.AVPacket*,FFmpeg.AutoGen.AVPacket*)"/></para>
+            <para><see cref="M:FFmpeg.AutoGen.ffmpeg.av_packet_copy_props(FFmpeg.AutoGen.AVPacket*,FFmpeg.AutoGen.AVPacket*)"/></para>
+            </summary>
+            <exception cref="T:EmguFFmpeg.FFmpegException"/>
+            <returns></returns>
+        </member>
+        <member name="P:EmguFFmpeg.MediaStream.Index">
+            <summary>
+            stream index in AVFormatContext
+            </summary>
+        </member>
+        <member name="P:EmguFFmpeg.MediaStream.HasDecoder">
+            <summary>
+            <see cref="M:FFmpeg.AutoGen.ffmpeg.av_codec_is_decoder(FFmpeg.AutoGen.AVCodec*)"/>
+            </summary>
+        </member>
+        <member name="P:EmguFFmpeg.MediaStream.HasEncoder">
+            <summary>
+            <see cref="M:FFmpeg.AutoGen.ffmpeg.av_codec_is_encoder(FFmpeg.AutoGen.AVCodec*)"/>
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.MediaStream.ReadFrame(EmguFFmpeg.MediaPacket)">
+            <summary>
+            Read a fram from <see cref="T:EmguFFmpeg.MediaPacket"/>
+            </summary>
+            <param name="packet"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.MediaStream.WriteFrame(EmguFFmpeg.MediaFrame)">
+            <summary>
+            Write a fram by <see cref="P:EmguFFmpeg.MediaStream.Codec"/>.
+            <para><see cref="M:EmguFFmpeg.MediaEncoder.EncodeFrame(EmguFFmpeg.MediaFrame)"/></para>
+            <para><see cref="M:EmguFFmpeg.MediaStream.PacketRescaleTs(EmguFFmpeg.MediaPacket)"/></para>
+            </summary>
+            <param name="frame"></param>
+            <exception cref="T:EmguFFmpeg.FFmpegException"/>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.MediaStream.PacketRescaleTs(EmguFFmpeg.MediaPacket)">
+            <summary>
+            convert packet pts from <see cref="F:FFmpeg.AutoGen.AVCodecContext.time_base"/> to <see
+            cref="F:FFmpeg.AutoGen.AVStream.time_base"/> and set <see cref="F:FFmpeg.AutoGen.AVPacket.stream_index"/>
+            </summary>
+            <param name="packet"></param>
+        </member>
+        <member name="M:EmguFFmpeg.MediaStream.ToTimeSpan(System.Int64)">
+            <summary>
+            Convert to TimeSpan use <see cref="P:EmguFFmpeg.MediaStream.TimeBase"/>.
+            </summary>
+            <remarks>
+            throw exception when <paramref name="pts"/> &lt; 0.
+            </remarks>
+            <param name="pts"></param>
+            <exception cref="T:EmguFFmpeg.FFmpegException"/>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.MediaStream.TryToTimeSpan(System.Int64,System.TimeSpan@)">
+            <summary>
+            Convert to TimeSpan use <see cref="P:EmguFFmpeg.MediaStream.TimeBase"/>
+            </summary>
+            <param name="pts"></param>
+            <param name="timeSpan"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.MediaStream.op_Implicit(EmguFFmpeg.MediaStream)~FFmpeg.AutoGen.AVStream*">
+            <summary>
+            [Unsafe]
+            </summary>
+            <param name="value"></param>
+        </member>
+    </members>
+</doc>

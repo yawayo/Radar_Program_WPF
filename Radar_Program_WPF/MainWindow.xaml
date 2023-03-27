@@ -34,7 +34,8 @@
             </Grid>
             <Grid x:Name="camera_btn" Grid.Row="1" HorizontalAlignment="Left">
                 <Button x:Name="Camera_Connect_btn" Content="Camera Connect" Margin="10,5.5,375,5.5" Background="#C0C0C0" Height="20" Width="100"/>
-                <Button x:Name="Data_View_btn" Content="Data view" Margin="120,5.5,265,5.5" Click="Data_View_btn_Click" Background="#C0C0C0" Height="20" Width="100"/>
+                <Button x:Name="Camera_Disconnect_btn" Content="Data Disconnect" Margin="120,5.5,265,5.5" Click="Camera_Disconnect_btn_Click" Background="#C0C0C0" Height="20" Width="100"/>
+                <Button x:Name="Data_View_btn" Content="Data view" Margin="231,11,155,9.667" Click="Data_View_btn_Click" Background="#C0C0C0" Height="20" Width="100"/>
             </Grid>
 
             <Grid x:Name="serverDB" Grid.Row="2" HorizontalAlignment="Left" >
@@ -59,7 +60,9 @@
             <TextBox x:Name="TextBox_data" HorizontalAlignment="Left" Height="183" TextWrapping="Wrap" VerticalAlignment="Top" Width="488" ScrollViewer.CanContentScroll="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
         </ListBox>
         <Label Content="Camera Box" FontSize="20" Margin="506,80,0,219.286" HorizontalAlignment="Left" Width="485"/>
-        <Border BorderBrush="Black" BorderThickness="1" Margin="506,80,0,229"/>
+        <Border BorderBrush="Black" BorderThickness="1" Margin="506,80,-0.667,219.667" HorizontalAlignment="Left" Width="488">
+            <Image Name="Cam_1" Margin="-0.333,39.667,3,0" RenderTransformOrigin="0.5,0.5" Width="400" Height="500"/>
+        </Border>
 
     </Grid>
 </Window>

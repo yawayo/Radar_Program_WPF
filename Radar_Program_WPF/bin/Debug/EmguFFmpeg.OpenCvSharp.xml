@@ -1,0 +1,110 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EmguFFmpeg.OpenCvSharp</name>
+    </assembly>
+    <members>
+        <member name="T:EmguFFmpeg.OpenCvSharpExtension">
+            <summary>
+            OpenCVSharp Extension
+            </summary>
+        </member>
+        <member name="M:EmguFFmpeg.OpenCvSharpExtension.ToMat(EmguFFmpeg.MediaFrame)">
+            <summary>
+            Convert to Mat
+            <para>
+            video frame: convert to AV_PIX_FMT_BGRA and return new Mat(frame.Height, frame.Width, MatType.CV_8U4)
+            </para>
+            <para>
+            audio frame:
+            <list type="bullet">
+            <item>if is planar, return new Mat(frame.AVFrame.nb_samples, frame.AVFrame.channels , MatType.MakeType(depth, 1));</item>
+            <item>if is packet, return new Mat(frame.AVFrame.nb_samples, 1 , MatType.MakeType(depth, frame.AVFrame.channels));</item>
+            </list>
+            <para><see cref="T:FFmpeg.AutoGen.AVSampleFormat"/> to <see cref="P:OpenCvSharp.MatType.Depth"/> mapping table</para>
+            <list type="table" >
+            <item>
+            <term><see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_U8"/>/<see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_U8P"/></term>
+            <description><see cref="F:OpenCvSharp.MatType.CV_8U"/></description>
+            </item>
+            <item>
+            <term><see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_S16"/>/<see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_S16P"/></term>
+            <description><see cref="F:OpenCvSharp.MatType.CV_16S"/></description>
+            </item>
+            <item>
+            <term><see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_S32"/>/<see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_S32P"/></term>
+            <description><see cref="F:OpenCvSharp.MatType.CV_32S"/></description>
+            </item>
+            <item>
+            <term><see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_FLT"/>/<see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_FLTP"/></term>
+            <description><see cref="F:OpenCvSharp.MatType.CV_32F"/></description>
+            </item>
+            <item>
+            <term><see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_DBL"/>/<see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_DBLP"/></term>
+            <description><see cref="F:OpenCvSharp.MatType.CV_64F"/></description>
+            </item>
+            <item>
+            <term><see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_S64"/>/<see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_S64P"/></term>
+            <description><see cref="F:OpenCvSharp.MatType.CV_64F"/></description>
+            </item>
+            <item>NOTE: OpenCV not supported 64S, replace with CV_64F, so read result by bytes convert to int64, otherwise will read <see cref="F:System.Double.NaN"/>
+            </item>
+            </list>
+            </para>
+            </summary>
+            <param name="frame"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.OpenCvSharpExtension.ToVideoFrame(OpenCvSharp.Mat,FFmpeg.AutoGen.AVPixelFormat)">
+            <summary>
+            Convert video frame to <paramref name="dstFormat"/> with Bgr24 mat
+            <para>
+            NOTE: only support CV_8U3 Mat!!
+            </para>
+            </summary>
+            <param name="mat">must bge format</param>
+            <param name="dstFormat">video frame format</param>
+            <returns></returns>
+        </member>
+        <member name="M:EmguFFmpeg.OpenCvSharpExtension.ToAudioFrame(OpenCvSharp.Mat,FFmpeg.AutoGen.AVSampleFormat,System.Int32)">
+            <summary>
+            Convert to audio frame to <paramref name="dstFotmat"/>
+            <para><see cref="T:OpenCvSharp.MatType"/> to <see cref="T:FFmpeg.AutoGen.AVSampleFormat"/> mapping table.
+            if <see cref="M:OpenCvSharp.Mat.Channels"/> > 1, use packet format, otherwise planar</para>
+            <list type="table" >
+            <item>
+            <term><see cref="F:OpenCvSharp.MatType.CV_8U"/></term>
+            <description1><see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_U8"/>/<see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_U8P"/></description1>
+            </item>
+            <item>
+            <term><see cref="F:OpenCvSharp.MatType.CV_16S"/></term>
+            <description1><see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_S16"/>/<see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_S16P"/></description1>
+            </item>
+            <item>
+            <term><see cref="F:OpenCvSharp.MatType.CV_32S"/></term>
+            <description1><see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_S32"/>/<see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_S32P"/></description1>
+            </item>
+            <item>
+            <term><see cref="F:OpenCvSharp.MatType.CV_32F"/></term>
+            <description1><see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_FLT"/>/<see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_FLTP"/></description1>
+            </item>
+            <item>
+            <term><see cref="F:OpenCvSharp.MatType.CV_64F"/></term>
+            <description1><see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_DBL"/>/<see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_DBLP"/></description1>
+            </item>
+            <item>
+            <term><see cref="F:OpenCvSharp.MatType.CV_64F"/></term>
+            <description1><see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_S64"/>/<see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_S64P"/></description1>
+            </item>
+            <item>NOTE: Emgucv not supported int64, mapping Cv64F to int64,
+            so set Mat with int64 if <paramref name="dstFotmat"/> is <see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_S64"/> or <see cref="F:FFmpeg.AutoGen.AVSampleFormat.AV_SAMPLE_FMT_S64P"/>
+            </item>
+            </list>
+            </summary>
+            <param name="mat"></param>
+            <param name="dstFotmat">Default is auto format by <see cref="M:OpenCvSharp.Mat.Depth"/> and <see cref="M:OpenCvSharp.Mat.Channels"/> use mapping table</param>
+            <param name="dstSampleRate">Mat not have sample rate, set value here or later</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
