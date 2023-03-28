@@ -402,14 +402,14 @@ namespace Radar_Program_WPF
 
             if (Device_set.Radar_Connect())
             {
-                Device_set.Initialize_DB_Value(
+                /*Device_set.Initialize_DB_Value(
                     "127.0.0.1", "3306", "root", "0000",
                     "183.99.41.239", "23306", "root", "hbrain0372!");
-                Device_set.localDB_Connect();
+                Device_set.localDB_Connect();*/
 
                 Radar_status = true;
                 read_Thread_Func();
-                draw_Thread_Func();
+                //draw_Thread_Func();
 
                 change_btn_state(true);
             }
@@ -479,7 +479,6 @@ namespace Radar_Program_WPF
                 {
                     try
                     {
-                        //Msg_Format.Object_inf last_data = Device_set.Obj_inf[i].Last.Value;
                         Msg_Format.Object_inf last_data = this_frame_data[i];
 
                         double X = ((-1 * last_data.DistLat) * (Data_Draw.ActualWidth / max_lat)) + (Data_Draw.ActualWidth / 2);
@@ -494,6 +493,20 @@ namespace Radar_Program_WPF
                         Canvas.SetLeft(rect, X);
                         Canvas.SetTop(rect, Data_Draw.ActualHeight - Y);
                         this.Data_Draw.Children.Add(rect);
+
+
+                        TextBox textBox = new TextBox();
+                        textBox.Text = "";
+                        textBox.VerticalAlignment = VerticalAlignment.Center;
+                        textBox.Margin = new Thickness(10, 0, 0, 0);
+
+                        textBox.Text = last_data.DistLong.ToString("0.0") + "\n";
+                        textBox.Text += last_data.RCS.ToString("0.0");
+
+
+                        Canvas.SetLeft(textBox, X + 10);
+                        Canvas.SetTop(textBox, Data_Draw.ActualHeight - Y);
+                        Data_Draw.Children.Add(textBox);
                     }
                     catch { }
                 }
@@ -1009,7 +1022,7 @@ namespace Radar_Program_WPF
             if(exist_DB)
             {
                 sql = sql.TrimEnd(',');
-                Device_set.save_localDB(sql);
+                //Device_set.save_localDB(sql);
             }
         }
         #endregion
